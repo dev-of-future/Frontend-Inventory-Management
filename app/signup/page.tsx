@@ -3,10 +3,11 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-// import { cookies } from 'next/headers'
+import AuthService from '../services/auth.service';
 
 export default function Signup() {
   const [firstName, setFirstName] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -16,36 +17,18 @@ export default function Signup() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_API_DEV_URL}/api/auth/signup`,
-        {
-          method: 'POST',
-          body: JSON.stringify({ firstName, lastName, email, password }),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-      if (response.ok) {
-        // TODO
-        // const json = await response.json();
-        // const cookieStore = cookies();
-        // cookieStore.set('auth-token', json.token, {
-        //   httpOnly: true,
-        //   sameSite: 'lax',
-        // });
-        router.push('/login');
-      } else {
-        const error = await response.json();
-        setError(error.message);
-      }
+      await AuthService.signup({ firstName, lastName, email, password, username })
       setEmail('');
       setPassword('');
       setFirstName('');
       setLastName('');
-    } catch (error) {
-      console.error(error);
-      setError('An unexpected error occurred');
+      router.push('/');
+    } catch (error: any) {
+      if (error.response) {
+        setError(error.response.data.message);
+      } else {
+        setError('Unexpected error');
+      }
     }
   };
 
@@ -148,6 +131,24 @@ export default function Signup() {
                 </div>
 
                 <div className="col-span-6 sm:col-span-3">
+                  <label
+                    htmlFor="username"
+                    className="block text-sm font-medium text-gray-700 dark:text-gray-200"
+                  >
+                    Username
+                  </label>
+
+                  <input
+                    type="username"
+                    id="username"
+                    name="username"
+                    value={username}
+                    onChange={(event) => setUsername(event.target.value)}
+                    className="pl-2 mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
+                  />
+                </div>
+
+                <div className="col-span-6">
                   <label
                     htmlFor="password"
                     className="block text-sm font-medium text-gray-700 dark:text-gray-200"

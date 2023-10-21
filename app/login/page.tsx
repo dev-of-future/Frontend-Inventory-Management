@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-// import { cookies } from 'next/headers';
+import AuthService from '../services/auth.service';
 
 export default function Login() {
   const [password, setPassword] = useState('');
@@ -15,32 +15,19 @@ export default function Login() {
     event.preventDefault();
 
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_API_DEV_URL}/api/auth/login`,
-        {
-          method: 'POST',
-          body: JSON.stringify({ username, password }),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-      if (response.ok) {
-        const json = await response.json();
-        // const cookieStore = cookies();
-        // cookieStore.set('auth-token', json.token, {
-        //   httpOnly: true,
-        //   sameSite: 'lax',
-        // });
-        localStorage.setItem('auth-token', json.token);
-        router.push('/');
+      const response = await AuthService.login({ password, username })
+
+      setUsername('');
+      setPassword('');
+      debugger
+
+      router.push('/');
+    } catch (error: any) {
+      if (error.response) {
+        setError(error.response.data.message);
       } else {
-        const error = await response.json();
-        setError(error.message);
+        setError('Unexpected error');
       }
-    } catch (error) {
-      console.error(error);
-      setError('An unexpected error occurred');
     }
   };
 
