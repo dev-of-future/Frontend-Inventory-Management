@@ -16,7 +16,6 @@
 //     id: 'login',
 //     name: 'Login Credentials',
 //     async authorize(credentials) {
-//       debugger;
 //       const res = await AuthService.login(credentials);
 
 //       if (res.token) {
@@ -29,7 +28,6 @@
 //     id: 'signup',
 //     name: 'Signup Credentials',
 //     async authorize(credentials) {
-//       debugger;
 //       const res = await AuthService.signup(credentials);
 
 //       if (res.token) {
@@ -43,7 +41,6 @@
 // const callbacks = {
 //   // Getting the JWT token from API response
 //   async jwt(token, user) {
-//     debugger;
 //     if (user) {
 //       token = user.token;
 //     }
@@ -52,7 +49,6 @@
 //   },
 
 //   async session(session, token) {
-//     debugger;
 //     session.token = token;
 //     return session;
 //   },

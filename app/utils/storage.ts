@@ -1,6 +1,6 @@
 const utils = {
   getFromLocalStorage: (key: string) => {
-    return localStorage.getItem(key) || '';
+    return JSON.parse(localStorage.getItem(key) || '');
   },
   setInLocalStorage: (key: string, value: string) => {
     localStorage.setItem(key, value);

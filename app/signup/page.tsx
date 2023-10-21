@@ -17,12 +17,21 @@ export default function Signup() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      await AuthService.signup({ firstName, lastName, email, password, username })
+      const res = await AuthService.signup({ firstName, lastName, email, password, username })
+
+      console.log({ res })
+
       setEmail('');
       setPassword('');
       setFirstName('');
       setLastName('');
-      router.push('/');
+      setError('')
+
+      console.log(res)
+
+      if (res.user) {
+        router.push('/suppliers');
+      }
     } catch (error: any) {
       if (error.response) {
         setError(error.response.data.message);

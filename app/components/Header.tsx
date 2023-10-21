@@ -3,9 +3,13 @@
 import React from 'react';
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
+import { useUserContext } from '../context/user';
 
 function Header() {
   const pathname = usePathname();
+
+  // TODO: use user context
+  const { user } = useUserContext();
 
   return (
     <header className="bg-white dark:bg-gray-900">

@@ -19,7 +19,6 @@ export default function Login() {
 
       setUsername('');
       setPassword('');
-      debugger
 
       router.push('/');
     } catch (error: any) {

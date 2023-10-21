@@ -32,16 +32,13 @@ instance.interceptors.request.use(
 //   },
 //   async (err) => {
 //     const originalConfig = err.config;
-//     const isAuthURL = originalConfig.url === "/auth/login" || originalConfig.url === "/auth/signup;
+//     const isAuthURL = (originalConfig.url === "/auth/login") || (originalConfig.url === "/auth/signup");
 //     if (!isAuthURL && err.response) {
 //       // Check if its Access Token expired
 //       if (err.response.status === 401 && !originalConfig._retry) {
 //         originalConfig._retry = true;
 
 //         try {
-//           if (TokenService.getUser()) {
-//             AuthService.login(TokenService.getUser()?.username || '', TokenService.getUser()?.password || '');
-//           }
 
 //           // TODO refresh token
 //           // const rs = await instance.post("/auth/refreshtoken", {
@@ -53,6 +50,7 @@ instance.interceptors.request.use(
 
 //           return instance(originalConfig);
 //         } catch (_error) {
+//           TokenService.remove()
 //           return Promise.reject(_error);
 //         }
 //       }
