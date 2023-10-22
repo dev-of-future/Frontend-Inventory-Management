@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
@@ -10,18 +12,6 @@ const nextConfig = {
       },
     ],
   },
-  headers: async () => [
-    {
-      source: '/api/:path*',
-      headers: [
-        { key: 'Access-Control-Allow-Origin', value: '*' },
-        {
-          key: 'Access-Control-Allow-Methods',
-          value: 'GET, POST, PUT, DELETE',
-        },
-      ],
-    },
-  ],
 };
 
 module.exports = nextConfig;
