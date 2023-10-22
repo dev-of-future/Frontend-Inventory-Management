@@ -3,8 +3,8 @@ import React from 'react'
 
 const ShowModalBtn = ({ text, id, style }: any) => {
   const handleOpenModal = () => {
-    const modalID = document.getElementById(id);
-    modalID.showModal();
+    const modalID = (document.getElementById(id) as HTMLDialogElement | null);
+    modalID?.showModal();
   }
   return (
     <>
