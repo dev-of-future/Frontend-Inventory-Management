@@ -126,7 +126,7 @@ export default function Login() {
                   </button>
 
                   <p className="mt-4 text-md text-gray-500 dark:text-gray-400 sm:mt-0">
-                    <span>Don't have an account? </span>
+                    <span>Dont have an account? </span>
                     <Link
                       href="/signup"
                       className="text-gray-700 underline dark:text-gray-200"
