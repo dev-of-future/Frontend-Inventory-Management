@@ -1,14 +1,14 @@
 'use client'
 import React from 'react'
 
-const ShowModalBtn = ({ text }: any) => {
+const ShowModalBtn = ({ text, id, style }: any) => {
   const handleOpenModal = () => {
-    const modalID = document.getElementById('input-modal');
+    const modalID = document.getElementById(id);
     modalID.showModal();
   }
   return (
     <>
-      <button className="btn" onClick={handleOpenModal}>{text}</button>
+      <button className={`btn ${style}`} onClick={handleOpenModal}>{text}</button>
     </>
   )
 }

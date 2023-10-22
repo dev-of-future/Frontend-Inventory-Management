@@ -1,12 +1,15 @@
 'use client'
-import React, { createContext, useContext, useState, ReactNode, Dispatch, SetStateAction } from "react";
+import React, { createContext, useEffect, useContext, useState, ReactNode, Dispatch, SetStateAction } from "react";
 import IUser from "../types/user.type";
+import TokenService from "../services/token.service";
 
 type UserContextType = {
-  user: any;
-  setUser: Dispatch<SetStateAction<any>>;
-  token: string;
-  setToken: Dispatch<SetStateAction<string>>;
+  user: IUser | undefined;
+  setUser: Dispatch<SetStateAction<IUser | undefined>>;
+  token: string | undefined;
+  setToken: Dispatch<SetStateAction<string | undefined>>;
+  login: (loggedInUser: IUser) => void;
+  logout: () => void;
 };
 
 type UserContextProviderProps = {
@@ -16,8 +19,10 @@ type UserContextProviderProps = {
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserContextProvider = ({ children }: UserContextProviderProps) => {
-  const [user, setUser] = useState<IUser>();
+  const [user, setUser] = useState<IUser | undefined>();
+  const [token, setToken] = useState<string | undefined>();
 
+  // Todo include/remove setToken
   const login = (loggedInUser: IUser) => {
     setUser(loggedInUser);
   };
@@ -26,8 +31,15 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
     setUser(undefined);
   };
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const userData = TokenService.getUser();
+      setUser(userData);
+    }
+  }, []);
+
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser, token, setToken, login, logout }}>
       {children}
     </UserContext.Provider>
   );
@@ -36,7 +48,7 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
 export const useUserContext = (): UserContextType | undefined => {
   const context = useContext(UserContext);
   if (context === undefined) {
-    throw new Error("useUserContext must be used within a UserContextProvider");
+    throw Error("useUserContext must be used within a UserContextProvider");
   }
   return context;
 };

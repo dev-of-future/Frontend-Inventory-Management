@@ -1,28 +1,27 @@
 import ISupplier from "../types/supplier.type";
 import api from "./api";
-import TokenService from "./token.service";
 
 const getAllSuppliers = () => {
-  return api.get("/suppliers", {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  return api.get("/suppliers");
 };
 
-const getSupplierById = (id: string) => {
+const getSupplierById = (id: number) => {
   return api.get(`/suppliers/${id}`);
 };
 
+const getSuppliersCategories = (id: number) => {
+  return api.get(`/suppliers/${id}/categories`);
+};
+
 const createSupplier = (data: ISupplier) => {
-  return api.post("/suppliers", data);
+  return api.post("/suppliers", JSON.stringify(data));
 };
 
-const updateSupplier = (id: string, data: ISupplier) => {
-  return api.put(`/suppliers/${id}`, data);
+const updateSupplier = (id: number, data: ISupplier) => {
+  return api.put(`/suppliers/${id}`, JSON.stringify(data));
 };
 
-const deleteSupplier = (id: string) => {
+const deleteSupplier = (id: number) => {
   return api.delete(`/suppliers/${id}`);
 };
 

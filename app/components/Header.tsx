@@ -4,19 +4,29 @@ import React from 'react';
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { useUserContext } from '../context/user';
+import AuthService from '../services/auth.service';
 
-function Header() {
+
+const Header = () => {
   const pathname = usePathname();
+  const userContext = useUserContext() || { user: undefined, setUser: () => { } };
+  const { user, setUser } = userContext;
 
-  // TODO: use user context
-  const { user } = useUserContext();
+  const handleLogout = async () => {
+    try {
+      await AuthService.logout();
+      setUser(undefined);
+    } catch (error) {
+      console.error(error)
+    }
+  };
 
   return (
     <header className="bg-white dark:bg-gray-900">
       <div
-        className="mx-auto flex h-16 max-w-screen-xl items-center gap-8 px-4 sm:px-6 lg:px-8"
+        className="max-w-screen-xl mx-auto flex h-16 items-center gap-8 px-4 sm:px-6 lg:px-8"
       >
-        <Link className={`block text-teal-600 dark:text-teal-300 ${pathname === '/' ? 'active' : ''}`} href="/">
+        <Link className={`block text-blue-600 dark:text-blue-600 ${pathname === '/' ? 'active' : ''}`} href="/">
           <span className="sr-only">Home</span>
           <svg
             className="h-8"
@@ -42,60 +52,80 @@ function Header() {
                   Items
                 </Link>
               </li>
+              {user && <>
+                <li>
+                  <Link
+                    className={`text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75 ${pathname === '/categories' ? 'active' : ''}`}
+                    href="/categories"
+                  >
+                    Categories
+                  </Link>
+                </li>
 
-              <li>
-                <Link
-                  className={`text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75 ${pathname === '/categories' ? 'active' : ''}`}
-                  href="/categories"
-                >
-                  Categories
-                </Link>
-              </li>
+                <li>
+                  <Link
+                    className={`text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75 ${pathname === '/suppliers' ? 'active' : ''}`}
+                    href="/suppliers"
+                  >
+                    Suppliers
+                  </Link>
+                </li>
 
-              <li>
-                <Link
-                  className={`text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75 ${pathname === '/suppliers' ? 'active' : ''}`}
-                  href="/suppliers"
-                >
-                  Suppliers
-                </Link>
-              </li>
+                <li>
+                  <Link
+                    className={`text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75 ${pathname === '/users' ? 'active' : ''}`}
+                    href="/users"
+                  >
+                    Users
+                  </Link>
+                </li>
 
-              <li>
-                <Link
-                  className={`text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75 ${pathname === '/users' ? 'active' : ''}`}
-                  href="/users"
-                >
-                  Users
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  className={`text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75 ${pathname === '/stores' ? 'active' : ''}`}
-                  href="/stores"
-                >
-                  Stores
-                </Link>
-              </li>
+                <li>
+                  <Link
+                    className={`text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75 ${pathname === '/stores' ? 'active' : ''}`}
+                    href="/stores"
+                  >
+                    Stores
+                  </Link>
+                </li></>}
             </ul>
           </nav>
-
           <div className="flex items-center gap-4">
             <div className="sm:flex sm:gap-4">
-              <Link
-                className={`block rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700 dark:hover:bg-teal-500 ${pathname === '/login' ? 'active' : ''}`}
-                href="/login"
-              >
-                Login
-              </Link>
+              {!user && <>
+                <Link
+                  className={`block rounded-md bg-blue-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-blue-700 dark:hover:bg-blue-500 ${pathname === '/login' ? 'active' : ''}`}
+                  href="/login"
+                >
+                  Login
+                </Link>
 
-              <Link
-                className={`hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 transition hover:text-teal-600/75 dark:bg-gray-800 dark:text-white dark:hover:text-white/75 sm:block ${pathname === '/signup' ? 'active' : ''}`}
-                href="/signup"
-              >
-                Sign Up
-              </Link>
+                <Link
+                  className={`hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-blue-600 transition hover:text-blue-600/75 dark:bg-gray-800 dark:text-white dark:hover:text-white/75 sm:block ${pathname === '/signup' ? 'active' : ''}`}
+                  href="/signup"
+                >
+                  Sign Up
+                </Link>
+              </>}
+              {user && <>
+                <div className="dropdown dropdown-hover dropdown-end">
+                  <label tabIndex={0} className="m-1">
+                    <div className="avatar online placeholder">
+                      <div className="bg-neutral-focus text-neutral-content rounded-full w-12">
+                        <span className="text-xl">{user.username[0].toUpperCase()}</span>
+                      </div>
+                    </div>
+                  </label>
+                  <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                    <div>
+                      {user.roles?.map((role, i) => (
+                        <li key={i} className="badge badge-primary">{role.split('_')[1]}</li>
+                      ))}
+                    </div>
+                    <li onClick={handleLogout} className="btn btn-ghost">Logout</li>
+                  </ul>
+                </div>
+              </>}
             </div>
 
             <button

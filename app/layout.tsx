@@ -18,12 +18,13 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" data-theme="synthwave">
+    <html lang="en" data-theme="winter">
       <UserContextProvider>
-        <body className={inter.className}>
+        <body className={`${inter.className}`}>
           <Header />
-
-          {children}
+          <div className='mt-10 md:container md:mx-auto'>
+            {children}
+          </div>
         </body>
       </UserContextProvider>
     </html>

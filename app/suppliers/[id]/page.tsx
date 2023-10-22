@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 
 const Supplier = ({ params }: { params: { id: string } }) => {
-  useEffect(() => { }, []);
+  // useEffect(() => { }, []);
   return (
     <div>Supplier: {params.id}</div>
   )

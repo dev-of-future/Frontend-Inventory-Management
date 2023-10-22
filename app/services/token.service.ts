@@ -1,6 +1,5 @@
 import storage from '../utils/storage';
 import IUser from '../types/user.type'
-import { useUserContext } from '../context/user';
 
 const {
   getFromLocalStorage,
@@ -9,18 +8,20 @@ const {
 } = storage;
 
 const TokenService = {
+  set({ user, token }: { user: IUser, token: string }): void {
+    this.setToken(token);
+    this.setUser(user);
+  },
   getUser(): IUser {
     return getFromLocalStorage('user') as IUser;
   },
 
   setUser(user: IUser): void {
-    setInLocalStorage('user', JSON.stringify(user));
-    const { login } = useUserContext()
-    login(user)
+    setInLocalStorage('user', user);
   },
 
   setToken(token: any): void {
-    setInLocalStorage('token', JSON.stringify(token));
+    setInLocalStorage('token', token);
   },
 
   getToken(): string | undefined {
@@ -35,8 +36,6 @@ const TokenService = {
   remove(): void {
     removeFromLocalStorage('token');
     removeFromLocalStorage('user');
-    const { logout } = useUserContext()
-    logout()
   },
 };
 

@@ -17,32 +17,11 @@ const config: Config = {
   },
   daisyui: {
     themes: [
-      "synthwave",
-      {
-        mytheme: {
-
-          "primary": "#e59840",
-
-          "secondary": "#7fffdd",
-
-          "accent": "#ffc4ca",
-
-          "neutral": "#302032",
-
-          "base-100": "#432b45",
-
-          "info": "#4e73d0",
-
-          "success": "#0f664c",
-
-          "warning": "#f7b022",
-
-          "error": "#e8214c",
-        },
-      },
+      "winter"
     ],
   },
   plugins: [
+    require("@tailwindcss/typography"),
     require('daisyui'),
   ],
 }

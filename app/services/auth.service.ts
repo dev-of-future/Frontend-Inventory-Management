@@ -13,14 +13,7 @@ const AuthService = {
       .post(
         `/auth/login`,
         { username, password }
-      ).then(response => {
-        const token = response.data.token;
-        if (token) {
-          TokenService.setToken(token);
-          TokenService.setUser(response.data.user);
-        }
-        return response.data;
-      })
+      )
   },
 
   logout: () => {
@@ -28,19 +21,10 @@ const AuthService = {
   },
 
   signup: (user: IUser) => {
-    // TODO remove for testing
-    // TokenService.remove()
     return api.post(
       `/auth/signup`,
       user
-    ).then(response => {
-      const token = response.data?.token;
-      if (token) {
-        TokenService.setToken(token);
-        TokenService.setUser(response.data.user);
-      }
-      return response.data;
-    });
+    )
   },
 
   getCurrentUser: () => {
