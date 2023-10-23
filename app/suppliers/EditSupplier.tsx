@@ -1,46 +1,80 @@
 import { Dialog, Transition } from "@headlessui/react";
-import React, { useState, Fragment } from "react";
-import SupplierService from "../services/supplier.service";
+import React, { useState, Fragment, useEffect, use } from "react";
+import FormErrors from '../types/formErrors.type';
+import ISupplier from "../types/supplier.type";
 
-const EditSupplier = ({ supplierCurrInfo, setSelectedSupplier }: any) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [supplier, setSupplier] = useState(supplierCurrInfo);
+type EditSupplierProps = {
+  supplier: ISupplier;
+  handleUpdateSupplier: (updatedSupplier: ISupplier) => void;
+  open: boolean;
+  toggleModal: () => void;
+};
+
+const initialState: ISupplier = {
+  name: "",
+  email: "",
+  phone: "",
+  address: "",
+};
+
+const EditSupplier = ({ supplier = initialState, handleUpdateSupplier, open, toggleModal }: EditSupplierProps) => {
+  const [updatedSupplier, setUpdatedSupplier] = useState<ISupplier>(supplier);
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  useEffect(() => {
+    setUpdatedSupplier(supplier)
+  }, [supplier])
+
+  useEffect(() => {
+    const validateForm = () => {
+      const newErrors: FormErrors = {}
+      const { email, name, phone } = updatedSupplier;
+
+      if (!name) {
+        newErrors.name = 'Name is required'
+      }
+
+      if (email && !/\S+@\S+\.\S+/.test(email)) {
+        newErrors.email = 'Email is invalid.';
+      }
+
+      if (!phone) {
+        newErrors.phone = 'Phone is required';
+      } else if (!/^(\+\d{1,3})?\d{10,14}$/.test(phone)) {
+        newErrors.phone = 'Phone number should have 10 to 14 digits and an optional + prefix';
+      }
+
+      setErrors(newErrors)
+      setIsFormValid(Object.keys(newErrors).length === 0);
+    }
+
+    validateForm()
+  }, [updatedSupplier])
 
   function closeModal() {
-    setIsOpen(false);
-  }
-
-  function openModal() {
-    setIsOpen(true);
+    toggleModal();
+    setUpdatedSupplier(initialState);
   }
 
   const handleChange = (event: any) => {
     const value = event.target.value;
-    setSupplier({ ...supplier, [event.target.name]: value });
-  };
-
-  const reset = (e: any) => {
-    e.preventDefault();
-    setIsOpen(false);
+    setUpdatedSupplier({ ...updatedSupplier, [event.target.name]: value });
   };
 
   const updateSupplier = async (e: any) => {
     e.preventDefault();
-    try {
-      const response = await SupplierService.updateSupplier(supplierCurrInfo.id, supplier);
-      setSelectedSupplier(response.data);
-      reset(e);
-    } catch (error: any) {
-      console.error(error);
-    }
+    if (!isFormValid) return;
+    handleUpdateSupplier(updatedSupplier)
   };
 
   return (
-    <Transition appear show={isOpen} as={Fragment}>
+    <Transition appear show={open} as={Fragment}>
       <Dialog
         as="div"
         className="fixed inset-0 z-10 overflow-y-auto"
-        onClose={closeModal}>
+        onClose={closeModal}
+      >
         <div className="min-h-screen px-4 text-center">
           <Transition.Child
             as={Fragment}
@@ -50,77 +84,95 @@ const EditSupplier = ({ supplierCurrInfo, setSelectedSupplier }: any) => {
             leave="ease-in duration-200"
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95">
-            <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-md">
-              <Dialog.Title
-                as="h3"
-                className="text-lg font-medium leading-6 text-gray-900">
-                Update Supplier
-              </Dialog.Title>
-              <div className="flex max-w-md max-auto">
-                <div className="py-2">
-                  <div className="h-14 my-4">
-                    <label className="block text-gray-600 text-sm font-normal">
-                      Name
-                    </label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={supplier.name}
-                      onChange={(e) => handleChange(e)}
-                      className="h-10 w-96 border mt-2 px-2 py-2"></input>
-                  </div>
-                  <div className="h-14 my-4">
-                    <label className="block text-gray-600 text-sm font-normal">
-                      Email
-                    </label>
-                    <input
-                      type="text"
-                      name="email"
-                      value={supplier.email}
-                      onChange={(e) => handleChange(e)}
-                      className="h-10 w-96 border mt-2 px-2 py-2"></input>
-                  </div>
-                  <div className="h-14 my-4">
-                    <label className="block text-gray-600 text-sm font-normal">
-                      Phone
-                    </label>
-                    <input
-                      type="text"
-                      name="phone"
-                      value={supplier.phone}
-                      onChange={(e) => handleChange(e)}
-                      className="h-10 w-96 border mt-2 px-2 py-2"></input>
-                  </div>
-                  <div className="h-14 my-4">
-                    <label className="block text-gray-600 text-sm font-normal">
-                      Address
-                    </label>
-                    <input
-                      type="text"
-                      name="address"
-                      value={supplier.address}
-                      onChange={(e) => handleChange(e)}
-                      className="h-10 w-96 border mt-2 px-2 py-2"></input>
-                  </div>
-                  <div className="h-14 my-4 space-x-4 pt-4">
-                    <button
-                      onClick={updateSupplier}
-                      className="rounded text-white font-semibold bg-green-400 hover:bg-green-700 py-2 px-6">
-                      Update
-                    </button>
-                    <button
-                      onClick={reset}
-                      className="rounded text-white font-semibold bg-red-400 hover:bg-red-700 py-2 px-6">
-                      Close
-                    </button>
+            <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-md" >
+              <Dialog.Panel>
+                <Dialog.Title
+                  as="h3"
+                  className="text-lg font-medium leading-6 text-gray-900">
+                  Add / Update Supplier
+                </Dialog.Title>
+                <div className="max-w-md max-auto">
+                  <div>
+                    <div className="my-4">
+                      <label htmlFor="name"
+                        className="block text-sm font-medium text-gray-500"
+                      >
+                        Name
+                      </label>
+                      <input
+                        type="text"
+                        name="name"
+                        value={updatedSupplier.name}
+                        onChange={(e) => handleChange(e)}
+                        className="h-8 rounded w-full border px-2 py-2"
+                      >
+                      </input>
+                      {errors.name && <div className="text-xs alert-danger text-error">{errors.name}</div>}
+                    </div>
+                    <div className="my-4">
+                      <label
+                        className="block text-sm font-medium text-gray-500"
+                        htmlFor="email"
+                      >
+                        Email
+                      </label>
+                      <input
+                        type="text"
+                        name="email"
+                        value={updatedSupplier.email}
+                        onChange={(e) => handleChange(e)}
+                        className="h-8 rounded w-full border px-2 py-2"></input>
+                      {errors.email && <div className="text-xs alert-danger text-error">{errors.email}</div>}
+                    </div>
+                    <div className="my-4">
+                      <label
+                        className="block text-sm font-medium text-gray-500"
+                        htmlFor="phone"
+                      >
+                        Phone
+                      </label>
+                      <input
+                        type="text"
+                        name="phone"
+                        value={updatedSupplier.phone}
+                        onChange={(e) => handleChange(e)}
+                        className="h-8 rounded w-full border px-2 py-2"></input>
+                      {errors.phone && <div className="text-xs alert-danger text-error">{errors.phone}</div>}
+                    </div>
+                    <div className="my-4">
+                      <label
+                        className="block text-sm font-medium text-gray-500"
+                        htmlFor="address"
+                      >
+                        Address
+                      </label>
+                      <input
+                        type="text"
+                        name="address"
+                        value={updatedSupplier.address}
+                        onChange={(e) => handleChange(e)}
+                        className="h-8 rounded w-full border px-2 py-2"></input>
+                    </div>
+                    <div className="mt-6 space-x-4">
+                      <button
+                        onClick={updateSupplier}
+                        className="btn btn-secondary">
+                        Update
+                      </button>
+                      <button
+                        onClick={closeModal}
+                        className="btn btn-error">
+                        Close
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Dialog.Panel>
             </div>
           </Transition.Child>
         </div>
-      </Dialog>
-    </Transition>
+      </Dialog >
+    </Transition >
   );
 };
 

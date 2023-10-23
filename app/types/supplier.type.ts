@@ -1,7 +1,7 @@
 export default interface ISupplier {
   id?: number;
-  email: string;
+  email?: string;
   name: string;
   phone: string;
-  address: string;
+  address?: string;
 }

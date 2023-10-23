@@ -1,11 +1,12 @@
 'use client'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import AuthService from '../services/auth.service';
 import TokenService from '../services/token.service';
 import { useUserContext } from '../context/user';
+import FormErrors from '../types/formErrors.type';
 
 export default function Signup() {
   const [firstName, setFirstName] = useState('');
@@ -13,7 +14,8 @@ export default function Signup() {
   const [password, setPassword] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [isFormValid, setIsFormValid] = useState(false);
   const router = useRouter();
   const userContext = useUserContext() || { setUser: () => { } };
   const { setUser } = userContext;
@@ -23,30 +25,68 @@ export default function Signup() {
     setPassword('');
     setFirstName('');
     setLastName('');
-    setError('')
+    setErrors({})
   }
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  useEffect(() => {
+    const validateForm = () => {
+      const newErrors: FormErrors = {}
+
+      if (!username) {
+        newErrors.username = 'Username is required'
+      } else if (username.length < 4) {
+        newErrors.username = 'Username must be at least 4 characters'
+      }
+
+      if (!firstName) {
+        newErrors.firstName = 'First name is required'
+      }
+
+      if (!lastName) {
+        newErrors.lastName = 'Last name is required'
+      }
+
+      if (!email) {
+        newErrors.email = 'Email is required.';
+      } else if (!/\S+@\S+\.\S+/.test(email)) {
+        newErrors.email = 'Email is invalid.';
+      }
+
+      if (!password) {
+        newErrors.password = 'Password is required'
+      } else if (password.length < 6) {
+        newErrors.password = 'Password must be at least 6 characters'
+      }
+
+      setErrors(newErrors)
+      setIsFormValid(Object.keys(newErrors).length === 0);
+    }
+
+    validateForm()
+  }, [username, password, email, firstName, lastName])
+
+  const handleSubmit = async () => {
+    if (!isFormValid) return;
     try {
       const response = await AuthService.signup({ firstName, lastName, email, password, username })
 
       TokenService.set(response.data);
       setUser(response.data.user)
+
       clearInput()
       router.push('/');
-    } catch (error: any) {
-      if (error.response) {
-        setError(error.response.data.message);
-      } else {
-        setError('Unexpected error');
+    } catch (err: any) {
+      let errMsg = 'Unexpected error'
+      if (err.response) {
+        errMsg = err.response.data?.message;
       }
+      setErrors({ ...errors, server: errMsg });
     }
   };
 
   return (
     <>
-      {error && <div className="alert alert-danger">{error}</div>}
+      {errors.server && <div className="alert alert-danger">{errors.server}</div>}
       <section className="bg-white dark:bg-gray-900">
         <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
           <aside className="relative block h-16 lg:order-last lg:col-span-5 lg:h-full xl:col-span-6">
@@ -84,10 +124,7 @@ export default function Signup() {
                 Register and an Admin will assign you a Role when confirmed.
               </p>
 
-              <form
-                onSubmit={handleSubmit}
-                className="mt-8 grid grid-cols-6 gap-6"
-              >
+              <div className="mt-8 grid grid-cols-6 gap-6">
                 <div className="col-span-6 sm:col-span-3">
                   <label
                     htmlFor="firstName"
@@ -104,6 +141,7 @@ export default function Signup() {
                     name="firstName"
                     className="pl-2 mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
                   />
+                  {errors.firstName && <div className="alert-danger text-error">{errors.firstName}</div>}
                 </div>
 
                 <div className="col-span-6 sm:col-span-3">
@@ -122,6 +160,7 @@ export default function Signup() {
                     onChange={(event) => setLastName(event.target.value)}
                     className="pl-2 mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
                   />
+                  {errors.lastName && <div className="alert-danger text-error">{errors.lastName}</div>}
                 </div>
 
                 <div className="col-span-6 sm:col-span-3">
@@ -140,6 +179,7 @@ export default function Signup() {
                     onChange={(event) => setEmail(event.target.value)}
                     className="pl-2 mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
                   />
+                  {errors.email && <div className="alert-danger text-error">{errors.email}</div>}
                 </div>
 
                 <div className="col-span-6 sm:col-span-3">
@@ -158,6 +198,7 @@ export default function Signup() {
                     onChange={(event) => setUsername(event.target.value)}
                     className="pl-2 mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
                   />
+                  {errors.username && <div className="alert-danger text-error">{errors.username}</div>}
                 </div>
 
                 <div className="col-span-6">
@@ -176,10 +217,11 @@ export default function Signup() {
                     onChange={(event) => setPassword(event.target.value)}
                     className="pl-2 mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
                   />
+                  {errors.password && <div className="alert-danger text-error">{errors.password}</div>}
                 </div>
 
                 <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
-                  <button className="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-md font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500 dark:hover:bg-blue-700 dark:hover:text-white">
+                  <button onClick={handleSubmit} className="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-md font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500 dark:hover:bg-blue-700 dark:hover:text-white">
                     Create an account
                   </button>
 
@@ -194,7 +236,7 @@ export default function Signup() {
                     .
                   </p>
                 </div>
-              </form>
+              </div>
             </div>
           </main>
         </div>

@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react';
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useUserContext } from '../context/user';
 import AuthService from '../services/auth.service';
@@ -11,11 +11,13 @@ const Header = () => {
   const pathname = usePathname();
   const userContext = useUserContext() || { user: undefined, setUser: () => { } };
   const { user, setUser } = userContext;
+  const router = useRouter();
 
   const handleLogout = async () => {
     try {
       await AuthService.logout();
       setUser(undefined);
+      router.push('/');
     } catch (error) {
       console.error(error)
     }

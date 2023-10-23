@@ -1,15 +1,25 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import EditSupplier from './EditSupplier';
-import Supplier from './Supplier';
+import SupplierList from './SupplierList';
 import ISupplier from '../types/supplier.type';
 import SupplierService from '../services/supplier.service';
+import ShowModalBtn from '../components/ShowModalBtn';
 
-const SupplierList = () => {
-  const [suppliers, setSuppliers] = useState([]);
+const initialState: ISupplier = {
+  name: "",
+  email: "",
+  phone: "",
+  address: "",
+};
+
+const Page = () => {
+  const [suppliers, setSuppliers] = useState<ISupplier[]>([]);
   const [loading, setLoading] = useState(false);
-  const [selectedSupplier, setSelectedSupplier] = useState({});
+  const [supplierToUpdate, setSupplierToUpdate] = useState<ISupplier>(initialState);
   const [error, setError] = useState('');
+  const [notification, setNotification] = useState('');
+  const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
     setLoading(true)
@@ -35,10 +45,10 @@ const SupplierList = () => {
   const deleteSupplier = async (id: number) => {
     try {
       const response = await SupplierService.deleteSupplier(id);
-      setSuppliers(response.data);
       setSuppliers((suppliers) => {
         return suppliers.filter((supplier: ISupplier) => supplier.id !== id);
       });
+      displayNotification('Supplier deleted successfully');
       setError('')
     } catch (error: any) {
       if (error.response) {
@@ -49,58 +59,78 @@ const SupplierList = () => {
     }
   };
 
-  const editSupplier = (supplier: ISupplier) => {
-    setSelectedSupplier(supplier);
+  const displayNotification = (message: string) => {
+    setNotification(message);
+    // Automatically hide the notification after 5 seconds (5000 milliseconds)
+    setTimeout(() => {
+      setNotification('');
+    }, 5000);
   };
 
+  const handleUpdateSupplier = async (supplier: ISupplier) => {
+    setLoading(true)
+    try {
+      if (supplier.id) {
+        const updatedSupplier = await SupplierService.updateSupplier(supplier.id, supplier)
+        setSuppliers((suppliers) => {
+          return suppliers.map((supplier: ISupplier) => {
+            if (supplier.id === updatedSupplier.data.id) {
+              return updatedSupplier.data;
+            }
+            return supplier;
+          })
+        })
+        displayNotification('Supplier updated successfully');
+
+      } else {
+        const createdSupplier = await SupplierService.createSupplier(supplier)
+        setSuppliers((suppliers) => {
+          return [...suppliers, createdSupplier.data]
+        })
+        displayNotification('Supplier added successfully');
+
+      }
+
+      setError('')
+    } catch (err: any) {
+      let errMsg = 'Unexpected error'
+      if (err.response) {
+        errMsg = err.response.data?.message;
+      }
+      setError(errMsg);
+    }
+
+    // clean up
+    toggleModal()
+    setLoading(false)
+    setSupplierToUpdate(initialState);
+  }
+
+  const editSupplier = (supplier: ISupplier) => {
+    setSupplierToUpdate(supplier);
+    toggleModal()
+  };
+
+  const toggleModal = () => {
+    setEditMode((editMode) => !editMode)
+  }
+
   return (
-    <>
-      {error && <div className="alert alert-danger">{error}</div>}
-      {loading && <span className="loading loading-bars loading-lg"></span>}
-      <div className="container mx-auto my-8">
-        <div className="flex shadow border-b">
-          <table className="min-w-full table">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-6">
-                  ID
-                </th>
-                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-6">
-                  NAME
-                </th>
-                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-6">
-                  EMAIL
-                </th>
-                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-6">
-                  PHONE
-                </th>
-                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-6">
-                  ADDRESS
-                </th>
-                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-6"></th>
-              </tr>
-            </thead>
-            {!loading && (
-              <tbody className="bg-white">
-                {suppliers?.map((supplier: ISupplier) => (
-                  <Supplier
-                    supplier={supplier}
-                    key={supplier.id}
-                    deleteSupplier={deleteSupplier}
-                    editSupplier={editSupplier}
-                  />
-                ))}
-              </tbody>
-            )}
-          </table>
-        </div>
-      </div>
+    <div>
+      {notification && <div onClick={() => setNotification('')} className='toast toast-end toast-bottom'><div className="alert alert-info text-white p-2">{notification}</div></div>}
+      {error && <div className="alert alert-danger mb-2">{error}</div>}
+      {loading && <div className="loading loading-bars loading-lg mb-2"></div>}
+      <ShowModalBtn text="Add Supplier" toggleModal={toggleModal} style="btn-accent" />
+
+      <SupplierList suppliers={suppliers} editSupplier={editSupplier} deleteSupplier={deleteSupplier} />
       <EditSupplier
-        supplierCurrInfo={selectedSupplier}
-        setSelectedSupplier={setSelectedSupplier}
+        supplier={supplierToUpdate}
+        handleUpdateSupplier={handleUpdateSupplier}
+        open={editMode}
+        toggleModal={toggleModal}
       />
-    </>
+    </div>
   );
 };
 
-export default SupplierList;
+export default Page;

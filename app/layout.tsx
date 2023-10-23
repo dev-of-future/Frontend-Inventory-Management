@@ -22,7 +22,7 @@ export default function RootLayout({
       <UserContextProvider>
         <body className={`${inter.className}`}>
           <Header />
-          <div className='mt-10 md:container md:mx-auto'>
+          <div className='mt-5 md:container md:mx-auto'>
             {children}
           </div>
         </body>
