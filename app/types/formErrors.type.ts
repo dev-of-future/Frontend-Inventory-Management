@@ -12,6 +12,7 @@ type FormErrors = {
   price?: string;
   quantity?: string;
   category?: string;
+  supplier?: string;
 };
 
 export default FormErrors

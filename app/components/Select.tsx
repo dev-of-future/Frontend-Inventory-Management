@@ -10,17 +10,10 @@ interface SelectProps {
 }
 
 const Select = ({ style, data, text, onChange, value, name }: SelectProps) => {
-  // const [currValue, setCurrValue] = useState(value)
-  // useEffect(() => { setCurrValue(value) }, [value])
-  // const handleChange = (event: any) => {
-  //   setCurrValue(event.target.value)
-  //   onChange(event)
-  // }
-
   return (
     <>
-      <select name={name} onChange={onChange} value={value} className={`select select-secondary w-full max-w-xs ${style}`}>
-        <option disabled>
+      <select name={name} onChange={onChange} value={value} className={`select select-secondary w-full ${style}`}>
+        <option disabled defaultValue={text}>
           {text}
         </option>
         {data.map((item) => (

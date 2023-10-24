@@ -202,7 +202,14 @@ const EditItem = ({ item = initialState, handleUpdateItem, open, toggleModal }: 
                     </div>
                     <div className="my-4">
                       <Select name="category" value={JSON.stringify(updatedItem.category)} text='Select a Category' onChange={handleChange} data={categories} />
-                      {errors.category && <div className="text-xs alert-danger text-error">{errors.category}</div>}
+                      {/* <select onChange={handleChange} value={updatedItem.category?.id} className={`select select-secondary w-full max-w-xs`}>
+        <option disabled>
+          'Select a Category'
+        </option>
+        {categories.map((category) => (
+          <option value={category.id} key={category.id}>{category.name}</option>
+        ))}
+      </select> */}
                     </div>
                     <div className="mt-6 space-x-4">
                       <button

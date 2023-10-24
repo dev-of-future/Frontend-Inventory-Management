@@ -1,29 +1,33 @@
 'use client'
 import React, { useState, useEffect } from 'react';
-import EditCategory from './EditCategory';
-import CategoryList from './CategoryList';
-import ICategory from '../types/category.type';
-import CategoryService from '../services/category.service';
+import EditItem from './EditItem';
+import ItemList from './ItemList';
+import IItem from '../types/item.type';
+import ItemService from '../services/item.service';
 import ShowModalBtn from '../components/ShowModalBtn';
 
-const initialState: ICategory = {
+const initialState: IItem = {
   name: '',
+  shortDescription: '',
+  longDescription: '',
+  price: 0,
+  quantity: 0,
 };
 
 const Page = () => {
-  const [categories, setCategories] = useState<ICategory[]>([]);
+  const [items, setItems] = useState<IItem[]>([]);
   const [loading, setLoading] = useState(false);
-  const [categoryToUpdate, setCategoryToUpdate] = useState<ICategory>(initialState);
+  const [itemToUpdate, setItemToUpdate] = useState<IItem>(initialState);
   const [error, setError] = useState('');
   const [notification, setNotification] = useState('');
   const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
     setLoading(true)
-    const fetchCategories = async () => {
+    const fetchItems = async () => {
       try {
-        const response = await CategoryService.getAllCategories();
-        setCategories(response.data);
+        const response = await ItemService.getAllItems();
+        setItems(response.data);
         setError('')
       } catch (error: any) {
         if (error.response) {
@@ -36,16 +40,16 @@ const Page = () => {
       }
 
     }
-    fetchCategories()
+    fetchItems()
   }, []);
 
-  const deleteCategory = async (id: number) => {
+  const deleteItem = async (id: number) => {
     try {
-      const response = await CategoryService.deleteCategory(id);
-      setCategories((categories) => {
-        return categories.filter((category: ICategory) => category.id !== id);
+      const response = await ItemService.deleteItem(id);
+      setItems((items) => {
+        return items.filter((item: IItem) => item.id !== id);
       });
-      displayNotification('Category deleted successfully');
+      displayNotification('Item deleted successfully');
       setError('')
     } catch (error: any) {
       if (error.response) {
@@ -64,28 +68,28 @@ const Page = () => {
     }, 5000);
   };
 
-  const handleUpdateCategory = async (category: ICategory) => {
+  const handleUpdateItem = async (item: IItem) => {
     setLoading(true)
     toggleModal();
     try {
-      if (category.id) {
-        const updatedCategory = await CategoryService.updateCategory(category.id, category)
-        setCategories((categories) => {
-          return categories.map((category: ICategory) => {
-            if (category.id === updatedCategory.data.id) {
-              return updatedCategory.data;
+      if (item.id) {
+        const updatedItem = await ItemService.updateItem(item.id, item)
+        setItems((items) => {
+          return items.map((item: IItem) => {
+            if (item.id === updatedItem.data.id) {
+              return updatedItem.data;
             }
-            return category;
+            return item;
           })
         })
-        displayNotification('Category updated successfully');
+        displayNotification('Item updated successfully');
 
       } else {
-        const createdCategory = await CategoryService.createCategory(category)
-        setCategories((categories) => {
-          return [...categories, createdCategory.data]
+        const createdItem = await ItemService.createItem(item)
+        setItems((items) => {
+          return [...items, createdItem.data]
         })
-        displayNotification('Category added successfully');
+        displayNotification('Item added successfully');
 
       }
 
@@ -101,15 +105,15 @@ const Page = () => {
     setLoading(false)
   }
 
-  const editCategory = (category: ICategory) => {
-    setCategoryToUpdate(category);
+  const editItem = (item: IItem) => {
+    setItemToUpdate(item);
     toggleModal()
   };
 
   const toggleModal = () => {
     setEditMode((editMode) => {
       const newState = !editMode;
-      if (!newState) setCategoryToUpdate(initialState)
+      if (!newState) setItemToUpdate(initialState)
       return newState
     })
   }
@@ -119,12 +123,12 @@ const Page = () => {
       {notification && <div onClick={() => setNotification('')} className='toast toast-end toast-bottom'><div className="alert alert-info text-white p-2">{notification}</div></div>}
       {error && <div className="alert alert-danger mb-2">{error}</div>}
       {loading && <div className="loading loading-bars loading-lg mb-2"></div>}
-      <ShowModalBtn text="Add Category" toggleModal={toggleModal} style="btn-accent" />
+      <ShowModalBtn text="Add Item" toggleModal={toggleModal} style="btn-accent" />
 
-      <CategoryList categories={categories} editCategory={editCategory} deleteCategory={deleteCategory} />
-      <EditCategory
-        category={categoryToUpdate}
-        handleUpdateCategory={handleUpdateCategory}
+      <ItemList items={items} editItem={editItem} deleteItem={deleteItem} />
+      <EditItem
+        item={itemToUpdate}
+        handleUpdateItem={handleUpdateItem}
         open={editMode}
         toggleModal={toggleModal}
       />
