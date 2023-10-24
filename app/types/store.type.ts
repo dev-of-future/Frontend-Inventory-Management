@@ -1,3 +1,5 @@
+import IInventory from "./inventory.type";
+
 enum IStoreType {
   RETAIL = 'RETAIL',
   WAREHOUSE = 'WAREHOUSE',

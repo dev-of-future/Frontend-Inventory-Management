@@ -8,6 +8,10 @@ type FormErrors = {
   firstName?: string;
   lastName?: string;
   address?: string;
+  shortDescription?: string;
+  price?: string;
+  quantity?: string;
+  category?: string;
 };
 
 export default FormErrors

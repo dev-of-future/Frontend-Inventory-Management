@@ -112,7 +112,11 @@ const Page = () => {
   };
 
   const toggleModal = () => {
-    setEditMode((editMode) => !editMode)
+    setEditMode((editMode) => {
+      const newState = !editMode;
+      if (!newState) setSupplierToUpdate(initialState)
+      return newState
+    })
   }
 
   return (

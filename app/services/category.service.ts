@@ -9,10 +9,6 @@ const getCategoryById = (id: string) => {
   return api.get(`/categories/${id}`);
 };
 
-const getSupplierForCategory = (id: string) => {
-  return api.get(`/categories/${id}/supplier`);
-};
-
 const createCategory = (data: ICategory) => {
   return api.post("/categories", data);
 };

@@ -9,10 +9,6 @@ const getSupplierById = (id: number) => {
   return api.get(`/suppliers/${id}`);
 };
 
-const getSuppliersCategories = (id: number) => {
-  return api.get(`/suppliers/${id}/categories`);
-};
-
 const createSupplier = (data: ISupplier) => {
   return api.post("/suppliers", JSON.stringify(data));
 };

@@ -6,7 +6,7 @@ export default interface IItem {
   id?: number;
   name: string;
   shortDescription: string;
-  longDescription: string;
+  longDescription?: string;
   price: number;
   quantity: number;
   category?: ICategory;

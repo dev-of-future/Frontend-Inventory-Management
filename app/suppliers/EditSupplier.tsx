@@ -1,5 +1,5 @@
 import { Dialog, Transition } from "@headlessui/react";
-import React, { useState, Fragment, useEffect, use } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import FormErrors from '../types/formErrors.type';
 import ISupplier from "../types/supplier.type";
 
@@ -52,11 +52,6 @@ const EditSupplier = ({ supplier = initialState, handleUpdateSupplier, open, tog
     validateForm()
   }, [updatedSupplier])
 
-  function closeModal() {
-    toggleModal();
-    setUpdatedSupplier(initialState);
-  }
-
   const handleChange = (event: any) => {
     const value = event.target.value;
     setUpdatedSupplier({ ...updatedSupplier, [event.target.name]: value });
@@ -73,7 +68,7 @@ const EditSupplier = ({ supplier = initialState, handleUpdateSupplier, open, tog
       <Dialog
         as="div"
         className="fixed inset-0 z-10 overflow-y-auto"
-        onClose={closeModal}
+        onClose={toggleModal}
       >
         <div className="min-h-screen px-4 text-center">
           <Transition.Child
@@ -160,7 +155,7 @@ const EditSupplier = ({ supplier = initialState, handleUpdateSupplier, open, tog
                         Update
                       </button>
                       <button
-                        onClick={closeModal}
+                        onClick={toggleModal}
                         className="btn btn-error">
                         Close
                       </button>

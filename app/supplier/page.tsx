@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 const Supplier = ({ params }: { params: { id: string } }) => {
-  // useEffect(() => { }, []);
   return (
-    <div>Supplier: {params.id}</div>
+    <div>WIP: Supplier: {params.id}</div>
   )
 }
 
