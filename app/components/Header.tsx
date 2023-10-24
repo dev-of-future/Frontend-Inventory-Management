@@ -23,6 +23,57 @@ const Header = () => {
     }
   };
 
+  const nav = () => {
+    return (
+      <>
+        <li>
+          <Link
+            className={`text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75 ${pathname === '/items' ? 'active' : ''}`}
+            href="/items"
+          >
+            Items
+          </Link>
+        </li>
+        {user && <>
+          <li>
+            <Link
+              className={`text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75 ${pathname === '/categories' ? 'active' : ''}`}
+              href="/categories"
+            >
+              Categories
+            </Link>
+          </li>
+
+          <li>
+            <Link
+              className={`text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75 ${pathname === '/suppliers' ? 'active' : ''}`}
+              href="/suppliers"
+            >
+              Suppliers
+            </Link>
+          </li>
+
+          <li>
+            <Link
+              className={`text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75 ${pathname === '/users' ? 'active' : ''}`}
+              href="/users"
+            >
+              Users
+            </Link>
+          </li>
+
+          <li>
+            <Link
+              className={`text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75 ${pathname === '/stores' ? 'active' : ''}`}
+              href="/stores"
+            >
+              Stores
+            </Link>
+          </li></>}
+      </>
+    )
+  }
+
   return (
     <header className="bg-white dark:bg-gray-900">
       <div
@@ -46,50 +97,7 @@ const Header = () => {
         <div className="flex flex-1 items-center justify-end md:justify-between">
           <nav aria-label="Global" className="hidden md:block">
             <ul className="flex items-center gap-6 text-sm">
-              <li>
-                <Link
-                  className={`text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75 ${pathname === '/' ? 'active' : ''}`}
-                  href="/items"
-                >
-                  Items
-                </Link>
-              </li>
-              {user && <>
-                <li>
-                  <Link
-                    className={`text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75 ${pathname === '/categories' ? 'active' : ''}`}
-                    href="/categories"
-                  >
-                    Categories
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    className={`text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75 ${pathname === '/suppliers' ? 'active' : ''}`}
-                    href="/suppliers"
-                  >
-                    Suppliers
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    className={`text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75 ${pathname === '/users' ? 'active' : ''}`}
-                    href="/users"
-                  >
-                    Users
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    className={`text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75 ${pathname === '/stores' ? 'active' : ''}`}
-                    href="/stores"
-                  >
-                    Stores
-                  </Link>
-                </li></>}
+              {nav()}
             </ul>
           </nav>
           <div className="flex items-center gap-4">
@@ -130,25 +138,32 @@ const Header = () => {
               </>}
             </div>
 
-            <button
-              className="block rounded bg-gray-100 p-2.5 text-gray-600 transition hover:text-gray-600/75 dark:bg-gray-800 dark:text-white dark:hover:text-white/75 md:hidden"
-            >
-              <span className="sr-only">Toggle menu</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-            </button>
+            <div className="dropdown dropdown-hover dropdown-end md:hidden">
+              <label tabIndex={0} className="m-1">
+                <button
+                  className="block rounded bg-gray-100 p-2.5 text-gray-600 transition hover:text-gray-600/75 dark:bg-gray-800 dark:text-white dark:hover:text-white/75"
+                >
+                  <span className="sr-only">Toggle menu</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M4 6h16M4 12h16M4 18h16"
+                    />
+                  </svg>
+                </button>
+              </label>
+              <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow rounded-box w-40 text-gray-500 bg-blue-600">
+                {nav()}
+              </ul>
+            </div>
           </div>
         </div>
       </div>
