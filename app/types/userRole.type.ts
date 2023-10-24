@@ -1,0 +1,7 @@
+enum IUserRole {
+  ROLE_ADMIN = 'ROLE_ADMIN',
+  ROLE_STORE_MANAGER = 'ROLE_STORE_MANAGER',
+  ROLE_STORE_STAFF = 'ROLE_STORE_STAFF'
+}
+
+export default IUserRole
