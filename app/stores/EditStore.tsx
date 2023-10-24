@@ -1,79 +1,73 @@
 import { Dialog, Transition } from "@headlessui/react";
 import React, { useState, Fragment, useEffect } from "react";
 import FormErrors from '../types/formErrors.type';
-import IItem from "../types/item.type";
-import CategoryService from "../services/category.service";
-import ICategory from "../types/category.type";
-import Select from "../components/Select";
+import IStore from "../types/store.type";
+import IStoreType from "../types/storeType.type";
 
-type EditItemProps = {
-  item: IItem;
-  handleUpdateItem: (updatedItem: IItem) => void;
+type EditStoreProps = {
+  store: IStore;
+  handleUpdateStore: (updatedStore: IStore) => void;
   open: boolean;
   toggleModal: () => void;
 };
 
-const initialState: IItem = {
-  name: '',
-  shortDescription: '',
-  longDescription: '',
-  price: 0,
-  quantity: 0,
+const date = new Date();
+const year = date.getFullYear();
+const month = String(date.getMonth() + 1).padStart(2, '0'); // Adding 1 because months are 0-based.
+const day = String(date.getDate()).padStart(2, '0');
+const today = `${year}/${month}/${day}`;
+
+const initialState: IStore = {
+  name: "",
+  email: "",
+  phone: "",
+  address: "",
+  type: IStoreType.RETAIL,
+  openingDate: today,
 };
 
-const EditItem = ({ item = initialState, handleUpdateItem, open, toggleModal }: EditItemProps) => {
-  const [updatedItem, setUpdatedItem] = useState<IItem>(item);
+
+const EditStore = ({ store = initialState, handleUpdateStore, open, toggleModal }: EditStoreProps) => {
+  const [updatedStore, setUpdatedStore] = useState<IStore>(store);
   const [errors, setErrors] = useState<FormErrors>({});
   const [isFormValid, setIsFormValid] = useState(false);
-  const [categories, setCategories] = useState<ICategory[]>([]);
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await CategoryService.getAllCategories();
-        setCategories(response.data);
-      } catch (err: any) {
-        let errMsg = 'Unable to load categories'
-        if (err.response) {
-          errMsg = err.response.data?.message;
-        }
-        console.error(errMsg)
-      }
-    }
-    fetchCategories()
-  }, [])
+    setUpdatedStore(store)
+  }, [store])
 
-  useEffect(() => {
-    setUpdatedItem(item)
-  }, [item])
 
   useEffect(() => {
     const validateForm = () => {
       const newErrors: FormErrors = {}
-      const { shortDescription, name, price, quantity, category } = updatedItem;
+      const { name, email, phone, openingDate, type, address } = updatedStore;
 
       if (!name) {
         newErrors.name = 'Name is required'
       }
 
-      if (!shortDescription) {
-        newErrors.shortDescription = 'Short Description is required'
-      } else if (shortDescription.length < 10 || shortDescription.length > 255) {
-        newErrors.shortDescription = 'Short Description must have between 10 to 255  characters'
+      if (email && !/\S+@\S+\.\S+/.test(email)) {
+        newErrors.email = 'Email is invalid.';
       }
 
-      if (!price || price <= 0) {
-        newErrors.price = 'Price is required'
+      if (!phone) {
+        newErrors.phone = 'Phone is required';
+      } else if (!/^(\+\d{1,3})?\d{10,14}$/.test(phone)) {
+        newErrors.phone = 'Phone number should have 10 to 14 digits and an optional + prefix';
       }
 
-      if (!quantity || quantity < 0) {
-        newErrors.quantity = 'Quantity is required'
-      } else if (!Number.isInteger(Number(quantity))) {
-        newErrors.quantity = 'Quantity must be integer'
+      if (!openingDate) {
+        newErrors.openingDate = 'Opening Date is required';
+      } else if (new Date(openingDate) < new Date(today)) {
+        newErrors.openingDate = 'Opening Date can\'t be in the past';
       }
 
-      if (!category) {
-        newErrors.category = 'A Category is required'
+      if (!type) {
+        newErrors.type = 'A Store Type is required';
+      }
+
+      if (!address) {
+        newErrors.address = 'An Address is required';
       }
 
       setErrors(newErrors)
@@ -81,23 +75,17 @@ const EditItem = ({ item = initialState, handleUpdateItem, open, toggleModal }: 
     }
 
     validateForm()
-  }, [updatedItem])
+  }, [updatedStore])
 
   const handleChange = (event: any) => {
-    event.preventDefault();
-    const { name, value } = event.target;
-    const update = { [name]: value };
-    if (name === 'category') {
-      update[name] = JSON.parse(value);
-    }
-
-    setUpdatedItem({ ...updatedItem, ...update });
+    const value = event.target.value;
+    setUpdatedStore({ ...updatedStore, [event.target.name]: value });
   };
 
-  const updateItem = async (e: any) => {
+  const updateStore = async (e: any) => {
     e.preventDefault();
     if (!isFormValid) return;
-    handleUpdateItem(updatedItem)
+    handleUpdateStore(updatedStore)
   };
 
   return (
@@ -121,7 +109,7 @@ const EditItem = ({ item = initialState, handleUpdateItem, open, toggleModal }: 
                 <Dialog.Title
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900">
-                  Add / Update Item
+                  Add / Update Store
                 </Dialog.Title>
                 <div className="max-w-md max-auto">
                   <div>
@@ -134,7 +122,7 @@ const EditItem = ({ item = initialState, handleUpdateItem, open, toggleModal }: 
                       <input
                         type="text"
                         name="name"
-                        value={updatedItem.name}
+                        value={updatedStore.name}
                         onChange={(e) => handleChange(e)}
                         className="h-8 rounded w-full border px-2 py-2"
                       >
@@ -144,78 +132,76 @@ const EditItem = ({ item = initialState, handleUpdateItem, open, toggleModal }: 
                     <div className="my-4">
                       <label
                         className="block text-sm font-medium text-gray-500"
-                        htmlFor="shortDescription"
+                        htmlFor="email"
                       >
-                        Short Description
+                        Email
                       </label>
                       <input
                         type="text"
-                        name="shortDescription"
-                        value={updatedItem.shortDescription}
+                        name="email"
+                        value={updatedStore.email}
                         onChange={(e) => handleChange(e)}
                         className="h-8 rounded w-full border px-2 py-2"></input>
-                      {errors.shortDescription && <div className="text-xs alert-danger text-error">{errors.shortDescription}</div>}
+                      {errors.email && <div className="text-xs alert-danger text-error">{errors.email}</div>}
                     </div>
                     <div className="my-4">
                       <label
                         className="block text-sm font-medium text-gray-500"
-                        htmlFor="longDescription"
+                        htmlFor="phone"
                       >
-                        Long Description
+                        Phone
                       </label>
                       <input
-                        type="textArea"
-                        name="longDescription"
-                        value={updatedItem.longDescription}
+                        type="text"
+                        name="phone"
+                        value={updatedStore.phone}
                         onChange={(e) => handleChange(e)}
                         className="h-8 rounded w-full border px-2 py-2"></input>
+                      {errors.phone && <div className="text-xs alert-danger text-error">{errors.phone}</div>}
                     </div>
                     <div className="my-4">
                       <label
                         className="block text-sm font-medium text-gray-500"
-                        htmlFor="price"
+                        htmlFor="address"
                       >
-                        Price
+                        Address
                       </label>
                       <input
-                        type="number"
-                        name="price"
-                        value={updatedItem.price}
+                        type="text"
+                        name="address"
+                        value={updatedStore.address}
                         onChange={(e) => handleChange(e)}
                         className="h-8 rounded w-full border px-2 py-2"></input>
-                      {errors.price && <div className="text-xs alert-danger text-error">{errors.price}</div>}
+                      {errors.address && <div className="text-xs alert-danger text-error">{errors.address}</div>}
                     </div>
                     <div className="my-4">
                       <label
                         className="block text-sm font-medium text-gray-500"
-                        htmlFor="quantity"
+                        htmlFor="openingDate"
                       >
-                        Quantity
+                        Opening Date
                       </label>
                       <input
-                        type="number"
-                        name="quantity"
-                        value={updatedItem.quantity}
+                        type="date"
+                        name="openingDate"
+                        value={updatedStore.openingDate}
                         onChange={(e) => handleChange(e)}
                         className="h-8 rounded w-full border px-2 py-2"></input>
-                      {errors.quantity && <div className="text-xs alert-danger text-error">{errors.quantity}</div>}
+                      {errors.openingDate && <div className="text-xs alert-danger text-error">{errors.openingDate}</div>}
                     </div>
                     <div className="my-4">
-                      <Select name="category" value={JSON.stringify(updatedItem.category)} text='Select a Category' onChange={handleChange} data={categories} />
-                      {/* <select onChange={handleChange} value={updatedItem.category?.id} className={`select select-secondary w-full max-w-xs`}>
-        <option disabled>
-          'Select a Category'
-        </option>
-        {categories.map((category) => (
-          <option value={category.id} key={category.id}>{category.name}</option>
-        ))}
-      </select> */}
+                      <select name="type" onChange={(e) => handleChange(e)} value={updatedStore.type} className={`select select-secondary w-full`}>
+                        {Object.values(IStoreType).map((item) => (
+                          <option value={item} key={item}>{item}</option>
+                        ))}
+                      </select>
+                      {errors.type && <div className="text-xs alert-danger text-error">{errors.type}</div>}
                     </div>
                     <div className="mt-6 space-x-4">
                       <button
-                        onClick={updateItem}
+                        onClick={updateStore}
                         className="btn btn-secondary">
-                        Submit
+                        Update
                       </button>
                       <button
                         onClick={toggleModal}
@@ -234,4 +220,4 @@ const EditItem = ({ item = initialState, handleUpdateItem, open, toggleModal }: 
   );
 };
 
-export default EditItem;
+export default EditStore;

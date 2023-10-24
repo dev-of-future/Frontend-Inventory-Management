@@ -1,33 +1,36 @@
 'use client'
 import React, { useState, useEffect } from 'react';
-import EditItem from './EditItem';
-import ItemList from './ItemList';
-import IItem from '../types/item.type';
-import ItemService from '../services/item.service';
+import EditStore from './EditStore';
+import StoreList from './StoreList';
+import IStore from '../types/store.type';
+import StoreService from '../services/store.service';
+import IStoreType from '../types/storeType.type';
 import ShowModalBtn from '../components/ShowModalBtn';
 
-const initialState: IItem = {
-  name: '',
-  shortDescription: '',
-  longDescription: '',
-  price: 0,
-  quantity: 0,
+const initialState: IStore = {
+  name: "",
+  email: "",
+  phone: "",
+  address: "",
+  type: IStoreType.RETAIL,
+  openingDate: new Date().toLocaleDateString()
 };
 
+
 const Page = () => {
-  const [items, setItems] = useState<IItem[]>([]);
+  const [stores, setStores] = useState<IStore[]>([]);
   const [loading, setLoading] = useState(false);
-  const [itemToUpdate, setItemToUpdate] = useState<IItem>(initialState);
+  const [storeToUpdate, setStoreToUpdate] = useState<IStore>(initialState);
   const [error, setError] = useState('');
   const [notification, setNotification] = useState('');
   const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
     setLoading(true)
-    const fetchItems = async () => {
+    const fetchStores = async () => {
       try {
-        const response = await ItemService.getAllItems();
-        setItems(response.data);
+        const response = await StoreService.getAllStores();
+        setStores(response.data);
         setError('')
       } catch (error: any) {
         if (error.response) {
@@ -40,16 +43,16 @@ const Page = () => {
       }
 
     }
-    fetchItems()
+    fetchStores()
   }, []);
 
-  const deleteItem = async (id: number) => {
+  const deleteStore = async (id: number) => {
     try {
-      const response = await ItemService.deleteItem(id);
-      setItems((items) => {
-        return items.filter((item: IItem) => item.id !== id);
+      await StoreService.deleteStore(id);
+      setStores((stores) => {
+        return stores.filter((store: IStore) => store.id !== id);
       });
-      displayNotification('Item deleted successfully');
+      displayNotification('Store deleted successfully');
       setError('')
     } catch (error: any) {
       if (error.response) {
@@ -68,28 +71,27 @@ const Page = () => {
     }, 5000);
   };
 
-  const handleUpdateItem = async (item: IItem) => {
+  const handleUpdateStore = async (store: IStore) => {
     setLoading(true)
-    toggleModal();
     try {
-      if (item.id) {
-        const updatedItem = await ItemService.updateItem(item.id, item)
-        setItems((items) => {
-          return items.map((item: IItem) => {
-            if (item.id === updatedItem.data.id) {
-              return updatedItem.data;
+      if (store.id) {
+        const updatedStore = await StoreService.updateStore(store.id, store)
+        setStores((stores) => {
+          return stores.map((store: IStore) => {
+            if (store.id === updatedStore.data.id) {
+              return updatedStore.data;
             }
-            return item;
+            return store;
           })
         })
-        displayNotification('Item updated successfully');
+        displayNotification('Store updated successfully');
 
       } else {
-        const createdItem = await ItemService.createItem(item)
-        setItems((items) => {
-          return [...items, createdItem.data]
+        const createdStore = await StoreService.createStore(store)
+        setStores((stores) => {
+          return [...stores, createdStore.data]
         })
-        displayNotification('Item added successfully');
+        displayNotification('Store added successfully');
 
       }
 
@@ -102,18 +104,21 @@ const Page = () => {
       setError(errMsg);
     }
 
+    // clean up
+    toggleModal()
     setLoading(false)
+    setStoreToUpdate(initialState);
   }
 
-  const editItem = (item: IItem) => {
-    setItemToUpdate(item);
+  const editStore = (store: IStore) => {
+    setStoreToUpdate(store);
     toggleModal()
   };
 
   const toggleModal = () => {
     setEditMode((editMode) => {
       const newState = !editMode;
-      if (!newState) setItemToUpdate(initialState)
+      if (!newState) setStoreToUpdate(initialState)
       return newState
     })
   }
@@ -123,12 +128,12 @@ const Page = () => {
       {notification && <div onClick={() => setNotification('')} className='toast toast-end toast-bottom'><div className="alert alert-info text-white p-2">{notification}</div></div>}
       {error && <div className="alert alert-danger mb-2">{error}</div>}
       {loading && <div className="loading loading-bars loading-lg mb-2"></div>}
-      <ShowModalBtn text="Add Item" toggleModal={toggleModal} style="btn-accent" />
+      <ShowModalBtn text="Add Store" toggleModal={toggleModal} style="btn-accent" />
 
-      <ItemList items={items} editItem={editItem} deleteItem={deleteItem} />
-      <EditItem
-        item={itemToUpdate}
-        handleUpdateItem={handleUpdateItem}
+      <StoreList stores={stores} editStore={editStore} deleteStore={deleteStore} />
+      <EditStore
+        store={storeToUpdate}
+        handleUpdateStore={handleUpdateStore}
         open={editMode}
         toggleModal={toggleModal}
       />

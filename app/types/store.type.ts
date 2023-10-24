@@ -1,12 +1,5 @@
 import IInventory from "./inventory.type";
-
-enum IStoreType {
-  RETAIL = 'RETAIL',
-  WAREHOUSE = 'WAREHOUSE',
-  WHOLESALE = 'WHOLESALE',
-  CLUB = 'CLUB',
-  SUPERMARKET = 'SUPERMARKET'
-}
+import IStoreType from "./storeType.type";
 
 export default interface IStore {
   id?: number;
@@ -14,8 +7,7 @@ export default interface IStore {
   address: string;
   email?: string;
   phone: string;
-  quantity: number;
   type: IStoreType;
   inventories?: IInventory[];
-  openingDate: Date;
+  openingDate: string;
 }

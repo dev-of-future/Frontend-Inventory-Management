@@ -1,8 +1,8 @@
 import React from 'react'
-import IItem from '../types/item.type'
-import Item from './Item'
+import IStore from '../types/store.type'
+import Store from './Store'
 
-const ItemList = ({ items, loading, deleteItem, editItem }: any) => {
+const StoreList = ({ stores, loading, deleteStore, editStore }: any) => {
   return (
     <>
       <div className="my-8 overflow-x-auto">
@@ -17,25 +17,31 @@ const ItemList = ({ items, loading, deleteItem, editItem }: any) => {
                   NAME
                 </th>
                 <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-0">
-                  PRICE
+                  PHONE
                 </th>
                 <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-0">
-                  QUANTITY
+                  OPENING DATE
                 </th>
                 <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-0">
-                  CATEGORY
+                  TYPE
+                </th>
+                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-0">
+                  EMAIL
+                </th>
+                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-0">
+                  ADDRESS
                 </th>
                 <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-0"></th>
               </tr>
             </thead>
             {!loading && (
               <tbody className="bg-white">
-                {items?.map((item: IItem) => (
-                  <Item
-                    item={item}
-                    key={item.id}
-                    deleteItem={deleteItem}
-                    editItem={editItem}
+                {stores?.map((store: IStore) => (
+                  <Store
+                    store={store}
+                    key={store.id}
+                    deleteStore={deleteStore}
+                    editStore={editStore}
                   />
                 ))}
               </tbody>
@@ -47,4 +53,4 @@ const ItemList = ({ items, loading, deleteItem, editItem }: any) => {
   )
 }
 
-export default ItemList
+export default StoreList

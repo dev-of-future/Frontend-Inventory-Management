@@ -13,6 +13,8 @@ type FormErrors = {
   quantity?: string;
   category?: string;
   supplier?: string;
+  openingDate?: string;
+  type?: string;
 };
 
 export default FormErrors
