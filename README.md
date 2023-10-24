@@ -1,4 +1,4 @@
-# Inventory Management Frontend (Next.js)
+# Inventory Management Application Frontend (Next.js)
 
 ## Overview
 
@@ -19,6 +19,8 @@ This is the frontend component of an Inventory Management web application built 
 ## Getting Started
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). The Backend API code can be found on [here](https://github.com/refinedblessing/inventory-management)
+
+You can check it out [here](https://inventory-management-frontend-liart.vercel.app/) 👀 or [here](https://refinedblessing.github.io/inventory-management-frontend/) 👀.
 
 To get a local copy of the project up and running, follow these steps:
 
@@ -56,7 +58,9 @@ npm run dev
 
 - Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-\*\*Include your own .env file and set the API URL
+\*\* Include your own .env file and set the API URL when testing locally.
+
+\*\* Backend API gets turned off to avoid incurring costs 😅
 
 License
 This project is licensed under the MIT License - see the [LICENSE](https://chat.openai.com/c/LICENSE) file for details.

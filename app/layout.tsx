@@ -22,7 +22,7 @@ export default function RootLayout({
       <UserContextProvider>
         <body className={`${inter.className}`}>
           <Header />
-          <div className='mt-5 max-w-screen-md mx-auto'>
+          <div className='mt-5 max-w-screen-lg mx-auto'>
             {children}
           </div>
         </body>
