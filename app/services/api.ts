@@ -2,7 +2,7 @@ import axios from "axios";
 import TokenService from "./token.service";
 
 const API_URL = process.env.NEXT_PUBLIC_BACKEND_API_DEV_URL;
-console.log(API_URL)
+
 const instance = axios.create({
   baseURL: API_URL,
   headers: {
