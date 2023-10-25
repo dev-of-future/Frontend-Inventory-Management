@@ -22,6 +22,8 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 You can check it out on Vercel [here](https://inventory-management-frontend-liart.vercel.app/) 👀 or Github Pages [here](https://refinedblessing.github.io/inventory-management-frontend/) 👀.
 
+**PLEASE REMEMBER YOUR USERNAME AND PASSWORD SO YOU CAN LOG IN AND VIEW THE OTHER PAGES**
+
 To get a local copy of the project up and running, follow these steps:
 
 ### Prerequisites
