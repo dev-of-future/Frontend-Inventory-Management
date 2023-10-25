@@ -98,6 +98,7 @@ const EditItem = ({ item = initialState, handleUpdateItem, open, toggleModal }: 
     e.preventDefault();
     if (!isFormValid) return;
     handleUpdateItem(updatedItem)
+    setUpdatedItem(initialState)
   };
 
   return (

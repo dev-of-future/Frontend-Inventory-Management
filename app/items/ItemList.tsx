@@ -25,6 +25,9 @@ const ItemList = ({ items, loading, deleteItem, editItem }: any) => {
                 <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-0">
                   CATEGORY
                 </th>
+                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-0">
+                  SUPPLIER
+                </th>
                 <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-0"></th>
               </tr>
             </thead>

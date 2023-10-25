@@ -201,7 +201,7 @@ const EditStore = ({ store = initialState, handleUpdateStore, open, toggleModal 
                       <button
                         onClick={updateStore}
                         className="btn btn-secondary">
-                        Update
+                        Submit
                       </button>
                       <button
                         onClick={toggleModal}

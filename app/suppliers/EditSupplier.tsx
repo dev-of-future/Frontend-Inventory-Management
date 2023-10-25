@@ -61,6 +61,7 @@ const EditSupplier = ({ supplier = initialState, handleUpdateSupplier, open, tog
     e.preventDefault();
     if (!isFormValid) return;
     handleUpdateSupplier(updatedSupplier)
+    setUpdatedSupplier(initialState)
   };
 
   return (
@@ -152,7 +153,7 @@ const EditSupplier = ({ supplier = initialState, handleUpdateSupplier, open, tog
                       <button
                         onClick={updateSupplier}
                         className="btn btn-secondary">
-                        Update
+                        Submit
                       </button>
                       <button
                         onClick={toggleModal}

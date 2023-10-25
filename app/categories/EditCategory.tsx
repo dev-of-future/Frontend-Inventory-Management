@@ -71,7 +71,6 @@ const EditCategory = ({ category = initialState, handleUpdateCategory, open, tog
     if (name === 'supplier') {
       update[name] = JSON.parse(value);
     }
-    console.log(update)
 
     setUpdatedCategory({ ...updatedCategory, ...update });
   };
@@ -80,6 +79,7 @@ const EditCategory = ({ category = initialState, handleUpdateCategory, open, tog
     e.preventDefault();
     if (!isFormValid) return;
     handleUpdateCategory(updatedCategory)
+    setUpdatedCategory(initialState)
   };
 
   return (
