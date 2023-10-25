@@ -56,8 +56,9 @@ jobs:
         uses: SpicyPizza/create-envfile@v1
         with:
           envkey_NEXT_PUBLIC_BACKEND_API_DEV_URL: ${{ secrets.NEXT_PUBLIC_BACKEND_API_DEV_URL }}
-          directory: './'
-          file_name: '.env.production'
+          directory: ./
+          file_name: .env
+          fail_on_empty: true
       - name: Setup Pages
         uses: actions/configure-pages@v3
         with:
