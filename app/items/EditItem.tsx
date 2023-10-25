@@ -1,5 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import React, { useState, Fragment, useEffect } from "react";
+import CurrencyInput from 'react-currency-input-field';
 import FormErrors from '../types/formErrors.type';
 import IItem from "../types/item.type";
 import CategoryService from "../services/category.service";
