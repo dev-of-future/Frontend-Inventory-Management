@@ -1,10 +1,8 @@
 import axios from "axios";
 import TokenService from "./token.service";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
 
 const API_URL = process.env.NEXT_PUBLIC_BACKEND_API_DEV_URL;
-
+console.log(API_URL)
 const instance = axios.create({
   baseURL: API_URL,
   headers: {

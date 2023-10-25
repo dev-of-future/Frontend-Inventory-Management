@@ -58,9 +58,11 @@ const EditStore = ({ store = initialState, handleUpdateStore, open, toggleModal 
 
       if (!openingDate) {
         newErrors.openingDate = 'Opening Date is required';
-      } else if (new Date(openingDate) < new Date(today)) {
-        newErrors.openingDate = 'Opening Date can\'t be in the past';
       }
+      // TODO test this out
+      // else if ((store.openingDate != openingDate) && (new Date(openingDate) < new Date(today))) {
+      //   newErrors.openingDate = 'Opening Date can\'t be in the past';
+      // }
 
       if (!type) {
         newErrors.type = 'A Store Type is required';
