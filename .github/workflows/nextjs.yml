@@ -22,9 +22,6 @@ permissions:
 concurrency:
   group: "pages"
   cancel-in-progress: false
-  
-env:
-  NEXT_PUBLIC_BACKEND_API_DEV_URL: ${{ secrets.NEXT_PUBLIC_BACKEND_API_DEV_URL }}
 
 jobs:
   # Build job
@@ -55,12 +52,12 @@ jobs:
         with:
           node-version: "16"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
-        env:
-          NEXT_PUBLIC_BACKEND_API_DEV_URL: ${{ secrets.NEXT_PUBLIC_BACKEND_API_DEV_URL }}
       - name: Make envfile
         uses: SpicyPizza/create-envfile@v1
         with:
           envkey_NEXT_PUBLIC_BACKEND_API_DEV_URL: ${{ secrets.NEXT_PUBLIC_BACKEND_API_DEV_URL }}
+          directory: './'
+          file_name: '.env.production'
       - name: Setup Pages
         uses: actions/configure-pages@v3
         with:
