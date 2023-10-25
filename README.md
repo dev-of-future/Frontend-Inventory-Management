@@ -20,7 +20,7 @@ This is the frontend component of an Inventory Management web application built 
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). The Backend API code can be found on [here](https://github.com/refinedblessing/inventory-management)
 
-You can check it out [here](https://inventory-management-frontend-liart.vercel.app/) 👀 or [here](https://refinedblessing.github.io/inventory-management-frontend/) 👀.
+You can check it out on Vercel [here](https://inventory-management-frontend-liart.vercel.app/) 👀 or Github Pages [here](https://refinedblessing.github.io/inventory-management-frontend/) 👀.
 
 To get a local copy of the project up and running, follow these steps:
 
