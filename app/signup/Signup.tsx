@@ -141,7 +141,7 @@ export default function Signup() {
                     name="firstName"
                     className="pl-2 mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
                   />
-                  {errors.firstName && <div className="alert-danger text-error">{errors.firstName}</div>}
+                  {errors.firstName && <div className="alert-danger text-error text-sm">{errors.firstName}</div>}
                 </div>
 
                 <div className="col-span-6 sm:col-span-3">
@@ -160,7 +160,7 @@ export default function Signup() {
                     onChange={(event) => setLastName(event.target.value)}
                     className="pl-2 mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
                   />
-                  {errors.lastName && <div className="alert-danger text-error">{errors.lastName}</div>}
+                  {errors.lastName && <div className="alert-danger text-error text-sm">{errors.lastName}</div>}
                 </div>
 
                 <div className="col-span-6 sm:col-span-3">
@@ -179,7 +179,7 @@ export default function Signup() {
                     onChange={(event) => setEmail(event.target.value)}
                     className="pl-2 mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
                   />
-                  {errors.email && <div className="alert-danger text-error">{errors.email}</div>}
+                  {errors.email && <div className="alert-danger text-error text-sm">{errors.email}</div>}
                 </div>
 
                 <div className="col-span-6 sm:col-span-3">
@@ -198,7 +198,7 @@ export default function Signup() {
                     onChange={(event) => setUsername(event.target.value)}
                     className="pl-2 mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
                   />
-                  {errors.username && <div className="alert-danger text-error">{errors.username}</div>}
+                  {errors.username && <div className="alert-danger text-error text-sm">{errors.username}</div>}
                 </div>
 
                 <div className="col-span-6">
@@ -217,7 +217,7 @@ export default function Signup() {
                     onChange={(event) => setPassword(event.target.value)}
                     className="pl-2 mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
                   />
-                  {errors.password && <div className="alert-danger text-error">{errors.password}</div>}
+                  {errors.password && <div className="alert-danger text-error text-sm">{errors.password}</div>}
                 </div>
 
                 <div className="col-span-6 sm:flex sm:items-center sm:gap-4">

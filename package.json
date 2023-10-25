@@ -2,6 +2,7 @@
   "name": "inventory-management-frontend",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://github.com/refinedblessing/inventory-management-frontend",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

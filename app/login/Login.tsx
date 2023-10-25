@@ -123,7 +123,7 @@ export default function Login() {
                     name="username"
                     className="pl-2 mt-1 w-full rounded-md border-gray-200 bg-white text-md text-gray-700 shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
                   />
-                  {errors.username && <div className="alert-danger text-error">{errors.username}</div>}
+                  {errors.username && <div className="alert-danger text-error text-sm">{errors.username}</div>}
                 </div>
 
                 <div className="col-span-6 sm:col-span-3">
@@ -142,7 +142,7 @@ export default function Login() {
                     onChange={(event) => setPassword(event.target.value)}
                     className="pl-2 mt-1 w-full rounded-md border-gray-200 bg-white text-md text-gray-700 shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
                   />
-                  {errors.password && <div className="alert-danger text-error">{errors.password}</div>}
+                  {errors.password && <div className="alert-danger text-error text-sm">{errors.password}</div>}
 
                 </div>
 
