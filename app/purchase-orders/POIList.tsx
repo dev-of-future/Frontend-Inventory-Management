@@ -1,8 +1,13 @@
 import React from 'react'
-import ISupplier from '../types/supplier.type'
-import Supplier from './Supplier'
+import IPurchaseOrderItem from '../types/purchaseOrderItem.type'
+import POI from './POI'
 
-const SupplierList = ({ suppliers, loading, deleteSupplier, editSupplier }: any) => {
+type POIListProps = {
+  purchaseOrderItems: IPurchaseOrderItem[];
+  deletePOI: (id: number) => void;
+}
+
+const POIList = ({ purchaseOrderItems, deletePOI }: POIListProps) => {
   return (
     <>
       <div className="my-8 overflow-x-auto">
@@ -17,29 +22,32 @@ const SupplierList = ({ suppliers, loading, deleteSupplier, editSupplier }: any)
                   NAME
                 </th>
                 <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-2">
-                  EMAIL
+                  PRICE
                 </th>
                 <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-2">
-                  PHONE
+                  QUANTITY
                 </th>
                 <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-2">
-                  ADDRESS
+                  TOTAL
+                </th>
+                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-2">
+                  CATEGORY
+                </th>
+                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-2">
+                  SUPPLIER
                 </th>
                 <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-2"></th>
               </tr>
             </thead>
-            {!loading && (
-              <tbody className="bg-white">
-                {suppliers?.map((supplier: ISupplier) => (
-                  <Supplier
-                    supplier={supplier}
-                    key={supplier.id}
-                    deleteSupplier={deleteSupplier}
-                    editSupplier={editSupplier}
-                  />
-                ))}
-              </tbody>
-            )}
+            <tbody className="bg-white">
+              {purchaseOrderItems?.map((item: IPurchaseOrderItem) => (
+                <POI
+                  poItem={item}
+                  key={item.id}
+                  deletePOI={() => deletePOI(item.id)}
+                />
+              ))}
+            </tbody>
           </table>
         </div>
       </div>
@@ -47,4 +55,4 @@ const SupplierList = ({ suppliers, loading, deleteSupplier, editSupplier }: any)
   )
 }
 
-export default SupplierList
+export default POIList

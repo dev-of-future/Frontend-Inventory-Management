@@ -23,7 +23,7 @@ const initialState: IStore = {
   phone: "",
   address: "",
   type: IStoreType.RETAIL,
-  openingDate: today,
+  openingDate: ''
 };
 
 
@@ -56,13 +56,11 @@ const EditStore = ({ store = initialState, handleUpdateStore, open, toggleModal 
         newErrors.phone = 'Phone number should have 10 to 14 digits and an optional + prefix';
       }
 
-      if (!openingDate) {
+      if (!(new Date(openingDate))) {
         newErrors.openingDate = 'Opening Date is required';
+      } else if ((new Date(openingDate)) < (new Date(today))) {
+        newErrors.openingDate = 'Opening Date can\'t be in the past';
       }
-      // TODO test this out
-      // else if ((store.openingDate != openingDate) && (new Date(openingDate) < new Date(today))) {
-      //   newErrors.openingDate = 'Opening Date can\'t be in the past';
-      // }
 
       if (!type) {
         newErrors.type = 'A Store Type is required';

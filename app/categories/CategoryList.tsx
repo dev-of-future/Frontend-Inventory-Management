@@ -13,13 +13,13 @@ const CategoryList = ({ categories, loading, deleteCategory, editCategory }: any
                 <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-2">
                   ID
                 </th>
-                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-0">
+                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-2">
                   NAME
                 </th>
-                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-0">
+                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-2">
                   SUPPLIER
                 </th>
-                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-0"></th>
+                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-2"></th>
               </tr>
             </thead>
             {!loading && (

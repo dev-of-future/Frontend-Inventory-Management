@@ -17,7 +17,8 @@
     "next-auth": "^4.24.3",
     "react": "^18",
     "react-currency-input-field": "^3.6.11",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-tailwindcss-select": "^1.8.5"
   },
   "devDependencies": {
     "@types/node": "^20",

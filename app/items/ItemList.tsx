@@ -2,6 +2,8 @@ import React from 'react'
 import IItem from '../types/item.type'
 import Item from './Item'
 
+// TODO include type
+
 const ItemList = ({ items, loading, deleteItem, editItem }: any) => {
   return (
     <>
@@ -13,22 +15,22 @@ const ItemList = ({ items, loading, deleteItem, editItem }: any) => {
                 <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-2">
                   ID
                 </th>
-                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-0">
+                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-2">
                   NAME
                 </th>
-                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-0">
+                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-2">
                   PRICE
                 </th>
-                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-0">
+                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-2">
                   QUANTITY
                 </th>
-                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-0">
+                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-2">
                   CATEGORY
                 </th>
-                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-0">
+                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-2">
                   SUPPLIER
                 </th>
-                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-0"></th>
+                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-2"></th>
               </tr>
             </thead>
             {!loading && (

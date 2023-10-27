@@ -15,6 +15,9 @@ type FormErrors = {
   supplier?: string;
   openingDate?: string;
   type?: string;
+  store?: string;
+  purchaseOrderItems?: string;
+  item?: string;
 };
 
 export default FormErrors

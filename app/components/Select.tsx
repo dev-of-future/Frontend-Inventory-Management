@@ -5,12 +5,13 @@ interface SelectProps {
   data: any[];
   text: string;
   onChange: (event: any) => void;
-  value: any;
+  value: any | null;
   name: string;
 }
 
 const Select = ({ style, data, text, onChange, value, name }: SelectProps) => {
   return (
+    // TODO remove stringify
     <>
       <select name={name} onChange={onChange} value={value} className={`select select-secondary w-full ${style}`}>
         <option disabled defaultValue={text}>

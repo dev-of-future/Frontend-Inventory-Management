@@ -4,6 +4,6 @@ import IPurchaseOrder from "./purchaseOrder.type";
 export default interface IPurchaseOrderItem {
   id?: number;
   quantity: number;
-  item: IItem;
+  item: IItem | null;
   purchaseOrder?: IPurchaseOrder;
 }

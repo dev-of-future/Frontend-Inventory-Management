@@ -13,25 +13,25 @@ const StoreList = ({ stores, loading, deleteStore, editStore }: any) => {
                 <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-2">
                   ID
                 </th>
-                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-0">
+                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-2">
                   NAME
                 </th>
-                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-0">
+                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-2">
                   PHONE
                 </th>
-                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-0">
+                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-2">
                   OPENING DATE
                 </th>
-                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-0">
+                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-2">
                   TYPE
                 </th>
-                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-0">
+                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-2">
                   EMAIL
                 </th>
-                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-0">
+                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-2">
                   ADDRESS
                 </th>
-                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-0"></th>
+                <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-2"></th>
               </tr>
             </thead>
             {!loading && (

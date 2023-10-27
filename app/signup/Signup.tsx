@@ -74,7 +74,7 @@ export default function Signup() {
       setUser(response.data.user)
 
       clearInput()
-      router.push('/');
+      router.push('/items');
     } catch (err: any) {
       let errMsg = 'Unexpected error'
       if (err.response) {

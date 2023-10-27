@@ -37,22 +37,36 @@ const Header = () => {
         {user && <>
           <li>
             <Link
-              className={`text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75 ${pathname === '/categories' ? 'active' : ''}`}
-              href="/categories"
-            >
-              Categories
-            </Link>
-          </li>
-
-          <li>
-            <Link
               className={`text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75 ${pathname === '/suppliers' ? 'active' : ''}`}
               href="/suppliers"
             >
               Suppliers
             </Link>
           </li>
-
+          <li>
+            <Link
+              className={`text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75 ${pathname === '/categories' ? 'active' : ''}`}
+              href="/categories"
+            >
+              Categories
+            </Link>
+          </li>
+          <li>
+            <Link
+              className={`text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75 ${pathname === '/stores' ? 'active' : ''}`}
+              href="/stores"
+            >
+              Stores
+            </Link>
+          </li>
+          <li>
+            <Link
+              className={`text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75 ${pathname === '/purchase-orders' ? 'active' : ''}`}
+              href="/purchase-orders"
+            >
+              Purchase Orders
+            </Link>
+          </li>
           {/* <li>
             <Link
               className={`text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75 ${pathname === '/users' ? 'active' : ''}`}
@@ -62,14 +76,8 @@ const Header = () => {
             </Link>
           </li> */}
 
-          <li>
-            <Link
-              className={`text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75 ${pathname === '/stores' ? 'active' : ''}`}
-              href="/stores"
-            >
-              Stores
-            </Link>
-          </li></>}
+        </>
+        }
       </>
     )
   }
