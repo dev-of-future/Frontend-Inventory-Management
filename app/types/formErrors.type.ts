@@ -18,6 +18,7 @@ type FormErrors = {
   store?: string;
   purchaseOrderItems?: string;
   item?: string;
+  status?: string;
 };
 
 export default FormErrors

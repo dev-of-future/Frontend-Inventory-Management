@@ -1,7 +1,7 @@
 enum IUserRole {
-  ADMIN = 'ADMIN',
-  STORE_STAFF = 'STORE_STAFF',
-  STORE_MANAGER = 'STORE_MANAGER',
+  ADMIN = 'ROLE_ADMIN',
+  STAFF = 'ROLE_STORE_STAFF',
+  MANAGER = 'ROLE_STORE_MANAGER',
 }
 
 export default IUserRole;

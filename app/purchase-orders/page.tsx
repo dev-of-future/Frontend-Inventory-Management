@@ -57,23 +57,38 @@ const Page = () => {
   }
 
   const updatePurchaseOrders = async (purchaseOrder: IPurchaseOrder, action: { type: string }) => {
-    switch (action.type) {
-      case 'DELETE':
-        setPurchaseOrders((purchaseOrders) => {
-          return purchaseOrders.filter((po) => po.id !== purchaseOrder.id)
-        })
-        break;
-      case 'UPDATE':
-        setPurchaseOrders((purchaseOrders) => {
-          return purchaseOrders.map((po) => {
-            if (po.id === purchaseOrder.id) {
-              return purchaseOrder
-            }
-            return po
+    if (!purchaseOrder.id) return;
+    try {
+      switch (action.type) {
+        case 'DELETE':
+          await PurchaseOrderService.deletePurchaseOrder(purchaseOrder.id)
+
+          setPurchaseOrders((purchaseOrders) => {
+            return purchaseOrders.filter((po) => po.id !== purchaseOrder.id)
           })
-        })
-        break;
-      default:
+          displayNotification('Purchase Order deleted successfully');
+          break;
+        case 'UPDATE':
+          const res = await PurchaseOrderService.updatePurchaseOrder(purchaseOrder.id, purchaseOrder)
+          console.log(res.data, purchaseOrder)
+          setPurchaseOrders((purchaseOrders) => {
+            return purchaseOrders.map((po) => {
+              if (po.id === purchaseOrder.id) {
+                return res.data
+              }
+              return po
+            })
+          })
+          displayNotification('Purchase Order updated successfully');
+          break;
+        default:
+      }
+    } catch (error: any) {
+      let errMsg = 'Unexpected error'
+      if (error?.response) {
+        errMsg = error.response.data?.message;
+      }
+      displayNotification(errMsg);
     }
   }
 

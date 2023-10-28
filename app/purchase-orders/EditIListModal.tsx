@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import FormErrors from '../types/formErrors.type';
 import Select from 'react-tailwindcss-select';
 import DialogModal from '../components/DialogModal';
@@ -11,112 +11,125 @@ import POIList from './POIList';
 type EditIListModalProps = {
   storeName: string;
   status: string;
-  purchaseOrderId: number
+  purchaseOrderId: number;
   purchaseOrderItems: IPurchaseOrderItem[];
   updateIList: (items: IPurchaseOrderItem[]) => void;
   open: boolean;
   toggleModal: () => void;
 };
 
-const EditIListModal = ({ purchaseOrderId, storeName, status, purchaseOrderItems = [], updateIList, open, toggleModal }: EditIListModalProps) => {
+const initialState: IPurchaseOrderItem = { quantity: 1, item: null };
+
+const EditIListModal: React.FC<EditIListModalProps> = ({
+  purchaseOrderId,
+  storeName,
+  status,
+  purchaseOrderItems = [],
+  updateIList,
+  open,
+  toggleModal,
+}: EditIListModalProps) => {
   const [items, setItems] = useState<IItem[]>([]);
   const [errors, setErrors] = useState<FormErrors>({});
+  const [purchaseOrderItem, setPurchaseOrderItem] = useState<IPurchaseOrderItem>(
+    initialState
+  );
+  const [updatedPurchaseOrderItems, setUpdatedPurchaseOrderItems] = useState<IPurchaseOrderItem[]>(
+    purchaseOrderItems
+  );
   const [isFormValid, setIsFormValid] = useState(false);
-  const [purchaseOrderItem, setPurchaseOrderItem] = useState<IPurchaseOrderItem>();
-  const [updatedPurchaseOrderItems, setUpdatedPurchaseOrderItems] = useState<IPurchaseOrderItem[] | []>(purchaseOrderItems);
 
   useEffect(() => {
-    setUpdatedPurchaseOrderItems(purchaseOrderItems)
-  }, [purchaseOrderItems, purchaseOrderId])
+    setUpdatedPurchaseOrderItems(purchaseOrderItems);
+  }, [purchaseOrderItems, purchaseOrderId]);
 
   useEffect(() => {
     const fetchItems = async () => {
       try {
         const response = await ItemService.getAllItems();
         setItems(response.data);
-      } catch (err: any) {
-        let errMsg = 'Unable to load Items'
-        if (err.response) {
-          errMsg = err.response.data?.message;
-        }
-        console.error(errMsg)
+      } catch (error: any) {
+        const errMsg = error.response ? error.response.data.message : 'Unable to load Items';
+        console.error(errMsg);
       }
-    }
+    };
 
-    fetchItems()
-  }, [])
+    fetchItems();
+  }, []);
 
   useEffect(() => {
-    const newErrors: FormErrors = {}
-
     const validateForm = () => {
+      const newErrors: FormErrors = {};
+
       if (!purchaseOrderItem?.item) {
-        newErrors.item = 'Item is required'
+        newErrors.item = 'Item is required';
       }
 
       if (!purchaseOrderItem?.quantity || purchaseOrderItem?.quantity < 1) {
-        newErrors.quantity = 'Item Quantity is required'
+        newErrors.quantity = 'Item Quantity is required';
+      } else if (purchaseOrderItem.quantity > (purchaseOrderItem.item?.quantity || Infinity)) {
+        newErrors.quantity = `Purchase Order Item Quantity cannot be greater than Item Quantity in stock: ${purchaseOrderItem.item?.quantity}`;
       }
 
-      setErrors(newErrors)
+      setErrors(newErrors);
       setIsFormValid(Object.keys(newErrors).length === 0);
-    }
+    };
 
-    validateForm()
-  }, [purchaseOrderItem])
+    validateForm();
+  }, [purchaseOrderItem]);
 
   const addPOI = async () => {
-    if (!purchaseOrderItem) return;
+    if (!isFormValid || !purchaseOrderItem) return;
+
     try {
-      const createdItem = await PurchaseOrderItemService.createPurchaseOrderItem({ ...purchaseOrderItem, purchaseOrder: { id: purchaseOrderId } })
-      setUpdatedPurchaseOrderItems((items) => {
-        setPurchaseOrderItem(undefined)
-        return [...items, createdItem.data]
-      })
-      setErrors({})
+      const createdItem = await PurchaseOrderItemService.createPurchaseOrderItem({
+        ...purchaseOrderItem,
+        purchaseOrder: { id: purchaseOrderId },
+      });
+      setUpdatedPurchaseOrderItems((items) => [...items, createdItem.data]);
+      setPurchaseOrderItem(initialState);
+      setErrors({});
     } catch (error: any) {
-      console.error(error)
-      setErrors({ purchaseOrderItems: 'Unable to add PO Item' })
+      let errMsg = 'Unable to add PO Item'
+      if (error.response) {
+        errMsg = error.response.data?.message;
+      }
+      console.error(errMsg)
+      setErrors({ purchaseOrderItems: errMsg });
     }
-  }
+  };
 
   const deletePOI = async (id: number) => {
     try {
-      const response = await PurchaseOrderItemService.deletePurchaseOrderItem(id);
-      setUpdatedPurchaseOrderItems((items) => {
-        return items.filter((item: IPurchaseOrderItem) => item.id !== id);
-      });
-      setErrors({})
+      await PurchaseOrderItemService.deletePurchaseOrderItem(id);
+      setUpdatedPurchaseOrderItems((items) => items.filter((item) => item.id !== id));
+      setErrors({});
     } catch (error: any) {
-      console.error(error)
-      setErrors({ purchaseOrderItems: 'Unable to delete PO Item' })
+      let errMsg = 'Unable to delete PO Item'
+      if (error.response) {
+        errMsg = error.response.data?.message;
+      }
+      console.error(errMsg)
+      setErrors({ purchaseOrderItems: errMsg });
     }
-  }
+  };
 
-  // delete & add
-  const handleChange = (e: any) => {
-    e.preventDefault()
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setPurchaseOrderItem({ ...purchaseOrderItem, [name]: value })
-  }
+    setPurchaseOrderItem((prevItem: IPurchaseOrderItem) => ({ ...prevItem, [name]: value }));
+  };
 
-  const handleSelectChange = (data) => {
-    setPurchaseOrderItem({ ...purchaseOrderItem, item: JSON.parse(data.value) })
-  }
+  const handleSelectChange = (data: any) => {
+    setPurchaseOrderItem((prevItem: IPurchaseOrderItem) => ({ ...prevItem, item: JSON.parse(data.value) }));
+  };
 
   const handleSubmit = () => {
     updateIList(updatedPurchaseOrderItems);
-    toggleModal()
-    // setUpdatedPurchaseOrderItems([]);
-  }
+    toggleModal();
+  };
 
   return (
-    <DialogModal
-      open={open}
-      toggleModal={toggleModal}
-      handleSubmit={handleSubmit}
-      header="Purchase Order Items"
-    >
+    <DialogModal open={open} toggleModal={toggleModal} handleSubmit={handleSubmit} header="Purchase Order Items">
       <>
         <div className='py-1 pb-2 flex justify-between font-semibold'>
           <p>Store: {storeName}</p>
@@ -126,10 +139,13 @@ const EditIListModal = ({ purchaseOrderId, storeName, status, purchaseOrderItems
           <div className='mt-1'>
             <Select
               placeholder="Select an Item"
-              value={purchaseOrderItem ? { value: JSON.stringify(purchaseOrderItem.item), label: purchaseOrderItem.item?.name } : null}
-              primaryColor={"indigo"}
+              value={purchaseOrderItem?.item ? { value: JSON.stringify(purchaseOrderItem.item), label: purchaseOrderItem.item?.name } : null}
+              primaryColor="indigo"
               onChange={handleSelectChange}
-              options={items.filter((item) => !updatedPurchaseOrderItems?.some((poi) => poi.item?.id === item.id)).map((item) => ({ value: JSON.stringify(item), label: item.name }))}
+              options={items.filter((item) => !updatedPurchaseOrderItems.some((poi) => poi.item?.id === item.id)).map((item) => ({
+                value: JSON.stringify(item),
+                label: item.name,
+              }))}
             />
             {errors.item && <div className="text-xs alert-danger text-error">{errors.item}</div>}
           </div>
@@ -150,10 +166,11 @@ const EditIListModal = ({ purchaseOrderId, storeName, status, purchaseOrderItems
           </div>
         </div>
 
-        {updatedPurchaseOrderItems.length != 0 && <POIList purchaseOrderItems={updatedPurchaseOrderItems} deletePOI={deletePOI} />}
+        {errors.purchaseOrderItems && <div className="text-sm mt-3 alert-danger text-error">{errors.purchaseOrderItems}</div>}
+        {updatedPurchaseOrderItems.length !== 0 && <POIList purchaseOrderItems={updatedPurchaseOrderItems} deletePOI={deletePOI} />}
       </>
     </DialogModal>
-  )
-}
+  );
+};
 
-export default EditIListModal
+export default EditIListModal;

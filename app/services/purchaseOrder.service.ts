@@ -17,10 +17,6 @@ const updatePurchaseOrder = (id: number, data: IPurchaseOrder) => {
   return api.put(`/purchase-orders/${id}`, JSON.stringify(data));
 };
 
-const updatePurchaseOrderStatus = (id: number) => {
-  return api.put(`/purchase-orders/${id}/status`);
-};
-
 const deletePurchaseOrder = (id: number) => {
   return api.delete(`/purchase-orders/${id}`);
 };
@@ -30,7 +26,6 @@ const PurchaseOrderService = {
   getPurchaseOrderById,
   createPurchaseOrder,
   updatePurchaseOrder,
-  updatePurchaseOrderStatus,
   deletePurchaseOrder,
 };
 

@@ -1,67 +1,62 @@
 import React, { useState, useEffect } from 'react'
 import FormErrors from '../types/formErrors.type';
-import IStore from '../types/store.type';
-import StoreService from '../services/store.service';
 import Select from 'react-tailwindcss-select';
 import DialogModal from '../components/DialogModal';
+import IOrderStatus from '../types/orderStatus.type';
+import UserService from '../services/user.service';
 
-type AddStoreModalProps = {
-  store: IStore | null;
-  addStore: (store: IStore) => void;
+type ChangeStatusModalProps = {
+  status: IOrderStatus;
+  changeStatus: (status: IOrderStatus) => void;
   open: boolean;
   toggleModal: () => void;
 };
 
-const AddStoreModal = ({ store, addStore, open, toggleModal }: AddStoreModalProps) => {
-  const [stores, setStores] = useState<IStore[]>([]);
+const statusOptions = Object.values(IOrderStatus);
+
+const ChangeStatusModal = ({ status, changeStatus, open, toggleModal }: ChangeStatusModalProps) => {
   const [errors, setErrors] = useState<FormErrors>({});
-  const [isFormValid, setIsFormValid] = useState(false);
-  const [updatedStore, setUpdatedStore] = useState<IStore | null>(store);
+  const [isStatusValid, setIsStatusValid] = useState(false);
+  const [updatedStatus, setUpdatedStatus] = useState<IOrderStatus | null>(status);
 
   useEffect(() => {
-    setUpdatedStore(store)
-  }, [store])
+    setUpdatedStatus(status)
+  }, [status])
 
   useEffect(() => {
     const validateForm = () => {
       const newErrors: FormErrors = {};
+      // Only store manager or admin can approve or cancel an order
+      if ((updatedStatus == IOrderStatus.APPROVED) ||
+        (updatedStatus == IOrderStatus.CANCELED)) {
+        if (!UserService.isManager() && !UserService.isAdmin()) {
+          newErrors.status = 'Only Admin & Managers can APPROVE/CANCEL orders';
+        }
+      }
 
-      if (!updatedStore?.name) {
-        newErrors.store = 'Store is required';
+      if (updatedStatus == IOrderStatus.DELIVERED && status !== IOrderStatus.APPROVED) {
+        newErrors.status = 'Only APPROVED orders can be DELIVERED';
+      }
+
+      if (updatedStatus == status) {
+        newErrors.status = 'Please select a new status';
       }
 
       setErrors(newErrors)
-      setIsFormValid(Object.keys(newErrors).length === 0);
+      setIsStatusValid(Object.keys(newErrors).length === 0);
     }
     validateForm()
-  }, [updatedStore])
-
-  useEffect(() => {
-    const fetchStores = async () => {
-      try {
-        const response = await StoreService.getAllStores();
-        setStores(response.data);
-      } catch (err: any) {
-        let errMsg = 'Unable to load stores'
-        if (err.response) {
-          errMsg = err.response.data?.message;
-        }
-        console.error(errMsg)
-      }
-    }
-
-    fetchStores()
-  }, [])
+  }, [updatedStatus, status])
 
   const handleChange = (data: any) => {
-    setUpdatedStore(JSON.parse(data.value))
+    setUpdatedStatus(data.value)
   }
 
   const handleSubmit = () => {
-    if (!isFormValid) return;
-    updatedStore?.name && addStore(updatedStore);
+    if (!isStatusValid) return;
+    updatedStatus && changeStatus(updatedStatus);
     toggleModal()
-    setUpdatedStore(null);
+    setUpdatedStatus(null)
   }
 
   return (
@@ -69,18 +64,21 @@ const AddStoreModal = ({ store, addStore, open, toggleModal }: AddStoreModalProp
       open={open}
       toggleModal={toggleModal}
       handleSubmit={handleSubmit}
-      header="Select Store"
+      header="Change Order Status"
     >
-      <Select
-        placeholder="Select a Store..."
-        value={updatedStore ? { value: JSON.stringify(updatedStore), label: updatedStore.name } : null}
-        primaryColor={"indigo"}
-        onChange={handleChange}
-        options={stores.map((store) => ({ value: JSON.stringify(store), label: store.name }))}
-      />
-      {errors.store && <div className="text-xs alert-danger text-error">{errors.store}</div>}
+      <div className='mt-3'>
+
+        <Select
+          placeholder="Select a Status..."
+          value={updatedStatus ? { value: updatedStatus, label: updatedStatus } : null}
+          primaryColor={"indigo"}
+          onChange={handleChange}
+          options={statusOptions.map((option) => ({ value: option, label: option }))}
+        />
+        {errors.status && <div className="text-xs alert-danger text-error">{errors.status}</div>}
+      </div>
     </DialogModal>
   )
 }
 
-export default AddStoreModal
+export default ChangeStatusModal

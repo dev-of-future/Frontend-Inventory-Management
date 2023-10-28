@@ -1,12 +1,12 @@
 import React, { Fragment } from 'react'
 import { Dialog, Transition } from "@headlessui/react";
 
-const DialogModal = ({ children, toggleModal, handleSubmit, header, open }: any) => {
+const DialogModal = ({ children, toggleModal, handleSubmit, header, open, style = '' }: any) => {
   return (
     <Transition appear show={open} as={Fragment}>
       <Dialog
         as="div"
-        className="fixed inset-0 z-10 overflow-y-auto"
+        className={`fixed inset-0 z-10 overflow-y-auto ${style}`}
         onClose={toggleModal}
       >
         <div className="min-h-screen px-4 text-center">
@@ -18,7 +18,7 @@ const DialogModal = ({ children, toggleModal, handleSubmit, header, open }: any)
             leave="ease-in duration-200"
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95">
-            <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-md" >
+            <div className="inline-block w-full max-w-md p-6 my-8 text-left align-middle transition-all transform bg-white shadow-xl rounded-md" >
               <Dialog.Panel>
                 <Dialog.Title
                   as="h3"

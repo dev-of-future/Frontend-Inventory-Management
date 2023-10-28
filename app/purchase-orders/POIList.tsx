@@ -40,12 +40,14 @@ const POIList = ({ purchaseOrderItems, deletePOI }: POIListProps) => {
               </tr>
             </thead>
             <tbody className="bg-white">
-              {purchaseOrderItems?.map((item: IPurchaseOrderItem) => (
-                <POI
-                  poItem={item}
-                  key={item.id}
-                  deletePOI={() => deletePOI(item.id)}
-                />
+              {purchaseOrderItems.map((item: IPurchaseOrderItem) => (
+                item.id !== undefined ? (
+                  <POI
+                    poItem={item}
+                    key={item.id}
+                    deletePOI={() => deletePOI(item.id as number)}
+                  />
+                ) : null
               ))}
             </tbody>
           </table>
