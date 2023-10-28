@@ -65,21 +65,19 @@ const Page = () => {
   };
 
   const handleUpdateCategory = async (category: ICategory) => {
-    setLoading(true)
     toggleModal();
     try {
       if (category.id) {
-        const updatedCategory = await CategoryService.updateCategory(category.id, category)
+        const res = await CategoryService.updateCategory(category.id, category)
         setCategories((categories) => {
           return categories.map((category: ICategory) => {
-            if (category.id === updatedCategory.data.id) {
-              return updatedCategory.data;
+            if (category.id === res.data.id) {
+              return res.data;
             }
             return category;
           })
         })
         displayNotification('Category updated successfully');
-
       } else {
         const createdCategory = await CategoryService.createCategory(category)
         setCategories((categories) => {
@@ -88,7 +86,6 @@ const Page = () => {
         displayNotification('Category added successfully');
 
       }
-
       setError('')
     } catch (err: any) {
       let errMsg = 'Unexpected error'
@@ -98,7 +95,6 @@ const Page = () => {
       setError(errMsg);
     }
 
-    setLoading(false)
   }
 
   const editCategory = (category: ICategory) => {

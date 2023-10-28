@@ -5,7 +5,7 @@ import FormErrors from '../types/formErrors.type';
 import IItem from "../types/item.type";
 import CategoryService from "../services/category.service";
 import ICategory from "../types/category.type";
-import Select from "../components/Select";
+import Select from "react-tailwindcss-select";
 
 type EditItemProps = {
   item: IItem;
@@ -87,13 +87,13 @@ const EditItem = ({ item = initialState, handleUpdateItem, open, toggleModal }: 
   const handleChange = (event: any) => {
     event.preventDefault();
     const { name, value } = event.target;
-    const update = { [name]: value };
-    if (name === 'category') {
-      update[name] = JSON.parse(value);
-    }
 
-    setUpdatedItem({ ...updatedItem, ...update });
+    setUpdatedItem({ ...updatedItem, [name]: value });
   };
+
+  const handleSelectChange = (data: any) => {
+    setUpdatedItem({ ...updatedItem, category: JSON.parse(data.value) });
+  }
 
   const updateItem = async (e: any) => {
     e.preventDefault();
@@ -118,7 +118,7 @@ const EditItem = ({ item = initialState, handleUpdateItem, open, toggleModal }: 
             leave="ease-in duration-200"
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95">
-            <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-md" >
+            <div className="inline-block w-full max-w-md p-6 my-8 text-left align-middle transition-all transform bg-white shadow-xl rounded-md" >
               <Dialog.Panel>
                 <Dialog.Title
                   as="h3"
@@ -203,7 +203,19 @@ const EditItem = ({ item = initialState, handleUpdateItem, open, toggleModal }: 
                       {errors.quantity && <div className="text-xs alert-danger text-error">{errors.quantity}</div>}
                     </div>
                     <div className="my-4">
-                      <Select name="category" value={JSON.stringify(updatedItem.category)} text='Select a Category' onChange={handleChange} data={categories} />
+                      <label
+                        className="block text-sm font-medium text-gray-500"
+                        htmlFor="category"
+                      >
+                        Category
+                      </label>
+                      <Select
+                        primaryColor={"indigo"}
+                        placeholder='Select a Category...'
+                        value={updatedItem.category ? { value: JSON.stringify(updatedItem.category), label: updatedItem.category?.name } : null}
+                        onChange={handleSelectChange}
+                        options={categories.map((category) => ({ value: JSON.stringify(category), label: category.name }))}
+                      />
                       {errors.category && <div className="text-xs alert-danger text-error">{errors.category}</div>}
                     </div>
                     <div className="mt-6 space-x-4">

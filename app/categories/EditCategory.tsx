@@ -3,7 +3,7 @@ import React, { useState, Fragment, useEffect } from "react";
 import FormErrors from '../types/formErrors.type';
 import CategoryService from "../services/category.service";
 import ICategory from "../types/category.type";
-import Select from "../components/Select";
+import Select from "react-tailwindcss-select";
 import SupplierService from "../services/supplier.service";
 import ISupplier from "../types/supplier.type";
 
@@ -67,13 +67,13 @@ const EditCategory = ({ category = initialState, handleUpdateCategory, open, tog
   const handleChange = (event: any) => {
     event.preventDefault();
     const { name, value } = event.target;
-    const update = { [name]: value };
-    if (name === 'supplier') {
-      update[name] = JSON.parse(value);
-    }
 
-    setUpdatedCategory({ ...updatedCategory, ...update });
+    setUpdatedCategory({ ...updatedCategory, [name]: value });
   };
+
+  const handleSelectChange = (data: any) => {
+    setUpdatedCategory({ ...updatedCategory, supplier: JSON.parse(data.value) });
+  }
 
   const updateCategory = async (e: any) => {
     e.preventDefault();
@@ -124,7 +124,18 @@ const EditCategory = ({ category = initialState, handleUpdateCategory, open, tog
                       {errors.name && <div className="text-xs alert-danger text-error">{errors.name}</div>}
                     </div>
                     <div className="my-4">
-                      <Select name="supplier" value={JSON.stringify(updatedCategory.supplier)} text='Select a Category' onChange={handleChange} data={suppliers} />
+                      <label htmlFor="name"
+                        className="block text-sm font-medium text-gray-500"
+                      >
+                        Supplier
+                      </label>
+                      <Select
+                        primaryColor={"indigo"}
+                        placeholder='Select a Supplier...'
+                        value={updatedCategory.supplier ? { value: JSON.stringify(updatedCategory.supplier), label: updatedCategory.supplier?.name } : null}
+                        onChange={handleSelectChange}
+                        options={suppliers.map((supplier) => ({ value: JSON.stringify(supplier), label: supplier.name }))}
+                      />
                       {errors.supplier && <div className="text-xs alert-danger text-error">{errors.supplier}</div>}
                     </div>
 
