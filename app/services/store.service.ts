@@ -9,6 +9,10 @@ const getStoreById = (id: number) => {
   return api.get(`/stores/${id}`);
 };
 
+const getStoreInventoriesById = (id: number) => {
+  return api.get(`/stores/${id}/inventories`);
+}
+
 const createStore = (data: IStore) => {
   return api.post("/stores", JSON.stringify(data));
 };
@@ -27,6 +31,7 @@ const StoreService = {
   createStore,
   updateStore,
   deleteStore,
+  getStoreInventoriesById,
 };
 
 export default StoreService;

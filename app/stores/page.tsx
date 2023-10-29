@@ -6,6 +6,9 @@ import IStore from '../types/store.type';
 import StoreService from '../services/store.service';
 import IStoreType from '../types/storeType.type';
 import ShowModalBtn from '../components/ShowModalBtn';
+import ViewStorePage from './ViewStorePage';
+import { useSearchParams } from 'next/navigation'
+
 
 const initialState: IStore = {
   name: "",
@@ -18,9 +21,10 @@ const initialState: IStore = {
 
 
 const Page = () => {
+  const searchParams = useSearchParams();
   const [stores, setStores] = useState<IStore[]>([]);
-  const [loading, setLoading] = useState(false);
   const [storeToUpdate, setStoreToUpdate] = useState<IStore>(initialState);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [notification, setNotification] = useState('');
   const [editMode, setEditMode] = useState(false);
@@ -123,6 +127,14 @@ const Page = () => {
     })
   }
 
+  // Display personalized store page if store name param is present
+  const inViewStore = searchParams.get('name')
+  if (inViewStore) {
+    const store = stores.find(store => store.name == inViewStore)
+    return <ViewStorePage store={store} />
+  }
+
+  // Display all stores page if no store name param is present
   return (
     <div>
       {notification && <div onClick={() => setNotification('')} className='toast toast-end toast-bottom'><div className="alert alert-info text-white p-2">{notification}</div></div>}

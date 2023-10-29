@@ -29,10 +29,10 @@ instance.interceptors.response.use(
   },
   async (err) => {
     const originalConfig = err.config;
-    const isAuthURL = (originalConfig.url === "/auth/login") || (originalConfig.url === "/auth/signup");
+    const isAuthURL = (originalConfig?.url === "/auth/login") || (originalConfig?.url === "/auth/signup");
     if (!isAuthURL && err.response) {
       // Check if its Access Token expired
-      if (err.response.status === 401 && !originalConfig._retry) {
+      if (err.response?.status === 401 && !originalConfig?._retry) {
         originalConfig._retry = true;
 
         try {

@@ -70,7 +70,7 @@ const Page = () => {
           break;
         case 'UPDATE':
           const res = await PurchaseOrderService.updatePurchaseOrder(purchaseOrder.id, purchaseOrder)
-          console.log(res.data, purchaseOrder)
+
           setPurchaseOrders((purchaseOrders) => {
             return purchaseOrders.map((po) => {
               if (po.id === purchaseOrder.id) {
