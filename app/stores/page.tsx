@@ -8,6 +8,7 @@ import IStoreType from '../types/storeType.type';
 import ShowModalBtn from '../components/ShowModalBtn';
 import ViewStorePage from './ViewStorePage';
 import { useSearchParams } from 'next/navigation'
+import SearchField from './SearchField';
 
 
 const initialState: IStore = {
@@ -28,13 +29,38 @@ const Page = () => {
   const [error, setError] = useState('');
   const [notification, setNotification] = useState('');
   const [editMode, setEditMode] = useState(false);
+  // const [filteredStores, setFilteredStores] = useState<IStore[]>([]);
+  const [filterParams, setFilterParams] = useState({});
+  const [typeList, setTypeList] = useState<IStoreType[]>([]);
+
+  // useEffect(() => {
+  //   setLoading(true)
+  //   const fetchStores = async () => {
+  //     try {
+  //       const response = await StoreService.getAllStores();
+  //       setStores(response.data);
+  //       setError('')
+  //     } catch (error: any) {
+  //       if (error.response) {
+  //         setError(error.response.data.message);
+  //       } else {
+  //         setError('Unexpected error');
+  //       }
+  //     } finally {
+  //       setLoading(false)
+  //     }
+
+  //   }
+  //   fetchStores()
+  // }, []);
 
   useEffect(() => {
     setLoading(true)
     const fetchStores = async () => {
       try {
-        const response = await StoreService.getAllStores();
+        const response = await StoreService.getFilteredStores(filterParams);
         setStores(response.data);
+        setTypeList(response.data.map((store: IStore) => store.type));
         setError('')
       } catch (error: any) {
         if (error.response) {
@@ -48,7 +74,8 @@ const Page = () => {
 
     }
     fetchStores()
-  }, []);
+  }, [filterParams]);
+
 
   const deleteStore = async (id: number) => {
     try {
@@ -128,7 +155,7 @@ const Page = () => {
   }
 
   // Display personalized store page if store name param is present
-  const inViewStore = searchParams.get('name')
+  const inViewStore = searchParams.get('store')
   if (inViewStore) {
     const store = stores.find(store => store.name == inViewStore)
     return <ViewStorePage store={store} />
@@ -140,7 +167,10 @@ const Page = () => {
       {notification && <div onClick={() => setNotification('')} className='toast toast-end toast-bottom'><div className="alert alert-info text-white p-2">{notification}</div></div>}
       {error && <div className="alert alert-danger mb-2">{error}</div>}
       {loading && <div className="loading loading-bars loading-lg mb-2"></div>}
-      <ShowModalBtn text="Add Store" toggleModal={toggleModal} style="btn-accent" />
+      <div>
+        <ShowModalBtn text="Add Store" toggleModal={toggleModal} style="btn-accent" />
+        <SearchField typeList={typeList} filterParams={filterParams} setFilterParams={setFilterParams} />
+      </div>
 
       <StoreList stores={stores} editStore={editStore} deleteStore={deleteStore} />
       <EditStore

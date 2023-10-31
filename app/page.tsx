@@ -10,13 +10,15 @@ export default function Home() {
   const { user } = userContext;
   const router = useRouter();
 
+  // TODO: remove after creating homepage
   if (user) {
     router.push('/items');
+  } else {
+    router.push('/login');
   }
 
   return (
     <main>
-      <Login />
     </main>
   )
 }

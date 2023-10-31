@@ -69,7 +69,6 @@ const Page = () => {
   };
 
   const handleUpdateItem = async (item: IItem) => {
-    setLoading(true)
     toggleModal();
     try {
       if (item.id) {
@@ -101,8 +100,6 @@ const Page = () => {
       }
       setError(errMsg);
     }
-
-    setLoading(false)
   }
 
   const editItem = (item: IItem) => {

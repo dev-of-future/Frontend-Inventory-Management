@@ -5,6 +5,10 @@ const getAllStores = () => {
   return api.get("/stores");
 };
 
+const getFilteredStores = (params: any) => {
+  return api.get("/stores/search", { params });
+};
+
 const getStoreById = (id: number) => {
   return api.get(`/stores/${id}`);
 };
@@ -27,6 +31,7 @@ const deleteStore = (id: number) => {
 
 const StoreService = {
   getAllStores,
+  getFilteredStores,
   getStoreById,
   createStore,
   updateStore,

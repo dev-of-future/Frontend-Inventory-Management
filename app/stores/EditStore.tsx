@@ -11,11 +11,11 @@ type EditStoreProps = {
   toggleModal: () => void;
 };
 
-const date = new Date();
-const year = date.getFullYear();
-const month = String(date.getMonth() + 1).padStart(2, '0'); // Adding 1 because months are 0-based.
-const day = String(date.getDate()).padStart(2, '0');
-const today = `${year}/${month}/${day}`;
+// const date = new Date();
+// const year = date.getFullYear();
+// const month = String(date.getMonth() + 1).padStart(2, '0'); // Adding 1 because months are 0-based.
+// const day = String(date.getDate()).padStart(2, '0');
+// const today = `${year}/${month}/${day}`;
 
 const initialState: IStore = {
   name: "",
@@ -36,7 +36,6 @@ const EditStore = ({ store = initialState, handleUpdateStore, open, toggleModal 
     setUpdatedStore(store)
   }, [store])
 
-
   useEffect(() => {
     const validateForm = () => {
       const newErrors: FormErrors = {}
@@ -56,9 +55,12 @@ const EditStore = ({ store = initialState, handleUpdateStore, open, toggleModal 
         newErrors.phone = 'Phone number should have 10 to 14 digits and an optional + prefix';
       }
 
-      if (!(new Date(openingDate))) {
+      const date = new Date(openingDate);
+      const today = new Date();
+      // check if date is an instance of Date and has a time
+      if (!(date instanceof Date && isFinite(date.getTime()))) {
         newErrors.openingDate = 'Opening Date is required';
-      } else if ((new Date(openingDate)) < (new Date(today))) {
+      } else if ((store?.openingDate !== openingDate) && (date < today)) {
         newErrors.openingDate = 'Opening Date can\'t be in the past';
       }
 
@@ -75,7 +77,7 @@ const EditStore = ({ store = initialState, handleUpdateStore, open, toggleModal 
     }
 
     validateForm()
-  }, [updatedStore])
+  }, [updatedStore, store?.openingDate])
 
   const handleChange = (event: any) => {
     const value = event.target.value;
@@ -86,6 +88,7 @@ const EditStore = ({ store = initialState, handleUpdateStore, open, toggleModal 
     e.preventDefault();
     if (!isFormValid) return;
     handleUpdateStore(updatedStore)
+    setUpdatedStore(initialState);
   };
 
   return (

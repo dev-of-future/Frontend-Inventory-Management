@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PurchaseOrderBody from "./PurchaseOrderBody";
 import IPurchaseOrder from "../types/purchaseOrder.type";
 import AddStoreModal from "./AddStoreModal";
@@ -13,6 +13,8 @@ const PurchaseOrder = ({ purchaseOrder, updatePurchaseOrders }: { purchaseOrder:
   const [changeStatusModalOpen, setChangeStatusModalOpen] = useState<boolean>(false)
 
   const toggleModal = (stateFunc: any) => () => stateFunc((prev: boolean) => !prev);
+
+  useEffect(() => { setUpdatedPurchaseOrder(purchaseOrder) }, [purchaseOrder])
 
   const updatePurchaseOrder = (update: Partial<IPurchaseOrder>) => {
     if (updatedPurchaseOrder) {

@@ -66,6 +66,7 @@ const Page = () => {
           setPurchaseOrders((purchaseOrders) => {
             return purchaseOrders.filter((po) => po.id !== purchaseOrder.id)
           })
+
           displayNotification('Purchase Order deleted successfully');
           break;
         case 'UPDATE':
@@ -79,6 +80,7 @@ const Page = () => {
               return po
             })
           })
+
           displayNotification('Purchase Order updated successfully');
           break;
         default:
@@ -107,9 +109,7 @@ const Page = () => {
         addStore={createNewPO}
       />
 
-      {!loading && Array.isArray(purchaseOrders) &&
-        <PurchaseOrderList purchaseOrders={purchaseOrders} updatePurchaseOrders={updatePurchaseOrders} />
-      }
+      <PurchaseOrderList purchaseOrders={purchaseOrders} updatePurchaseOrders={updatePurchaseOrders} />
     </>
   )
 }

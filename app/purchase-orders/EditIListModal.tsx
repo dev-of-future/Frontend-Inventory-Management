@@ -129,7 +129,7 @@ const EditIListModal: React.FC<EditIListModalProps> = ({
   };
 
   return (
-    <DialogModal open={open} toggleModal={toggleModal} handleSubmit={handleSubmit} header="Purchase Order Items">
+    <DialogModal open={open} toggleModal={toggleModal} handleSubmit={handleSubmit} header="Purchase Order Info">
       <>
         <div className='py-1 pb-2 flex justify-between font-semibold'>
           <p>Store: {storeName}</p>

@@ -10,7 +10,7 @@ const Store = ({ store, deleteStore, editStore }: any) => {
       <td className="cursor-pointer text-left px-2 py-3 whitespace-nowrap">
         <Link
           className="link-primary"
-          href={{ pathname: '/stores', query: { name: store.name } }}
+          href={{ pathname: '/stores', query: { store: store.name } }}
         >
           <div className="link-primary hover:font-semibold text-sm text-gray-500">
             {store.name}

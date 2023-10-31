@@ -7,12 +7,10 @@ const Supplier = ({ supplier, deleteSupplier, editSupplier }: any) => {
       <td className="text-left px-2 py-3 whitespace-nowrap">
         <div className="text-sm text-gray-500">{supplier.id}</div>
       </td>
-      <td className="cursor-pointer text-left px-2 py-3 whitespace-nowrap">
-        <Link className="link-primary" href={`/supplier/${supplier.id}`}>
-          <div className="link-primary hover:font-semibold text-sm text-gray-500">
-            {supplier.name}
-          </div>
-        </Link>
+      <td className="text-left px-2 py-3 whitespace-nowrap">
+        <div className="text-sm text-gray-500">
+          {supplier.name}
+        </div>
       </td>
       <td className="text-left px-2 py-3 whitespace-nowrap">
         <div className="text-sm text-gray-500">{supplier.email}</div>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import IPurchaseOrder from '../types/purchaseOrder.type'
 import PurchaseOrder from './PurchaseOrder'
 
@@ -7,6 +7,12 @@ const PurchaseOrderList = ({
   updatePurchaseOrders
 }: any
 ) => {
+  const [orders, setOrders] = useState(purchaseOrders);
+
+  useEffect(() => {
+    setOrders(purchaseOrders)
+  }, [purchaseOrders])
+
   return (
     <div className="my-8 overflow-x-auto">
       <div className="flex shadow border-b">
@@ -35,7 +41,7 @@ const PurchaseOrderList = ({
             </tr>
           </thead>
           <tbody className="bg-white">
-            {purchaseOrders?.map((purchaseOrder: IPurchaseOrder) => (
+            {orders?.map((purchaseOrder: IPurchaseOrder) => (
               <PurchaseOrder
                 purchaseOrder={purchaseOrder}
                 key={purchaseOrder.id}

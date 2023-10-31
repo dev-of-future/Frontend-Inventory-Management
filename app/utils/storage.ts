@@ -1,4 +1,4 @@
-const utils = {
+const storage = {
   getFromLocalStorage: (key: string) => {
     const storedData = localStorage.getItem(key);
     let parsedData;
@@ -20,4 +20,4 @@ const utils = {
   }
 }
 
-export default utils;
+export default storage;

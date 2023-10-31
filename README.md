@@ -6,21 +6,20 @@ This is the frontend component of an Inventory Management web application built 
 
 ## Features
 
-- View a list of inventory items with details.
+- Item creation and management.
+- Categories management.
 - Add, update, and delete inventory items.
-- Organize inventory items into categories.
 - Manage supplier information.
-- User Role management.
 - Search and filter functionality.
 - Inventory threshold notifications
-- Purchase order requests and delivery
-- Manage purchase orders
+- Purchase order management, including creation, approval and delivery
+- User Signup and Login
 
 ## Getting Started
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). The Backend API code can be found on [here](https://github.com/refinedblessing/inventory-management)
 
-You can check it out on Vercel [here](https://inventory-management-frontend-liart.vercel.app/) 👀 or Github Pages [here](https://refinedblessing.github.io/inventory-management-frontend/) 👀.
+App is hosted on Vercel [here](https://inventory-management-frontend-liart.vercel.app/) 👀 or Github Pages [here](https://refinedblessing.github.io/inventory-management-frontend/) 👀, and currently deployed using github webhooks.
 
 **PLEASE REMEMBER YOUR USERNAME AND PASSWORD SO YOU CAN LOG IN AND VIEW THE OTHER PAGES**
 

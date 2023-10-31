@@ -7,12 +7,10 @@ const Item = ({ item, deleteItem, editItem }: any) => {
       <td className="text-left px-2 py-3 whitespace-nowrap">
         <span className="text-sm text-gray-500">{item.id}</span>
       </td>
-      <td className="cursor-pointer text-left px-2 py-3 whitespace-nowrap">
-        <Link className="link-primary" href={`/item/${item.id}`}>
-          <span className="link-primary hover:font-semibold text-sm text-gray-500">
-            {item.name}
-          </span>
-        </Link>
+      <td className="text-left px-2 py-3 whitespace-nowrap">
+        <span className="text-sm text-gray-500">
+          {item.name}
+        </span>
       </td>
       <td className="text-left px-2 py-3 whitespace-nowrap">
         <span className="text-sm text-gray-500">{item.price}</span>

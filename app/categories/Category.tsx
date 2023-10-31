@@ -7,12 +7,10 @@ const Category = ({ category, deleteCategory, editCategory }: any) => {
       <td className="text-left px-2 py-3 whitespace-nowrap">
         <div className="text-sm text-gray-500">{category.id}</div>
       </td>
-      <td className="cursor-pointer text-left px-2 py-3 whitespace-nowrap">
-        <Link className="link-primary" href={`/categories/${category.id}`}>
-          <div className="link-primary hover:font-semibold text-sm text-gray-500">
-            {category.name}
-          </div>
-        </Link>
+      <td className="text-left px-2 py-3 whitespace-nowrap">
+        <div className="text-sm text-gray-500">
+          {category.name}
+        </div>
       </td>
       <td className="text-left px-2 py-3 whitespace-normal">
         <div className="text-sm text-gray-500">{category.supplier?.name}</div>
