@@ -13,12 +13,11 @@ export default function Home() {
   // TODO: remove after creating homepage
   if (user) {
     router.push('/items');
-  } else {
-    router.push('/login');
   }
 
   return (
     <main>
+      <Login />
     </main>
   )
 }
