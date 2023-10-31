@@ -5,6 +5,10 @@ const getAllItems = () => {
   return api.get("/items");
 };
 
+const getFilteredItems = (params: {}) => {
+  return api.get("/items/search", { params });
+};
+
 const getItemById = (id: number) => {
   return api.get(`/items/${id}`);
 };
@@ -27,6 +31,7 @@ const ItemService = {
   createItem,
   updateItem,
   deleteItem,
+  getFilteredItems,
 };
 
 export default ItemService;

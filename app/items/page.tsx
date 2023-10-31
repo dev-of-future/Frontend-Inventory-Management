@@ -5,6 +5,7 @@ import ItemList from './ItemList';
 import IItem from '../types/item.type';
 import ItemService from '../services/item.service';
 import ShowModalBtn from '../components/ShowModalBtn';
+import SearchField from './SearchField';
 
 const initialState: IItem = {
   name: '',
@@ -21,13 +22,18 @@ const Page = () => {
   const [error, setError] = useState('');
   const [notification, setNotification] = useState('');
   const [editMode, setEditMode] = useState(false);
+  const [categoryList, setCategoryList] = useState<string[]>([]);
+  const [filterParams, setFilterParams] = useState({});
 
   useEffect(() => {
     setLoading(true)
     const fetchItems = async () => {
       try {
-        const response = await ItemService.getAllItems();
+        const response = await ItemService.getFilteredItems(filterParams);
         setItems(response.data);
+        const categoryList = new Set<string>();
+        response.data.forEach((item: IItem) => item.category && categoryList.add(item.category?.name));
+        setCategoryList(Array.from(categoryList));
         setError('')
       } catch (error: any) {
         if (error.response) {
@@ -41,7 +47,7 @@ const Page = () => {
 
     }
     fetchItems()
-  }, []);
+  }, [filterParams]);
 
   const deleteItem = async (id: number) => {
     try {
@@ -120,7 +126,10 @@ const Page = () => {
       {notification && <div onClick={() => setNotification('')} className='toast toast-end toast-bottom'><div className="alert alert-info text-white p-2">{notification}</div></div>}
       {error && <div className="alert alert-danger mb-2">{error}</div>}
       {loading && <div className="loading loading-bars loading-lg mb-2"></div>}
-      <ShowModalBtn text="Add Item" toggleModal={toggleModal} style="btn-accent" />
+      <div>
+        <ShowModalBtn text="Add Item" toggleModal={toggleModal} style="btn-accent" />
+        <SearchField categoryList={categoryList} filterParams={filterParams} setFilterParams={setFilterParams} />
+      </div>
 
       <ItemList items={items} editItem={editItem} deleteItem={deleteItem} />
       <EditItem
