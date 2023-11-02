@@ -45,39 +45,38 @@ const Page = () => {
 
   const updateUsers = async (user: IUser, action: { type: string }) => {
     if (!user.id) return;
-    try {
-      switch (action.type) {
-        case 'DELETE':
-          await AppUserService.deleteUser(user.id)
-
+    switch (action.type) {
+      case 'DELETE':
+        try {
+          const res = await AppUserService.deleteUser(user.id)
           setUsers((users) => {
             return users.filter((u) => u.id !== user.id)
           })
-
           displayNotification('User deleted successfully');
-          break;
-        case 'UPDATE':
+        } catch (error: any) {
+          let errMsg = 'Unable to delete';
+          if (error.response) {
+            errMsg = (error.response.data.message);
+          }
+          displayNotification(errMsg);
+        }
+        break;
+      case 'UPDATE':
+        try {
           const res = await AppUserService.updateUser(user.id, user)
-
           setUsers((users) => {
-            return users.map((u) => {
-              if (u.id === user.id) {
-                return res.data
-              }
-              return u
-            })
+            return users.map((u) => u.id === user.id ? res.data : u)
           })
-
           displayNotification('User updated successfully');
-          break;
-        default:
-      }
-    } catch (error: any) {
-      let errMsg = 'Unexpected error'
-      if (error?.response) {
-        errMsg = error.response.data?.message;
-      }
-      displayNotification(errMsg);
+        } catch (error: any) {
+          let errMsg = 'Unable to update user';
+          if (error.response) {
+            errMsg = (error.response.data.message);
+          }
+          displayNotification(errMsg);
+        }
+        break;
+      default:
     }
   }
 

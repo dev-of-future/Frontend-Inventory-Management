@@ -21,37 +21,42 @@ const ViewStorePage = ({ store }: { store: IStore | undefined }) => {
 
   const updateInventories = async (inventory: IInventory, action: { type: string }) => {
     if (!inventory.id) return;
-    try {
-      switch (action.type) {
-        case 'DELETE':
-          await InventoryService.deleteInventory(inventory.id)
+    switch (action.type) {
+      case 'DELETE':
+        try {
+          const res = await InventoryService.deleteInventory(inventory.id)
 
           setInventories((inventories) => {
             return inventories.filter((inv) => inv.id !== inventory.id)
           })
+
           displayNotification('Inventory deleted successfully');
-          break;
-        case 'UPDATE':
+        } catch (error: any) {
+          let errMsg = 'Unable to delete';
+          if (error.response) {
+            errMsg = (error.response.data.message);
+          }
+          displayNotification(errMsg);
+        }
+        break;
+      case 'UPDATE':
+        try {
           const res = await InventoryService.updateInventory(inventory.id, inventory)
 
           setInventories((inventories) => {
-            return inventories.map((inv) => {
-              if (inv.id === inventory.id) {
-                return res.data
-              }
-              return inv
-            })
+            return inventories.map((inv) => inv.id === inventory.id ? res.data : inv)
           })
+
           displayNotification('Inventory updated successfully');
-          break;
-        default:
-      }
-    } catch (error: any) {
-      let errMsg = 'Unexpected error'
-      if (error?.response) {
-        errMsg = error.response.data?.message;
-      }
-      displayNotification(errMsg);
+        } catch (error: any) {
+          let errMsg = 'Unable to update inventory';
+          if (error.response) {
+            errMsg = (error.response.data.message);
+          }
+          displayNotification(errMsg);
+        }
+        break;
+      default:
     }
   }
 

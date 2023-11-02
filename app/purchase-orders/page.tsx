@@ -58,39 +58,42 @@ const Page = () => {
 
   const updatePurchaseOrders = async (purchaseOrder: IPurchaseOrder, action: { type: string }) => {
     if (!purchaseOrder.id) return;
-    try {
-      switch (action.type) {
-        case 'DELETE':
-          await PurchaseOrderService.deletePurchaseOrder(purchaseOrder.id)
+    switch (action.type) {
+      case 'DELETE':
+        try {
+          const res = await PurchaseOrderService.deletePurchaseOrder(purchaseOrder.id)
 
           setPurchaseOrders((purchaseOrders) => {
             return purchaseOrders.filter((po) => po.id !== purchaseOrder.id)
           })
 
           displayNotification('Purchase Order deleted successfully');
-          break;
-        case 'UPDATE':
+        } catch (error: any) {
+          let errMsg = 'Unable to delete';
+          if (error.response) {
+            errMsg = (error.response.data.message);
+          }
+          displayNotification(errMsg);
+        }
+        break;
+      case 'UPDATE':
+        try {
           const res = await PurchaseOrderService.updatePurchaseOrder(purchaseOrder.id, purchaseOrder)
 
           setPurchaseOrders((purchaseOrders) => {
-            return purchaseOrders.map((po) => {
-              if (po.id === purchaseOrder.id) {
-                return res.data
-              }
-              return po
-            })
+            return purchaseOrders.map((po) => po.id === purchaseOrder.id ? res.data : po)
           })
 
           displayNotification('Purchase Order updated successfully');
-          break;
-        default:
-      }
-    } catch (error: any) {
-      let errMsg = 'Unexpected error'
-      if (error?.response) {
-        errMsg = error.response.data?.message;
-      }
-      displayNotification(errMsg);
+        } catch (error: any) {
+          let errMsg = 'Unable to update purchase order';
+          if (error.response) {
+            errMsg = (error.response.data.message);
+          }
+          displayNotification(errMsg);
+        }
+        break;
+      default:
     }
   }
 
