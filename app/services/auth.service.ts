@@ -1,4 +1,4 @@
-import IUserRole from "../types/role.type";
+import IUserRole from "../types/userRole.type";
 import IUser from "../types/user.type";
 import api from "./api";
 import TokenService from "./token.service";
@@ -33,14 +33,14 @@ const AuthService = {
   },
 
   isAdmin: () => {
-    return TokenService.getUser()?.roles?.includes(IUserRole.ADMIN);
+    return TokenService.getUser()?.roles?.includes(IUserRole.ROLE_ADMIN);
   },
 
   isManager: () => {
-    return TokenService.getUser()?.roles?.includes(IUserRole.MANAGER);
+    return TokenService.getUser()?.roles?.includes(IUserRole.ROLE_STORE_MANAGER);
   },
   isStaff: () => {
-    return TokenService.getUser()?.roles?.includes(IUserRole.STAFF);
+    return TokenService.getUser()?.roles?.includes(IUserRole.ROLE_STORE_STAFF);
   },
 }
 

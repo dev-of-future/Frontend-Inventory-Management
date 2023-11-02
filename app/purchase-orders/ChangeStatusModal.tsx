@@ -3,7 +3,7 @@ import FormErrors from '../types/formErrors.type';
 import Select from 'react-tailwindcss-select';
 import DialogModal from '../components/DialogModal';
 import IOrderStatus from '../types/orderStatus.type';
-import UserService from '../services/user.service';
+import AuthService from '../services/auth.service';
 
 type ChangeStatusModalProps = {
   status: IOrderStatus;
@@ -29,7 +29,7 @@ const ChangeStatusModal = ({ status, changeStatus, open, toggleModal }: ChangeSt
       // Only store manager or admin can approve or cancel an order
       if ((updatedStatus == IOrderStatus.APPROVED) ||
         (updatedStatus == IOrderStatus.CANCELED)) {
-        if (!UserService.isManager() && !UserService.isAdmin()) {
+        if (!AuthService.isManager() && !AuthService.isAdmin()) {
           newErrors.status = 'Only Admin & Managers can APPROVE/CANCEL orders';
         }
       }

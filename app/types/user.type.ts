@@ -1,4 +1,5 @@
-import IUserRole from "./role.type";
+import IUserRole from "./userRole.type";
+import IStore from "./store.type";
 
 export default interface IUser {
   id?: number;
@@ -8,4 +9,5 @@ export default interface IUser {
   lastName: string;
   password?: string;
   roles?: IUserRole[];
+  stores?: IStore[];
 }

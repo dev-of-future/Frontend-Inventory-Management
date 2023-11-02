@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import IItemType from '../types/storeType.type';
-import IItem from '../types/store.type';
 import Select from 'react-tailwindcss-select';
 
 const initialState = {

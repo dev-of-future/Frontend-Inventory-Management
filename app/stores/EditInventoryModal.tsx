@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import FormErrors from '../types/formErrors.type';
 import DialogModal from '../components/DialogModal';
 import IInventory from '../types/inventory.type';
-import UserService from '../services/user.service';
+import AuthService from '../services/auth.service';
 
 type EditInventoryModalProps = {
   inventory: IInventory;
@@ -26,7 +26,7 @@ const EditInventoryModal = ({ inventory, updateInventory, open, toggleModal }: E
 
       // Only store manager or admin can update threshold
       if (updatedInventory?.threshold != inventory.threshold) {
-        if (!UserService.isManager() && !UserService.isAdmin()) {
+        if (!AuthService.isManager() && !AuthService.isAdmin()) {
           newErrors.threshold = 'Only Admin & Managers can UPDATE threshold';
         }
       }

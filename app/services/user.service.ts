@@ -1,23 +1,37 @@
-import IUserRole from "../types/role.type";
 import IUser from "../types/user.type";
 import api from "./api";
-import TokenService from "./token.service";
+
+const getAllUsers = () => {
+  return api.get("/users");
+};
+
+const getFilteredUsers = (params: {}) => {
+  return api.get("/users/search", { params });
+};
+
+const getUserById = (id: number) => {
+  return api.get(`/users/${id}`);
+};
+
+const createUser = (data: IUser) => {
+  return api.post("/users", JSON.stringify(data));
+};
+
+const updateUser = (id: number, data: IUser) => {
+  return api.put(`/users/${id}`, JSON.stringify(data));
+};
+
+const deleteUser = (id: number) => {
+  return api.delete(`/users/${id}`);
+};
 
 const UserService = {
-  getCurrentUser: (): IUser => {
-    return TokenService.getUser();
-  },
-
-  isAdmin: () => {
-    return TokenService.getUser()?.roles?.includes(IUserRole.ADMIN);
-  },
-
-  isManager: () => {
-    return TokenService.getUser()?.roles?.includes(IUserRole.MANAGER);
-  },
-  isStaff: () => {
-    return TokenService.getUser()?.roles?.includes(IUserRole.STAFF);
-  },
-}
+  getAllUsers,
+  getUserById,
+  createUser,
+  updateUser,
+  deleteUser,
+  getFilteredUsers,
+};
 
 export default UserService;

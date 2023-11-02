@@ -67,14 +67,14 @@ const Header = () => {
               Purchase Orders
             </Link>
           </li>
-          {/* <li>
+          <li>
             <Link
               className={`text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75 ${pathname === '/users' ? 'active' : ''}`}
               href="/users"
             >
               Users
             </Link>
-          </li> */}
+          </li>
 
         </>
         }
@@ -130,14 +130,16 @@ const Header = () => {
                   <label tabIndex={0} className="m-1">
                     <div className="avatar online placeholder">
                       <div className="bg-neutral-focus text-neutral-content rounded-full w-12">
-                        <span className="text-xl">{user.username[0].toUpperCase()}</span>
+                        <span className="text-xl uppercase">{user.username[0]}</span>
                       </div>
                     </div>
                   </label>
                   <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
                     <div>
                       {user.roles?.map((role, i) => (
-                        <li key={i} className="badge badge-primary">{role.split('_')[1]}</li>
+                        <li key={i} className="badge badge-primary">{role.split('_')
+                          .slice(1)
+                          .join(' ')}</li>
                       ))}
                     </div>
                     <li onClick={handleLogout} className="btn btn-ghost">Logout</li>

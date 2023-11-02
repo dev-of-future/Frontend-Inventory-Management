@@ -29,30 +29,10 @@ const Page = () => {
   const [error, setError] = useState('');
   const [notification, setNotification] = useState('');
   const [editMode, setEditMode] = useState(false);
-  // const [filteredStores, setFilteredStores] = useState<IStore[]>([]);
   const [filterParams, setFilterParams] = useState({});
   const [typeList, setTypeList] = useState<IStoreType[]>([]);
 
-  // useEffect(() => {
-  //   setLoading(true)
-  //   const fetchStores = async () => {
-  //     try {
-  //       const response = await StoreService.getAllStores();
-  //       setStores(response.data);
-  //       setError('')
-  //     } catch (error: any) {
-  //       if (error.response) {
-  //         setError(error.response.data.message);
-  //       } else {
-  //         setError('Unexpected error');
-  //       }
-  //     } finally {
-  //       setLoading(false)
-  //     }
-
-  //   }
-  //   fetchStores()
-  // }, []);
+  // TODO frontend filtering
 
   useEffect(() => {
     setLoading(true)
