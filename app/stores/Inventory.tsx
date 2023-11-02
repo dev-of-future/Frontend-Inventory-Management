@@ -44,7 +44,7 @@ const Inventory = ({ inventory, updateInventories }: any) => {
         </td>
         <td className="cursor-pointer text-left px-2 py-3 whitespace-nowrap">
           <span className={`text-sm ${atThreshold() ? 'text-red-400 font-bold' : 'text-gray-500'}`}>
-            {inventory.item.price}
+            ${Number(inventory.item.price).toFixed(2)}
           </span>
         </td>
         <td className="text-left px-2 py-3 whitespace-nowrap">

@@ -135,8 +135,9 @@ const EditIListModal: React.FC<EditIListModalProps> = ({
           <p>Store: {storeName}</p>
           <p>Status: {status}</p>
         </div>
-        <div className=''>
-          <div className='mt-1'>
+        <div className='mt-1'>
+          <div className='mt-2'>
+            <label className='block text-sm font-medium text-gray-700'>Add Items to Order</label>
             <Select
               placeholder="Select an Item"
               value={purchaseOrderItem?.item ? { value: JSON.stringify(purchaseOrderItem.item), label: purchaseOrderItem.item?.name } : null}
@@ -150,8 +151,9 @@ const EditIListModal: React.FC<EditIListModalProps> = ({
             {errors.item && <div className="text-xs alert-danger text-error">{errors.item}</div>}
           </div>
 
-          <div className='mt-5 flex justify-between'>
+          <div className='mt-1 mb-6 flex justify-between'>
             <div>
+              <label className='block text-sm font-medium text-gray-700'>Quantity of Item</label>
               <input
                 className="input input-bordered w-full max-w-xs"
                 type="number"
@@ -162,7 +164,7 @@ const EditIListModal: React.FC<EditIListModalProps> = ({
               />
               {errors.quantity && <div className="text-xs alert-danger text-error">{errors.quantity}</div>}
             </div>
-            <button onClick={addPOI} className='btn btn-accent'>ADD ITEM</button>
+            <button onClick={addPOI} className='mt-4 mb-10 btn btn-accent'>ADD ITEM</button>
           </div>
         </div>
 

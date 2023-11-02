@@ -12,7 +12,7 @@ const Item = ({ item, deleteItem, editItem }: any) => {
         </span>
       </td>
       <td className="text-left px-2 py-3 whitespace-nowrap">
-        <span className="text-sm text-gray-500">{item.price}</span>
+        <span className="text-sm text-gray-500">${Number(item.price).toFixed(2)}</span>
       </td>
       <td className="text-left px-2 py-3 whitespace-nowrap">
         <span className="text-sm text-gray-500">{item.quantity}</span>

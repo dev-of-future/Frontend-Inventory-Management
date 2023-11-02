@@ -57,8 +57,10 @@ const EditStore = ({ store = initialState, handleUpdateStore, open, toggleModal 
 
       const date = new Date(openingDate);
       const today = new Date();
-      // check if date is an instance of Date and has a time
-      if (!(date instanceof Date && isFinite(date.getTime()))) {
+
+      const datePattern = /^\d{4}-\d{2}-\d{2}$/;
+
+      if (!(datePattern.test(openingDate))) {
         newErrors.openingDate = 'Opening Date is required';
       } else if ((store?.openingDate !== openingDate) && (date < today)) {
         newErrors.openingDate = 'Opening Date can\'t be in the past';

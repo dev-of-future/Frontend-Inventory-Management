@@ -7,13 +7,13 @@ This is the frontend component of an Inventory Management web application built 
 ## Features
 
 - Item creation and management.
-- Categories management.
-- Add, update, and delete inventory items.
-- Manage supplier information.
+- Categories & Supplier creation management.
+- Create & update Store inventory items(Purchase orders are used to restock store).
 - Search and filter functionality.
-- Inventory threshold notifications
-- Purchase order management, including creation, approval and delivery
+- Inventory threshold visibility & with red markers for items at threshold
+- Purchase order management, including creation, Admin approval and Staff delivery
 - User Signup and Login
+- User Role management & Store assignment
 
 ## Getting Started
 
@@ -28,7 +28,7 @@ To get a local copy of the project up and running, follow these steps:
 ### Prerequisites
 
 - [Node.js](https://nodejs.org/) installed on your system.
-- A Backend API see [here](https://github.com/refinedblessing/inventory-management)
+- A Backend API repository see [here](https://github.com/refinedblessing/inventory-management)
 - Package manager, such as [npm](https://www.npmjs.com/)
 
 ### Installation
@@ -61,7 +61,4 @@ npm run dev
 
 \*\* Include your own .env file and set the API URL when testing locally.
 
-\*\* Backend API gets turned off to avoid incurring costs 😅
-
-License
-This project is licensed under the MIT License - see the [LICENSE](https://chat.openai.com/c/LICENSE) file for details.
+\*\* [Backend API](https://inventory-master.azurewebsites.net/api) gets turned off to avoid incurring costs 😅

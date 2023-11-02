@@ -1,23 +1,16 @@
 'use client'
 import React from 'react'
-import { useUserContext } from './context/user';
-import { useRouter } from 'next/navigation';
-
-import Login from './login/Login';
 
 export default function Home() {
-  const userContext = useUserContext() || { user: undefined };
-  const { user } = userContext;
-  const router = useRouter();
-
-  // TODO: remove after creating homepage
-  if (user) {
-    router.push('/items');
-  }
 
   return (
     <main>
-      <Login />
+      <>
+        <p>The Homepage is a work in progress, visit the other pages listed on the navbar</p>
+        <p>If your navbar is empty, it means you havent signed up yet
+          <a href="/signup">Sign up</a>
+        </p>
+      </>
     </main>
   )
 }

@@ -25,10 +25,10 @@ const POIList = ({ purchaseOrderItems, deletePOI }: POIListProps) => {
                   PRICE
                 </th>
                 <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-2">
-                  QUANTITY
+                  QTY
                 </th>
                 <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-2">
-                  TOTAL
+                  TOTAL $
                 </th>
                 <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-2">
                   CATEGORY

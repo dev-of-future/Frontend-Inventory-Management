@@ -26,14 +26,6 @@ const Header = () => {
   const nav = () => {
     return (
       <>
-        <li>
-          <Link
-            className={`text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75 ${pathname === '/items' ? 'active' : ''}`}
-            href="/items"
-          >
-            Items
-          </Link>
-        </li>
         {user && <>
           <li>
             <Link
@@ -49,6 +41,14 @@ const Header = () => {
               href="/categories"
             >
               Categories
+            </Link>
+          </li>
+          <li>
+            <Link
+              className={`text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75 ${pathname === '/items' ? 'active' : ''}`}
+              href="/items"
+            >
+              Items
             </Link>
           </li>
           <li>

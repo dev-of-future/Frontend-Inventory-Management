@@ -74,7 +74,7 @@ export default function Signup() {
       setUser(response.data.user)
 
       clearInput()
-      router.push('/items');
+      router.push('/');
     } catch (err: any) {
       let errMsg = 'Unexpected error'
       if (err.response) {
@@ -121,7 +121,7 @@ export default function Signup() {
               </h1>
 
               <p className="mt-4 leading-relaxed text-gray-500 dark:text-gray-400">
-                Register and an Admin will assign you a Role when confirmed.
+                Register to become an Admin
               </p>
 
               <div className="mt-8 grid grid-cols-6 gap-6">

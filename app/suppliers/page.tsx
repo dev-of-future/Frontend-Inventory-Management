@@ -68,7 +68,6 @@ const Page = () => {
   };
 
   const handleUpdateSupplier = async (supplier: ISupplier) => {
-    setLoading(true)
     try {
       if (supplier.id) {
         const updatedSupplier = await SupplierService.updateSupplier(supplier.id, supplier)
@@ -102,7 +101,6 @@ const Page = () => {
 
     // clean up
     toggleModal()
-    setLoading(false)
     setSupplierToUpdate(initialState);
   }
 
@@ -124,9 +122,10 @@ const Page = () => {
       {notification && <div onClick={() => setNotification('')} className='toast toast-end toast-bottom'><div className="alert alert-info text-white p-2">{notification}</div></div>}
       {error && <div className="alert alert-danger mb-2">{error}</div>}
       {loading && <div className="loading loading-bars loading-lg mb-2"></div>}
-      <ShowModalBtn text="Add Supplier" toggleModal={toggleModal} style="btn-accent" />
-
-      <SupplierList suppliers={suppliers} editSupplier={editSupplier} deleteSupplier={deleteSupplier} />
+      {!loading && <>
+        <ShowModalBtn text="Add Supplier" toggleModal={toggleModal} style="btn-accent" />
+        <SupplierList suppliers={suppliers} editSupplier={editSupplier} deleteSupplier={deleteSupplier} />
+      </>}
       <EditSupplier
         supplier={supplierToUpdate}
         handleUpdateSupplier={handleUpdateSupplier}

@@ -5,6 +5,7 @@ import IInventory from '../types/inventory.type';
 import StoreService from '../services/store.service';
 import InventoryList from './InventoryList';
 import InventoryService from '../services/inventory.service';
+import Link from 'next/link';
 
 const ViewStorePage = ({ store }: { store: IStore | undefined }) => {
   const [loading, setLoading] = useState(false);
@@ -105,6 +106,9 @@ const ViewStorePage = ({ store }: { store: IStore | undefined }) => {
           </p>
           <p className="text-gray-700">
             {store.openingDate}
+          </p>
+          <p className='text-red-300 text-xs max-w-xs mt-2'>
+            You can add inventory by creating and delivering a <Link href="/purchase-orders">Purchase Order</Link>
           </p>
         </div>
 

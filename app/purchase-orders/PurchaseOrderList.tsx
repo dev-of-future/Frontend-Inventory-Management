@@ -26,10 +26,10 @@ const PurchaseOrderList = ({
                 STATUS
               </th>
               <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-2">
-                TOTAL PRICE
+                TOTAL $
               </th>
               <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-2">
-                TOTAL QUANTITY
+                TOTAL QTY.
               </th>
               <th className="text-left font-medium text-gray-500 uppercase tracking-wide py-3 px-2">
                 STORE

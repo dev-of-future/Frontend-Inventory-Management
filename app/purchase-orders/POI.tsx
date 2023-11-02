@@ -14,13 +14,13 @@ const POI = ({ poItem, deletePOI }: any) => {
         </span>
       </td>
       <td className="text-left px-2 py-3 whitespace-nowrap">
-        <span className="text-sm text-gray-500">{item.price}</span>
+        <span className="text-sm text-gray-500">${Number(item.price).toFixed(2)}</span>
       </td>
       <td className="text-left px-2 py-3 whitespace-nowrap">
         <span className="text-sm text-gray-500">{poItem.quantity}</span>
       </td>
       <td className="text-left px-2 py-3 whitespace-nowrap">
-        <span className="text-sm text-gray-500">{poItem.quantity * item.price}</span>
+        <span className="text-sm text-gray-500">${Number(poItem.quantity * item.price).toFixed(2)}</span>
       </td>
       <td className="text-left px-2 py-3 whitespace-normal">
         <span className="text-sm text-gray-500">{item.category?.name}</span>
