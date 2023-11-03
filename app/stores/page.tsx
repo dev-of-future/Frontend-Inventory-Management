@@ -10,7 +10,6 @@ import ViewStorePage from './ViewStorePage';
 import { useSearchParams } from 'next/navigation'
 import SearchField from './SearchField';
 
-
 const initialState: IStore = {
   name: "",
   email: "",
@@ -19,7 +18,6 @@ const initialState: IStore = {
   type: IStoreType.RETAIL,
   openingDate: new Date().toLocaleDateString()
 };
-
 
 const Page = () => {
   const searchParams = useSearchParams();
@@ -52,10 +50,10 @@ const Page = () => {
       } finally {
         setLoading(false)
       }
-
     }
+
     fetchStores()
-  }, [filterParams]);
+  }, [filterParams, typeList.length]);
 
 
   const deleteStore = async (id: number) => {

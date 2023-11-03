@@ -44,10 +44,10 @@ const Page = () => {
       } finally {
         setLoading(false)
       }
-
     }
+
     fetchItems()
-  }, [filterParams]);
+  }, [filterParams, categoryList.length]);
 
   const deleteItem = async (id: number) => {
     try {
