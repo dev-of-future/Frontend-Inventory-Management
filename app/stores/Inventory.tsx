@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import IInventory from "../types/inventory.type";
 import EditInventoryModal from "./EditInventoryModal";
+import convertNumToPrice from "../utils/convertNumToPrice";
 
 const Inventory = ({ inventory, updateInventories }: any) => {
   const [updatedInventory, setUpdatedInventory] = useState<IInventory>(inventory)
@@ -44,7 +45,7 @@ const Inventory = ({ inventory, updateInventories }: any) => {
         </td>
         <td className="cursor-pointer text-left px-2 py-3 whitespace-nowrap">
           <span className={`text-sm ${atThreshold() ? 'text-red-400 font-bold' : 'text-gray-500'}`}>
-            ${Number(inventory.item.price).toFixed(2)}
+            {convertNumToPrice(inventory.item.price)}
           </span>
         </td>
         <td className="text-left px-2 py-3 whitespace-nowrap">

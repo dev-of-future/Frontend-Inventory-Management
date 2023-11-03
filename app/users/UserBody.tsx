@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import IUserRole from '../types/userRole.type';
+import IStore from '../types/store.type';
 
 const UserBody = ({ appUser, openEditUserModal, deleteUser }: any) => {
   const [user, setUser] = useState(appUser);
@@ -31,6 +32,11 @@ const UserBody = ({ appUser, openEditUserModal, deleteUser }: any) => {
                 .join(' ')}
             </li>
           ))}
+        </span>
+      </td>
+      <td className="text-left px-2 py-3 whitespace-nowrap">
+        <span className="text-sm text-gray-500 flex gap-1">
+          {user.stores.map((store: IStore) => store.name).join(', ')}
         </span>
       </td>
       <td className="text-right px-2 py-3 whitespace-nowrap flex gap-2">

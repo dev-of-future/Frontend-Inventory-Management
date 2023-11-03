@@ -5,27 +5,27 @@ const Store = ({ store, deleteStore, editStore }: any) => {
   return (
     <tr key={store.id}>
       <td className="text-left px-2 py-3 whitespace-nowrap">
-        <div className="text-sm text-gray-500">{store.id}</div>
+        <span className="text-sm text-gray-500">{store.id}</span>
       </td>
       <td className="cursor-pointer text-left px-2 py-3 whitespace-nowrap">
-        <div className="text-sm text-gray-500">
+        <span className="text-sm text-gray-500">
           {store.name}
-        </div>
+        </span>
       </td>
       <td className="text-left px-2 py-3 whitespace-nowrap">
-        <div className="text-sm text-gray-500">{store.phone}</div>
+        <span className="text-sm text-gray-500">{store.phone}</span>
       </td>
       <td className="text-left px-2 py-3 whitespace-nowrap">
-        <div className="text-sm text-gray-500">{store.openingDate}</div>
+        <span className="text-sm text-gray-500">{store.openingDate}</span>
       </td>
       <td className="text-left px-2 py-3 whitespace-normal">
-        <div className="text-sm text-gray-500">{store.type}</div>
+        <span className="text-sm text-gray-500">{store.type}</span>
       </td>
       <td className="text-left px-2 py-3 whitespace-normal">
-        <div className="text-sm text-gray-500">{store.email}</div>
+        <span className="text-sm text-gray-500">{store.email}</span>
       </td>
       <td className="text-left px-2 py-3 whitespace-normal">
-        <div className="text-sm text-gray-500">{store.address}</div>
+        <span className="text-sm text-gray-500">{store.address}</span>
       </td>
       <td className="text-right px-2 py-3 whitespace-nowrap flex gap-2">
         <Link

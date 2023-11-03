@@ -1,4 +1,5 @@
 import React from 'react'
+import convertNumToPrice from '../utils/convertNumToPrice';
 
 const PurchaseOrderBody = ({ purchaseOrder, openEditItemsModal, openChangeStatusModal, deletePurchaseOrder, openEditStoreModal }: any) => {
   const lastUpdated = purchaseOrder.lastUpdated ? new Date(purchaseOrder.lastUpdated).toLocaleDateString() : ''
@@ -18,7 +19,7 @@ const PurchaseOrderBody = ({ purchaseOrder, openEditItemsModal, openChangeStatus
         </span>
       </td>
       <td className="text-left px-2 py-3 whitespace-nowrap">
-        <span className="text-sm text-gray-500">${Number(purchaseOrder.totalPrice).toFixed(2)}</span>
+        <span className="text-sm text-gray-500">{convertNumToPrice(purchaseOrder.totalPrice)}</span>
       </td>
       <td className="text-left px-2 py-3 whitespace-nowrap">
         <span className="text-sm text-gray-500">{purchaseOrder.totalQuantity}</span>

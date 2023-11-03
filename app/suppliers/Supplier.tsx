@@ -5,21 +5,21 @@ const Supplier = ({ supplier, deleteSupplier, editSupplier }: any) => {
   return (
     <tr key={supplier.id}>
       <td className="text-left px-2 py-3 whitespace-nowrap">
-        <div className="text-sm text-gray-500">{supplier.id}</div>
+        <span className="text-sm text-gray-500">{supplier.id}</span>
       </td>
       <td className="text-left px-2 py-3 whitespace-nowrap">
-        <div className="text-sm text-gray-500">
+        <span className="text-sm text-gray-500">
           {supplier.name}
-        </div>
+        </span>
       </td>
       <td className="text-left px-2 py-3 whitespace-nowrap">
-        <div className="text-sm text-gray-500">{supplier.email}</div>
+        <span className="text-sm text-gray-500">{supplier.email}</span>
       </td>
       <td className="text-left px-2 py-3 whitespace-nowrap">
-        <div className="text-sm text-gray-500">{supplier.phone}</div>
+        <span className="text-sm text-gray-500">{supplier.phone}</span>
       </td>
       <td className="text-left px-2 py-3 whitespace-normal">
-        <div className="text-sm text-gray-500">{supplier.address}</div>
+        <span className="text-sm text-gray-500">{supplier.address}</span>
       </td>
       <td className="text-right px-2 py-3 whitespace-nowrap flex gap-2">
         <svg onClick={() => editSupplier(supplier)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 hover:fill-[#60a5fa] cursor-pointer">

@@ -1,5 +1,7 @@
 import React from "react";
 
+import convertNumToPrice from "../utils/convertNumToPrice";
+
 const Item = ({ item, deleteItem, editItem }: any) => {
   return (
     <tr key={item.id}>
@@ -12,7 +14,7 @@ const Item = ({ item, deleteItem, editItem }: any) => {
         </span>
       </td>
       <td className="text-left px-2 py-3 whitespace-nowrap">
-        <span className="text-sm text-gray-500">${Number(item.price).toFixed(2)}</span>
+        <span className="text-sm text-gray-500">{convertNumToPrice(item.price)}</span>
       </td>
       <td className="text-left px-2 py-3 whitespace-nowrap">
         <span className="text-sm text-gray-500">{item.quantity}</span>

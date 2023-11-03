@@ -5,15 +5,15 @@ const Category = ({ category, deleteCategory, editCategory }: any) => {
   return (
     <tr key={category.id}>
       <td className="text-left px-2 py-3 whitespace-nowrap">
-        <div className="text-sm text-gray-500">{category.id}</div>
+        <span className="text-sm text-gray-500">{category.id}</span>
       </td>
       <td className="text-left px-2 py-3 whitespace-nowrap">
-        <div className="text-sm text-gray-500">
+        <span className="text-sm text-gray-500">
           {category.name}
-        </div>
+        </span>
       </td>
       <td className="text-left px-2 py-3 whitespace-normal">
-        <div className="text-sm text-gray-500">{category.supplier?.name}</div>
+        <span className="text-sm text-gray-500">{category.supplier?.name}</span>
       </td>
       <td className="text-right px-2 py-3 whitespace-nowrap flex gap-2">
         <svg onClick={() => editCategory(category)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 hover:fill-[#60a5fa] cursor-pointer">
