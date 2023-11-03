@@ -29,12 +29,20 @@ const initialState: IHomePageStats = {
 
 export default function Home() {
   const [stats, setStats] = useState(initialState);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchStats = async () => {
-      const res = await StatsService.getHomePageStats();
-      console.log(res.data)
-      setStats(res.data);
+      try {
+        const res = await StatsService.getHomePageStats();
+        setStats(res.data);
+      } catch (error: any) {
+        if (error.response) {
+          setError(error.response.data.message);
+        } else {
+          setError('Unexpected error');
+        }
+      }
     }
     fetchStats()
   }, []);
@@ -48,6 +56,7 @@ export default function Home() {
         <h4 className="text-md text-center font-semibold text-grey-600 sm:text-md md:text-lg">
           Our Stats dO Not lie <Link href="/items" className='link'>VIEW</Link>
         </h4>
+        {error && <div className="alert alert-danger mb-2">{error}</div>}
         <div className="stats stats-vertical lg:stats-horizontal shadow">
           <div className="stat">
             <div className="stat-title text-center">Total Stores</div>

@@ -6,12 +6,23 @@ import StoreService from '../services/store.service';
 import InventoryList from './InventoryList';
 import InventoryService from '../services/inventory.service';
 import Link from 'next/link';
+import StatsService from '../services/stats.service';
+import StorePageStats from '../types/storePageStats.type';
+import convertNumToPrice from '../utils/convertNumToPrice';
+
+const initialStorePageStats: StorePageStats = {
+  totalItemsInInventory: 0,
+  totalStoreWorth: 0,
+  pendingPurchaseOrderCount: 0,
+  inventoriesAtThresholdCount: 0,
+};
 
 const ViewStorePage = ({ store }: { store: IStore | undefined }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [notification, setNotification] = useState('');
   const [inventories, setInventories] = useState<IInventory[]>([]);
+  const [stats, setStats] = useState(initialStorePageStats);
 
   const displayNotification = (message: string) => {
     setNotification(message);
@@ -80,8 +91,25 @@ const ViewStorePage = ({ store }: { store: IStore | undefined }) => {
         }
       }
     }
-    fetchInventories()
 
+    const fetchStoreStats = async () => {
+      if (store?.id) {
+        try {
+          const response = await StatsService.getStorePageStats(store?.id);
+          setStats(response.data);
+          setError('')
+        } catch (error: any) {
+          if (error.response) {
+            setError(error.response.data.message);
+          } else {
+            setError('Unexpected error');
+          }
+        }
+      }
+    }
+
+    fetchInventories()
+    fetchStoreStats()
   }, [store?.id])
 
   return (
@@ -108,12 +136,52 @@ const ViewStorePage = ({ store }: { store: IStore | undefined }) => {
             <p className="text-gray-700">
               {store.openingDate}
             </p>
-            <p className='text-red-300 text-xs max-w-xs mt-2'>
-              You can add inventory by creating and delivering a <Link href="/purchase-orders">Purchase Order</Link>
-            </p>
           </div>
-          <div>
 
+
+          <div className='flex flex-col gap-2'>
+            <div className="stats stats-vertical lg:stats-horizontal shadow">
+              <div className="stat p-2 bg-red-400">
+                <div className="stat-title text-center flex flex-col text-xs p-0">
+                  <span>
+                    Pending
+                  </span>
+                  <span>
+                    Purchase Orders
+                  </span>
+                </div>
+                <div className="stat-value text-center text-md font-normal p-0">{stats.pendingPurchaseOrderCount}</div>
+              </div>
+              <div className="stat p-2">
+                <div className="stat-title text-center flex flex-col text-xs p-0">
+                  <span>
+                    Total Worth
+                  </span>
+                </div>
+                <div className="stat-value text-center text-md font-normal p-0">{convertNumToPrice(stats.totalStoreWorth)}</div>
+              </div>
+            </div>
+            <div className="stats stats-vertical lg:stats-horizontal shadow">
+              <div className="stat p-2 bg-red-400">
+                <div className="stat-title text-center flex flex-col text-xs p-0">
+                  <span>
+                    Inventories
+                  </span>
+                  <span>
+                    At Threshold
+                  </span>
+                </div>
+                <div className="stat-value text-center text-md font-normal p-0">{stats.inventoriesAtThresholdCount}</div>
+              </div>
+              <div className="stat p-2">
+                <div className="stat-title text-center flex flex-col text-xs p-0">
+                  <span>
+                    Total Items
+                  </span>
+                </div>
+                <div className="stat-value text-center text-md font-normal p-0">{stats.totalItemsInInventory}</div>
+              </div>
+            </div>
           </div>
         </div>
 
