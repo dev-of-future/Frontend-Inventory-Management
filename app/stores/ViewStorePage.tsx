@@ -90,26 +90,31 @@ const ViewStorePage = ({ store }: { store: IStore | undefined }) => {
       {error && <div className="alert alert-danger mb-2">{error}</div>}
       {loading && <div className="loading loading-bars loading-lg mb-2"></div>}
       {store?.id && <div>
-        <div>
-          {/* HERO SPACE MORE INFO COMING UP */}
-          <h1 className="text-2xl font-bold text-gray-900">
-            {store.name}
-          </h1>
-          <p className="text-gray-700">
-            {store.email}
-          </p>
-          <p className="text-gray-700">
-            {store.phone}
-          </p>
-          <p className="text-gray-700">
-            {store.address}
-          </p>
-          <p className="text-gray-700">
-            {store.openingDate}
-          </p>
-          <p className='text-red-300 text-xs max-w-xs mt-2'>
-            You can add inventory by creating and delivering a <Link href="/purchase-orders">Purchase Order</Link>
-          </p>
+        <div className='flex justify-between'>
+          <div>
+            {/* HERO SPACE MORE INFO COMING UP */}
+            <h1 className="text-2xl font-bold text-gray-900">
+              {store.name}
+            </h1>
+            <p className="text-gray-700">
+              {store.email}
+            </p>
+            <p className="text-gray-700">
+              {store.phone}
+            </p>
+            <p className="text-gray-700">
+              {store.address}
+            </p>
+            <p className="text-gray-700">
+              {store.openingDate}
+            </p>
+            <p className='text-red-300 text-xs max-w-xs mt-2'>
+              You can add inventory by creating and delivering a <Link href="/purchase-orders">Purchase Order</Link>
+            </p>
+          </div>
+          <div>
+
+          </div>
         </div>
 
         {!loading ? <InventoryList inventories={inventories} updateInventories={updateInventories} /> : null}

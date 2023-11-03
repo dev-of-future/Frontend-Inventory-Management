@@ -8,7 +8,7 @@ export default interface IItem {
   shortDescription: string;
   longDescription?: string;
   price: number;
-  quantity: number;
+  quantity?: number;
   category?: ICategory;
   inventories?: IInventory[];
   purchaseOrders?: IPurchaseOrder[];
