@@ -31,9 +31,9 @@ const Page = () => {
       try {
         const response = await ItemService.getFilteredItems(filterParams);
         setItems(response.data);
-        const categoryList = new Set<string>();
-        response.data.forEach((item: IItem) => item.category && categoryList.add(item.category?.name));
-        setCategoryList(Array.from(categoryList));
+        const newCategoryList = new Set<string>();
+        response.data.forEach((item: IItem) => item.category && newCategoryList.add(item.category?.name));
+        (categoryList.length < newCategoryList.size) && setCategoryList(Array.from(newCategoryList));
         setError('')
       } catch (error: any) {
         if (error.response) {

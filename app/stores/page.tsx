@@ -40,7 +40,8 @@ const Page = () => {
       try {
         const response = await StoreService.getFilteredStores(filterParams);
         setStores(response.data);
-        setTypeList(response.data.map((store: IStore) => store.type));
+        const newTypelist = response.data.map((store: IStore) => store.type);
+        (typeList.length < newTypelist.length) && setTypeList(newTypelist);
         setError('')
       } catch (error: any) {
         if (error.response) {
