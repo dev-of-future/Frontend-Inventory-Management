@@ -52,7 +52,7 @@ export default function Home() {
       <h1 className="my-6 text-1xl text-center font-bold text-gray-900 sm:text-1xl md:text-2xl">
         Welcome to Inventory Master Home 🏆
       </h1>
-      <div className='mx-auto flex flex-col gap-10 bg-gray-100 p-20 pt-5 rounded-xl shadow-xl'>
+      <div className='mx-auto flex flex-col gap-10 bg-gray-100 p-10 pt-5 pb-20 rounded-xl shadow-xl'>
         <h4 className="text-md text-center font-semibold text-grey-600 sm:text-md md:text-lg">
           Our Stats dO Not lie <Link href="/items" className='link'>VIEW</Link>
         </h4>
