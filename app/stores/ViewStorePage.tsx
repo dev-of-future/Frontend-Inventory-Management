@@ -9,6 +9,7 @@ import Link from 'next/link';
 import StatsService from '../services/stats.service';
 import StorePageStats from '../types/storePageStats.type';
 import convertNumToPrice from '../utils/convertNumToPrice';
+import IOrderStatus from '../types/orderStatus.type';
 
 const initialStorePageStats: StorePageStats = {
   totalItemsInInventory: 0,
@@ -22,7 +23,9 @@ const ViewStorePage = ({ store }: { store: IStore | undefined }) => {
   const [error, setError] = useState('');
   const [notification, setNotification] = useState('');
   const [inventories, setInventories] = useState<IInventory[]>([]);
+  const [filteredInventories, setFilteredInventories] = useState<IInventory[]>([]);
   const [stats, setStats] = useState(initialStorePageStats);
+  const [showInvAtThreshold, setShowInvAtThreshold] = useState(false);
 
   const displayNotification = (message: string) => {
     setNotification(message);
@@ -30,6 +33,21 @@ const ViewStorePage = ({ store }: { store: IStore | undefined }) => {
       setNotification('');
     }, 5000);
   };
+
+  const toggleShowInv = () => {
+    setShowInvAtThreshold(curr => !curr)
+  }
+
+  useEffect(() => {
+    setFilteredInventories(() => {
+      if (showInvAtThreshold) {
+        return inventories.filter((inv) => {
+          return inv.quantity <= inv.threshold
+        })
+      }
+      return inventories;
+    })
+  }, [inventories, showInvAtThreshold])
 
   const updateInventories = async (inventory: IInventory, action: { type: string }) => {
     if (!inventory.id) return;
@@ -120,7 +138,6 @@ const ViewStorePage = ({ store }: { store: IStore | undefined }) => {
       {store?.id && <div>
         <div className='flex justify-between'>
           <div>
-            {/* HERO SPACE MORE INFO COMING UP */}
             <h1 className="text-2xl font-bold text-gray-900">
               {store.name}
             </h1>
@@ -138,20 +155,21 @@ const ViewStorePage = ({ store }: { store: IStore | undefined }) => {
             </p>
           </div>
 
-
           <div className='flex flex-col gap-2'>
             <div className="stats stats-vertical lg:stats-horizontal shadow">
-              <div className="stat p-2 bg-red-400">
-                <div className="stat-title text-center flex flex-col text-xs p-0">
-                  <span>
-                    Pending
-                  </span>
-                  <span>
-                    Purchase Orders
-                  </span>
+              <Link href={`/purchase-orders?status=${IOrderStatus.PENDING}&store=${store.name}`} className='link cursor-pointer bg-red-400 hover:text-blue-500'>
+                <div className="stat p-2 bg-red-400">
+                  <div className="stat-title text-center flex flex-col text-xs p-0">
+                    <span>
+                      Pending
+                    </span>
+                    <span>
+                      Purchase Orders
+                    </span>
+                  </div>
+                  <div className="stat-value text-center text-md font-normal p-0">{stats.pendingPurchaseOrderCount}</div>
                 </div>
-                <div className="stat-value text-center text-md font-normal p-0">{stats.pendingPurchaseOrderCount}</div>
-              </div>
+              </Link>
               <div className="stat p-2">
                 <div className="stat-title text-center flex flex-col text-xs p-0">
                   <span>
@@ -162,7 +180,7 @@ const ViewStorePage = ({ store }: { store: IStore | undefined }) => {
               </div>
             </div>
             <div className="stats stats-vertical lg:stats-horizontal shadow">
-              <div className="stat p-2 bg-red-400">
+              <div onClick={() => setShowInvAtThreshold(true)} className="stat p-2 bg-red-400">
                 <div className="stat-title text-center flex flex-col text-xs p-0">
                   <span>
                     Inventories
@@ -185,7 +203,12 @@ const ViewStorePage = ({ store }: { store: IStore | undefined }) => {
           </div>
         </div>
 
-        {!loading ? <InventoryList inventories={inventories} updateInventories={updateInventories} /> : null}
+        {!loading ?
+          <>
+            <button onClick={toggleShowInv} className='btn btn-xs btn-primary'>{showInvAtThreshold ? 'Show All Inventory' : 'Show Inventory At Threshold'}</button>
+            <InventoryList showInvAtThreshold={showInvAtThreshold} inventories={filteredInventories} updateInventories={updateInventories} />
+          </> : null
+        }
       </div>}
       {!loading && !store?.id ? <Error statusCode={404} title={'Store not found'} /> : null}
     </>
