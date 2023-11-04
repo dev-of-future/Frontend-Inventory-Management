@@ -8,9 +8,14 @@ const Store = ({ store, deleteStore, editStore }: any) => {
         <span className="text-sm text-gray-500">{store.id}</span>
       </td>
       <td className="cursor-pointer text-left px-2 py-3 whitespace-nowrap">
-        <span className="text-sm text-gray-500">
-          {store.name}
-        </span>
+        <Link
+          className="link-primary hover:text-blue-500"
+          href={{ pathname: '/stores', query: { store: store.name } }}
+        >
+          <span className="text-sm text-gray-500 hover:text-blue-500">
+            {store.name}
+          </span>
+        </Link>
       </td>
       <td className="text-left px-2 py-3 whitespace-nowrap">
         <span className="text-sm text-gray-500">{store.phone}</span>
