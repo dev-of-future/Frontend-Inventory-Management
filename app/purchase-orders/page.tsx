@@ -74,33 +74,38 @@ const Page = () => {
     [searchParams]
   )
 
+  const resetFilter = () => {
+    router.push(pathname);
+    setFilteredOrders(purchaseOrders);
+  }
+
+  const updateRoute = ({ name, value }: any) => {
+    router.push(pathname + '?' + createQueryString(name, value))
+  }
+
   useEffect(() => {
     setFilteredOrders(() => {
       return purchaseOrders.filter(po => {
         let show = true;
-        if ((params.status) && (params.status.length > 0)) {
-          if (po.status !== params.status) {
+        const status = searchParams.get('status');
+        const store = searchParams.get('store');
+        setParams({ store, status })
+        if ((status) && (status.length > 0)) {
+          if (po.status !== status) {
             show &&= false;
           }
         }
-        if ((params.store) && (params.store.length > 0)) {
-          if (po.store?.name !== params.store) {
+        if ((store) && (store.length > 0)) {
+          if (po.store?.name !== store) {
             show &&= false;
           }
         }
         return show;
       })
     })
-  }, [params, purchaseOrders])
+  }, [purchaseOrders, searchParams])
 
-  const resetFilter = () => {
-    setParams({ store: null, status: null })
-    setFilteredOrders(purchaseOrders);
-  }
 
-  const updateRoute = () => {
-
-  }
 
   const displayNotification = (message: string) => {
     setNotification(message);
@@ -175,7 +180,7 @@ const Page = () => {
         <ShowModalBtn text="Create Store Order" toggleModal={toggleNewPOModal} style="btn-accent" />
         <div className='flex gap-3 items-end'>
           <div>
-            <label htmlFor="store"
+            <label
               className="block text-sm font-medium text-gray-500"
             >
               Filter by Store
@@ -184,12 +189,12 @@ const Page = () => {
               placeholder="Select Store..."
               value={params.store?.length ? { value: params.store, label: params.store } : null}
               primaryColor={"indigo"}
-              onChange={(data: any) => setParams(prev => ({ ...prev, store: data?.value }))}
+              onChange={(data: any) => updateRoute({ name: 'store', value: data?.value })}
               options={storeOptions.map((option) => ({ value: option.name, label: option.name }))}
             />
           </div>
           <div>
-            <label htmlFor="status"
+            <label
               className="block text-sm font-medium text-gray-500"
             >
               Filter by Status
@@ -198,7 +203,7 @@ const Page = () => {
               placeholder="Select Status..."
               value={params.status?.length ? { value: params.status, label: params.status } : null}
               primaryColor={"indigo"}
-              onChange={(data: any) => setParams(prev => ({ ...prev, status: data?.value }))}
+              onChange={(data: any) => updateRoute({ name: 'status', value: data?.value })}
               options={Object.values(IOrderStatus).map((option) => ({ value: option, label: option }))}
             />
           </div>
