@@ -134,6 +134,7 @@ const EditItem = ({ item = initialState, handleUpdateItem, open, toggleModal }: 
                       </label>
                       <input
                         type="text"
+                        id="name"
                         name="name"
                         value={updatedItem.name}
                         onChange={(e) => handleChange(e)}
@@ -151,6 +152,7 @@ const EditItem = ({ item = initialState, handleUpdateItem, open, toggleModal }: 
                       </label>
                       <input
                         type="text"
+                        id="shortDescription"
                         name="shortDescription"
                         value={updatedItem.shortDescription}
                         onChange={(e) => handleChange(e)}
@@ -167,6 +169,7 @@ const EditItem = ({ item = initialState, handleUpdateItem, open, toggleModal }: 
                       <input
                         type="textArea"
                         name="longDescription"
+                        id="longDescription"
                         value={updatedItem.longDescription}
                         onChange={(e) => handleChange(e)}
                         className="h-8 rounded w-full border px-2 py-2"></input>
@@ -181,6 +184,7 @@ const EditItem = ({ item = initialState, handleUpdateItem, open, toggleModal }: 
                       <input
                         type="number"
                         name="price"
+                        id="price"
                         value={updatedItem.price}
                         onChange={(e) => handleChange(e)}
                         className="h-8 rounded w-full border px-2 py-2"></input>
@@ -196,6 +200,7 @@ const EditItem = ({ item = initialState, handleUpdateItem, open, toggleModal }: 
                       <input
                         type="number"
                         name="quantity"
+                        id="quantity"
                         value={updatedItem.quantity}
                         onChange={(e) => handleChange(e)}
                         className="h-8 rounded w-full border px-2 py-2"></input>
@@ -204,7 +209,6 @@ const EditItem = ({ item = initialState, handleUpdateItem, open, toggleModal }: 
                     <div className="my-4">
                       <label
                         className="block text-sm font-medium text-gray-500"
-                        htmlFor="category"
                       >
                         Category
                       </label>

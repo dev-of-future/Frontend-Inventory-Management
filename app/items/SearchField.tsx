@@ -51,6 +51,7 @@ const SearchField = ({ filterParams, setFilterParams, categoryList }: any) => {
             placeholder="Search by Name..."
             className="input input-bordered input-info w-full max-w-xs"
             name="name"
+            id="name"
             onChange={handleChange}
             value={searchState?.name}
           />
@@ -66,6 +67,7 @@ const SearchField = ({ filterParams, setFilterParams, categoryList }: any) => {
             placeholder="Search by Description..."
             className="input input-bordered input-info w-full max-w-xs"
             name="description"
+            id="description"
             onChange={handleChange}
             value={searchState?.description}
           />
@@ -83,6 +85,7 @@ const SearchField = ({ filterParams, setFilterParams, categoryList }: any) => {
             placeholder="Search by Min Quantity..."
             className="input input-bordered input-info w-full max-w-xs"
             name="minQuantity"
+            id="minQuantity"
             onChange={handleChange}
             value={searchState?.minQuantity}
           />

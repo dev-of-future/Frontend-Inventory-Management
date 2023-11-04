@@ -116,6 +116,7 @@ const EditCategory = ({ category = initialState, handleUpdateCategory, open, tog
                       <input
                         type="text"
                         name="name"
+                        id="name"
                         value={updatedCategory.name}
                         onChange={(e) => handleChange(e)}
                         className="h-8 rounded w-full border px-2 py-2"
@@ -124,7 +125,7 @@ const EditCategory = ({ category = initialState, handleUpdateCategory, open, tog
                       {errors.name && <div className="text-xs alert-danger text-error">{errors.name}</div>}
                     </div>
                     <div className="my-4">
-                      <label htmlFor="name"
+                      <label
                         className="block text-sm font-medium text-gray-500"
                       >
                         Supplier
