@@ -30,8 +30,10 @@ const initialState: IHomePageStats = {
 export default function Home() {
   const [stats, setStats] = useState(initialState);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true)
     const fetchStats = async () => {
       try {
         const res = await StatsService.getHomePageStats();
@@ -42,6 +44,8 @@ export default function Home() {
         } else {
           setError('Unexpected error');
         }
+      } finally {
+        setLoading(false)
       }
     }
     fetchStats()
@@ -49,6 +53,7 @@ export default function Home() {
 
   return (
     <main>
+      {loading && <div className="block loading loading-bars loading-lg mb-2"></div>}
       <h1 className="my-6 text-1xl text-center font-bold text-gray-900 sm:text-1xl md:text-2xl">
         Welcome to Inventory Master Home 🏆
       </h1>
