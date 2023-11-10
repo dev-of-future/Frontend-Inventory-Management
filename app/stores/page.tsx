@@ -24,7 +24,9 @@ const initialState: IStore = {
 const Page = () => {
   const searchParams = useSearchParams();
   const [stores, setStores] = useState<IStore[]>([]);
-  const [myStores, setMyStores] = useState<IStore[]>([]);
+  const { user } = useUserContext() || { user: undefined };
+  const [storesToShow, setStoresToShow] = useState<IStore[]>([]);
+  const [showMyStores, setShowMyStores] = useState(true);
   const [storeToUpdate, setStoreToUpdate] = useState<IStore>(initialState);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -32,8 +34,6 @@ const Page = () => {
   const [editMode, setEditMode] = useState(false);
   const [filterParams, setFilterParams] = useState({});
   const [typeList, setTypeList] = useState<IStoreType[]>([]);
-  const { user } = useUserContext() || { user: undefined };
-
 
   // TODO frontend filtering
 
@@ -57,6 +57,13 @@ const Page = () => {
     fetchStores()
   }, [filterParams, typeList.length]);
 
+  useEffect(() => {
+    if (showMyStores && !(user?.admin)) {
+      setStoresToShow(user?.stores || []);
+    } else {
+      setStoresToShow(stores)
+    }
+  }, [showMyStores, user, stores])
 
   const deleteStore = async (id: number) => {
     try {
@@ -126,11 +133,22 @@ const Page = () => {
     })
   }
 
+  const toggleShowMyStores = () => {
+    if (showMyStores) {
+      setShowMyStores(false)
+      setStoresToShow(stores)
+    } else {
+      setStoresToShow(user?.stores || [])
+      setShowMyStores(true)
+    }
+  }
+
   // Display personalized store page if store name param is present
   const inViewStore = searchParams.get('store')
   if (inViewStore) {
     const store = stores.find(store => store.name == inViewStore)
-    return <ViewStorePage store={store} />
+    const storeWithId = user?.stores?.find(s => s.id == store?.id)
+    return <ViewStorePage store={store} isMyStore={storeWithId !== undefined} />
   }
 
   // Display all stores page if no store name param is present
@@ -143,9 +161,11 @@ const Page = () => {
         {user?.admin &&
           <ShowModalBtn text="Add Store" toggleModal={toggleModal} style="btn-accent" />}
         <SearchField typeList={typeList} filterParams={filterParams} setFilterParams={setFilterParams} />
+        {!(user?.admin) &&
+          <button onClick={toggleShowMyStores} className='btn btn-xs btn-primary'>{showMyStores ? 'Show All Stores' : 'Show My Stores'}</button>}
       </div>
 
-      <StoreList stores={stores} editStore={editStore} deleteStore={deleteStore} />
+      <StoreList stores={storesToShow} editStore={editStore} deleteStore={deleteStore} />
       <EditStore
         store={storeToUpdate}
         handleUpdateStore={handleUpdateStore}

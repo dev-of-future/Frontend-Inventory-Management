@@ -4,7 +4,7 @@ import Inventory from './Inventory'
 
 // TODO include type
 
-const InventoryList = ({ inventories, updateInventories }: any) => {
+const InventoryList = ({ inventories, updateInventories, showEdit }: any) => {
   return (
     <>
       <p className='text-center font-semibold'>STORE INVENTORY</p>
@@ -40,6 +40,7 @@ const InventoryList = ({ inventories, updateInventories }: any) => {
                   inventory={inventory}
                   key={inventory.id}
                   updateInventories={updateInventories}
+                  showEdit={showEdit}
                 />
               ))}
             </tbody>

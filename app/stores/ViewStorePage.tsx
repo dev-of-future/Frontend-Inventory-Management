@@ -18,7 +18,7 @@ const initialStorePageStats: StorePageStats = {
   inventoriesAtThresholdCount: 0,
 };
 
-const ViewStorePage = ({ store }: { store: IStore | undefined }) => {
+const ViewStorePage = ({ store, isMyStore = false }: { store: IStore | undefined, isMyStore: boolean }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [notification, setNotification] = useState('');
@@ -200,7 +200,7 @@ const ViewStorePage = ({ store }: { store: IStore | undefined }) => {
         {!loading ?
           <>
             <button onClick={toggleShowInv} className='btn btn-xs btn-primary'>{showInvAtThreshold ? 'Show All Inventory' : 'Show Inventory At Threshold'}</button>
-            <InventoryList showInvAtThreshold={showInvAtThreshold} inventories={filteredInventories} updateInventories={updateInventories} />
+            <InventoryList showEdit={isMyStore} showInvAtThreshold={showInvAtThreshold} inventories={filteredInventories} updateInventories={updateInventories} />
           </> : null
         }
       </div>}
