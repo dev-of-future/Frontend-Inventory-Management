@@ -19,7 +19,6 @@ const SearchField = ({ filterParams, setFilterParams, typeList }: { filterParams
   const handleChange = (e: any) => {
     e.preventDefault()
     const { name, value } = e.target;
-    console.log(name, value)
     setSearchState({ ...searchState, [name]: value });
   };
 

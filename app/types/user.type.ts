@@ -7,6 +7,7 @@ export default interface IUser {
   firstName: string;
   username: string;
   lastName: string;
+  admin?: boolean;
   password?: string;
   roles?: IUserRole[];
   stores?: IStore[];

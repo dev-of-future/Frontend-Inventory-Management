@@ -9,6 +9,8 @@ import ShowModalBtn from '../components/ShowModalBtn';
 import ViewStorePage from './ViewStorePage';
 import { useSearchParams } from 'next/navigation'
 import SearchField from './SearchField';
+import { useUserContext } from '../context/user';
+
 
 const initialState: IStore = {
   name: "",
@@ -22,6 +24,7 @@ const initialState: IStore = {
 const Page = () => {
   const searchParams = useSearchParams();
   const [stores, setStores] = useState<IStore[]>([]);
+  const [myStores, setMyStores] = useState<IStore[]>([]);
   const [storeToUpdate, setStoreToUpdate] = useState<IStore>(initialState);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -29,6 +32,8 @@ const Page = () => {
   const [editMode, setEditMode] = useState(false);
   const [filterParams, setFilterParams] = useState({});
   const [typeList, setTypeList] = useState<IStoreType[]>([]);
+  const { user } = useUserContext() || { user: undefined };
+
 
   // TODO frontend filtering
 
@@ -42,11 +47,8 @@ const Page = () => {
         (typeList.length < newTypelist.length) && setTypeList(newTypelist);
         setError('')
       } catch (error: any) {
-        if (error.response) {
-          setError(error.response.data.message);
-        } else {
-          setError('Unexpected error');
-        }
+        const errMsg = error.response?.data?.message ? error.response.data.message : 'Unable to fetch stores';
+        setError(errMsg);
       } finally {
         setLoading(false)
       }
@@ -65,11 +67,8 @@ const Page = () => {
       displayNotification('Store deleted successfully');
       setError('')
     } catch (error: any) {
-      if (error.response) {
-        setError(error.response.data.message);
-      } else {
-        setError('Unexpected error');
-      }
+      const errMsg = error.response?.data?.message ? error.response.data.message : 'Unable to delete store';
+      setError(errMsg);
     }
   };
 
@@ -82,7 +81,6 @@ const Page = () => {
   };
 
   const handleUpdateStore = async (store: IStore) => {
-    setLoading(true)
     try {
       if (store.id) {
         const updatedStore = await StoreService.updateStore(store.id, store)
@@ -102,21 +100,16 @@ const Page = () => {
           return [...stores, createdStore.data]
         })
         displayNotification('Store added successfully');
-
       }
 
       setError('')
-    } catch (err: any) {
-      let errMsg = 'Unexpected error'
-      if (err.response) {
-        errMsg = err.response.data?.message;
-      }
+    } catch (error: any) {
+      const errMsg = error.response?.data?.message ? error.response.data.message : 'Unable to update store';
       setError(errMsg);
     }
 
     // clean up
     toggleModal()
-    setLoading(false)
     setStoreToUpdate(initialState);
   }
 
@@ -143,11 +136,12 @@ const Page = () => {
   // Display all stores page if no store name param is present
   return (
     <div>
-      {notification && <div onClick={() => setNotification('')} className='toast toast-end toast-bottom'><div className="alert alert-info text-white p-2">{notification}</div></div>}
+      {notification && <div onClick={() => setNotification('')} className='toast toast-end toast-bottom z-50'><div className="alert alert-info text-white p-2">{notification}</div></div>}
       {error && <div className="alert alert-danger mb-2">{error}</div>}
       {loading && <div className="loading loading-bars loading-lg mb-2"></div>}
       <div>
-        <ShowModalBtn text="Add Store" toggleModal={toggleModal} style="btn-accent" />
+        {user?.admin &&
+          <ShowModalBtn text="Add Store" toggleModal={toggleModal} style="btn-accent" />}
         <SearchField typeList={typeList} filterParams={filterParams} setFilterParams={setFilterParams} />
       </div>
 

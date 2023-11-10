@@ -21,10 +21,7 @@ const Page = () => {
         setUsers(response.data);
         setError('')
       } catch (error: any) {
-        let errMsg = 'Unexpected error';
-        if (error.response) {
-          errMsg = (error.response.data.message);
-        }
+        const errMsg = error.response?.data?.message ? error.response.data.message : 'Unable to get users';
         setError(errMsg);
       }
       setLoading(false)
@@ -54,11 +51,8 @@ const Page = () => {
           })
           displayNotification('User deleted successfully');
         } catch (error: any) {
-          let errMsg = 'Unable to delete';
-          if (error.response) {
-            errMsg = (error.response.data.message);
-          }
-          displayNotification(errMsg);
+          const errMsg = error.response?.data?.message ? error.response.data.message : 'Unable to delete user';
+          setError(errMsg);
         }
         break;
       case 'UPDATE':
@@ -69,11 +63,8 @@ const Page = () => {
           })
           displayNotification('User updated successfully');
         } catch (error: any) {
-          let errMsg = 'Unable to update user';
-          if (error.response) {
-            errMsg = (error.response.data.message);
-          }
-          displayNotification(errMsg);
+          const errMsg = error.response?.data?.message ? error.response.data.message : 'Unable to update user';
+          setError(errMsg);
         }
         break;
       default:
@@ -92,7 +83,7 @@ const Page = () => {
     <>
       {loading && <div className="block loading loading-bars loading-lg mb-2"></div>}
       {error && <div className="alert alert-danger mb-2">{error}</div>}
-      {notification && <div onClick={() => setNotification('')} className='toast toast-end toast-bottom'><div className="alert alert-info text-white p-2">{notification}</div></div>}
+      {notification && <div onClick={() => setNotification('')} className='toast toast-end toast-bottom z-50'><div className="alert alert-info text-white p-2">{notification}</div></div>}
 
       <ShowModalBtn text="Create New User" toggleModal={toggleNewUserModal} style="btn-accent" />
 

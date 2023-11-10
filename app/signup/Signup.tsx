@@ -75,11 +75,8 @@ export default function Signup() {
 
       clearInput()
       router.push('/');
-    } catch (err: any) {
-      let errMsg = 'Unexpected error'
-      if (err.response) {
-        errMsg = err.response.data?.message;
-      }
+    } catch (error: any) {
+      const errMsg = error.response?.data?.message ? error.response.data.message : 'Unable to Signup';
       setErrors({ ...errors, server: errMsg });
     }
   };

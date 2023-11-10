@@ -38,10 +38,7 @@ const Page = () => {
         setFilteredOrders(response.data)
         setError('')
       } catch (error: any) {
-        let errMsg = 'Unexpected error';
-        if (error.response) {
-          errMsg = (error.response.data.message);
-        }
+        const errMsg = error.response?.data?.message ? error.response.data.message : 'Unable to fetch PurchaseOrders';
         setError(errMsg);
       }
       setLoading(false)
@@ -54,10 +51,7 @@ const Page = () => {
         setStoreOptions(response.data);
         setError('')
       } catch (error: any) {
-        let errMsg = 'Unable to fetch store options';
-        if (error.response) {
-          errMsg = (error.response.data.message);
-        }
+        const errMsg = error.response?.data?.message ? error.response.data.message : 'Unable to fetch store options';
         setError(errMsg);
       }
     }
@@ -122,11 +116,16 @@ const Page = () => {
   }
 
   const createNewPO = async (store: IStore) => {
-    const createdPurchaseOrder = await PurchaseOrderService.createPurchaseOrder({ store })
-    setPurchaseOrders((purchaseOrders) => {
-      return [...purchaseOrders, createdPurchaseOrder.data]
-    })
-    displayNotification('Purchase Order added successfully');
+    try {
+      const createdPurchaseOrder = await PurchaseOrderService.createPurchaseOrder({ store })
+      setPurchaseOrders((purchaseOrders) => {
+        return [...purchaseOrders, createdPurchaseOrder.data]
+      })
+      displayNotification('Purchase Order added successfully');
+    } catch (error: any) {
+      const errMsg = error.response?.data?.message ? error.response.data.message : 'Unable to create purchase order';
+      setError(errMsg);
+    }
   }
 
   const updatePurchaseOrders = async (purchaseOrder: IPurchaseOrder, action: { type: string }) => {
@@ -142,11 +141,8 @@ const Page = () => {
 
           displayNotification('Purchase Order deleted successfully');
         } catch (error: any) {
-          let errMsg = 'Unable to delete';
-          if (error.response) {
-            errMsg = (error.response.data.message);
-          }
-          displayNotification(errMsg);
+          const errMsg = error.response?.data?.message ? error.response.data.message : 'Unable to delete';
+          setError(errMsg);
         }
         break;
       case 'UPDATE':
@@ -159,11 +155,8 @@ const Page = () => {
 
           displayNotification('Purchase Order updated successfully');
         } catch (error: any) {
-          let errMsg = 'Unable to update purchase order';
-          if (error.response) {
-            errMsg = (error.response.data.message);
-          }
-          displayNotification(errMsg);
+          const errMsg = error.response?.data?.message ? error.response.data.message : 'Unable to update purchase order';
+          setError(errMsg);
         }
         break;
       default:
@@ -174,7 +167,7 @@ const Page = () => {
     <>
       {loading && <div className="block loading loading-bars loading-lg mb-2"></div>}
       {error && <div className="alert alert-danger mb-2">{error}</div>}
-      {notification && <div onClick={() => setNotification('')} className='toast toast-end toast-bottom'><div className="alert alert-info text-white p-2">{notification}</div></div>}
+      {notification && <div onClick={() => setNotification('')} className='toast toast-end toast-bottom z-50'><div className="alert alert-info text-white p-2">{notification}</div></div>}
 
       <div className='flex justify-between'>
         <ShowModalBtn text="Create Store Order" toggleModal={toggleNewPOModal} style="btn-accent" />

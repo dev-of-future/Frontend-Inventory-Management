@@ -62,11 +62,8 @@ const ViewStorePage = ({ store }: { store: IStore | undefined }) => {
 
           displayNotification('Inventory deleted successfully');
         } catch (error: any) {
-          let errMsg = 'Unable to delete';
-          if (error.response) {
-            errMsg = (error.response.data.message);
-          }
-          displayNotification(errMsg);
+          const errMsg = error.response?.data?.message ? error.response.data.message : 'Unable to fetch delete Inventory';
+          setError(errMsg);
         }
         break;
       case 'UPDATE':
@@ -79,11 +76,8 @@ const ViewStorePage = ({ store }: { store: IStore | undefined }) => {
 
           displayNotification('Inventory updated successfully');
         } catch (error: any) {
-          let errMsg = 'Unable to update inventory';
-          if (error.response) {
-            errMsg = (error.response.data.message);
-          }
-          displayNotification(errMsg);
+          const errMsg = error.response?.data?.message ? error.response.data.message : 'Unable to update inventory';
+          setError(errMsg);
         }
         break;
       default:
@@ -132,7 +126,7 @@ const ViewStorePage = ({ store }: { store: IStore | undefined }) => {
 
   return (
     <>
-      {notification && <div onClick={() => setNotification('')} className='toast toast-end toast-bottom'><div className="alert alert-info text-white p-2">{notification}</div></div>}
+      {notification && <div onClick={() => setNotification('')} className='toast toast-end toast-bottom z-50'><div className="alert alert-info text-white p-2">{notification}</div></div>}
       {error && <div className="alert alert-danger mb-2">{error}</div>}
       {loading && <div className="loading loading-bars loading-lg mb-2"></div>}
       {store?.id && <div>
