@@ -7,11 +7,12 @@ import IItem from '../types/item.type';
 import ItemService from '../services/item.service';
 import PurchaseOrderItemService from '../services/purchaseOrderItem.service';
 import POIList from './POIList';
+import IPurchaseOrder from '../types/purchaseOrder.type';
 
 type EditIListModalProps = {
   storeName: string;
   status: string;
-  purchaseOrderId: number;
+  purchaseOrder: IPurchaseOrder;
   purchaseOrderItems: IPurchaseOrderItem[];
   updateIList: (items: IPurchaseOrderItem[]) => void;
   open: boolean;
@@ -21,7 +22,7 @@ type EditIListModalProps = {
 const initialState: IPurchaseOrderItem = { quantity: 1, item: null };
 
 const EditIListModal: React.FC<EditIListModalProps> = ({
-  purchaseOrderId,
+  purchaseOrder,
   storeName,
   status,
   purchaseOrderItems = [],
@@ -41,7 +42,7 @@ const EditIListModal: React.FC<EditIListModalProps> = ({
 
   useEffect(() => {
     setUpdatedPurchaseOrderItems(purchaseOrderItems);
-  }, [purchaseOrderItems, purchaseOrderId]);
+  }, [purchaseOrderItems, purchaseOrder]);
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -49,7 +50,7 @@ const EditIListModal: React.FC<EditIListModalProps> = ({
         const response = await ItemService.getAllItems();
         setItems(response.data);
       } catch (error: any) {
-        const errMsg = error.response ? error.response.data.message : 'Unable to load Items';
+        const errMsg = error.response?.data?.message ? error.response.data.message : 'Unable to load Items';
         console.error(errMsg);
       }
     };
@@ -67,7 +68,7 @@ const EditIListModal: React.FC<EditIListModalProps> = ({
 
       if (!purchaseOrderItem?.quantity || purchaseOrderItem?.quantity < 1) {
         newErrors.quantity = 'Item Quantity is required';
-      } else if (purchaseOrderItem.quantity > (purchaseOrderItem.item?.quantity || Infinity)) {
+      } else if ((purchaseOrderItem?.item?.quantity != undefined) && (purchaseOrderItem.quantity > purchaseOrderItem.item.quantity)) {
         newErrors.quantity = `Purchase Order Item Quantity cannot be greater than Item Quantity in stock: ${purchaseOrderItem.item?.quantity}`;
       }
 
@@ -84,17 +85,13 @@ const EditIListModal: React.FC<EditIListModalProps> = ({
     try {
       const createdItem = await PurchaseOrderItemService.createPurchaseOrderItem({
         ...purchaseOrderItem,
-        purchaseOrder: { id: purchaseOrderId },
+        purchaseOrder: { id: purchaseOrder.id, store: purchaseOrder.store },
       });
       setUpdatedPurchaseOrderItems((items) => [...items, createdItem.data]);
       setPurchaseOrderItem(initialState);
       setErrors({});
     } catch (error: any) {
-      let errMsg = 'Unable to add PO Item'
-      if (error.response) {
-        errMsg = error.response.data?.message;
-      }
-      console.error(errMsg)
+      const errMsg = error.response?.data?.message ? error.response.data.message : 'Unable to add Purchase Order Item';
       setErrors({ purchaseOrderItems: errMsg });
     }
   };
@@ -105,10 +102,7 @@ const EditIListModal: React.FC<EditIListModalProps> = ({
       setUpdatedPurchaseOrderItems((items) => items.filter((item) => item.id !== id));
       setErrors({});
     } catch (error: any) {
-      let errMsg = 'Unable to delete PO Item'
-      if (error.response) {
-        errMsg = error.response.data?.message;
-      }
+      const errMsg = error.response?.data?.message ? error.response.data.message : 'Unable to delete PO Item';
       console.error(errMsg)
       setErrors({ purchaseOrderItems: errMsg });
     }

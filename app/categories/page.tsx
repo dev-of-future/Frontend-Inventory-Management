@@ -90,7 +90,7 @@ const Page = () => {
     } catch (err: any) {
       let errMsg = 'Unexpected error'
       if (err.response) {
-        errMsg = err.response.data?.message;
+        errMsg = err.response.data?.message || errMsg;
       }
       setError(errMsg);
     }
@@ -112,7 +112,7 @@ const Page = () => {
 
   return (
     <div>
-      {notification && <div onClick={() => setNotification('')} className='toast toast-end toast-bottom'><div className="alert alert-info text-white p-2">{notification}</div></div>}
+      {notification && <div onClick={() => setNotification('')} className='z-50 toast toast-end toast-bottom'><div className="alert alert-info text-white p-2">{notification}</div></div>}
       {error && <div className="alert alert-danger mb-2">{error}</div>}
       {loading && <div className="block loading loading-bars loading-lg mb-2"></div>}
       <ShowModalBtn text="Add Category" toggleModal={toggleModal} style="btn-accent" />

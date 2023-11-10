@@ -41,11 +41,8 @@ const AddStoreModal = ({ store, addStore, open, toggleModal }: AddStoreModalProp
       try {
         const response = await StoreService.getAllStores();
         setStores(response.data);
-      } catch (err: any) {
-        let errMsg = 'Unable to load stores'
-        if (err.response) {
-          errMsg = err.response.data?.message;
-        }
+      } catch (error: any) {
+        const errMsg = error.response?.data?.message ? error.response.data.message : 'Unable to load stores';
         console.error(errMsg)
       }
     }

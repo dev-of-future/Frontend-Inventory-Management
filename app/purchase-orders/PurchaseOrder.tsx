@@ -42,7 +42,7 @@ const PurchaseOrder = ({ purchaseOrder, updatePurchaseOrders }: { purchaseOrder:
       {updatedPurchaseOrder.id ? <EditIListModal
         storeName={updatedPurchaseOrder.store?.name || ''}
         status={updatedPurchaseOrder.status || IOrderStatus.PENDING}
-        purchaseOrderId={updatedPurchaseOrder.id}
+        purchaseOrder={updatedPurchaseOrder}
         purchaseOrderItems={updatedPurchaseOrder.purchaseOrderItems || []}
         updateIList={(items) => updatePurchaseOrder({ purchaseOrderItems: items })}
         open={editItemsModalOpen}

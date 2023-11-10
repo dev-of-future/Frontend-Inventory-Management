@@ -6,6 +6,10 @@ import IItem from '../types/item.type';
 import ItemService from '../services/item.service';
 import ShowModalBtn from '../components/ShowModalBtn';
 import SearchField from './SearchField';
+import ICategory from '../types/category.type';
+import CategoryService from '../services/category.service';
+import { useUserContext } from '../context/user';
+
 
 const initialState: IItem = {
   name: '',
@@ -22,8 +26,25 @@ const Page = () => {
   const [error, setError] = useState('');
   const [notification, setNotification] = useState('');
   const [editMode, setEditMode] = useState(false);
-  const [categoryList, setCategoryList] = useState<string[]>([]);
+  const [categories, setCategories] = useState<ICategory[]>([]);
   const [filterParams, setFilterParams] = useState({});
+  const { user } = useUserContext() || { user: undefined };
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await CategoryService.getAllCategories();
+        setCategories(response.data);
+      } catch (err: any) {
+        let errMsg = 'Unable to load categories'
+        if (err.response) {
+          errMsg = err.response.data?.message || errMsg;
+        }
+        console.error(errMsg)
+      }
+    }
+    fetchCategories()
+  }, [])
 
   useEffect(() => {
     setLoading(true)
@@ -31,23 +52,20 @@ const Page = () => {
       try {
         const response = await ItemService.getFilteredItems(filterParams);
         setItems(response.data);
-        const newCategoryList = new Set<string>();
-        response.data.forEach((item: IItem) => item.category && newCategoryList.add(item.category?.name));
-        (categoryList.length < newCategoryList.size) && setCategoryList(Array.from(newCategoryList));
         setError('')
-      } catch (error: any) {
-        if (error.response) {
-          setError(error.response.data.message);
-        } else {
-          setError('Unexpected error');
+      } catch (err: any) {
+        let errMsg = 'Unable to load items'
+        if (err.response) {
+          errMsg = err.response.data?.message || errMsg;
         }
+        console.error(errMsg)
       } finally {
         setLoading(false)
       }
     }
 
     fetchItems()
-  }, [filterParams, categoryList.length]);
+  }, [filterParams]);
 
   const deleteItem = async (id: number) => {
     try {
@@ -57,12 +75,12 @@ const Page = () => {
       });
       displayNotification('Item deleted successfully');
       setError('')
-    } catch (error: any) {
-      if (error.response) {
-        setError(error.response.data.message);
-      } else {
-        setError('Unexpected error');
+    } catch (err: any) {
+      let errMsg;
+      if (err.response) {
+        errMsg = err.response.data?.message;
       }
+      console.error(errMsg || 'Unable to delete item')
     }
   };
 
@@ -95,15 +113,11 @@ const Page = () => {
           return [...items, createdItem.data]
         })
         displayNotification('Item added successfully');
-
       }
 
       setError('')
-    } catch (err: any) {
-      let errMsg = 'Unexpected error'
-      if (err.response) {
-        errMsg = err.response.data?.message;
-      }
+    } catch (error: any) {
+      const errMsg = error.response?.data?.message ? error.response.data.message : 'Unable to update item';
       setError(errMsg);
     }
   }
@@ -123,12 +137,13 @@ const Page = () => {
 
   return (
     <div>
-      {notification && <div onClick={() => setNotification('')} className='toast toast-end toast-bottom'><div className="alert alert-info text-white p-2">{notification}</div></div>}
+      {notification && <div onClick={() => setNotification('')} className='z-50 toast toast-end toast-bottom'><div className="alert alert-info text-white p-2">{notification}</div></div>}
       {error && <div className="alert alert-danger mb-2">{error}</div>}
       {loading && <div className="loading loading-bars loading-lg mb-2"></div>}
       <div>
-        <ShowModalBtn text="Add Item" toggleModal={toggleModal} style="btn-accent" />
-        <SearchField categoryList={categoryList} filterParams={filterParams} setFilterParams={setFilterParams} />
+        {user?.admin &&
+          <ShowModalBtn text="Add Item" toggleModal={toggleModal} style="btn-accent" />}
+        <SearchField categories={categories} filterParams={filterParams} setFilterParams={setFilterParams} />
       </div>
 
       <ItemList items={items} editItem={editItem} deleteItem={deleteItem} />
@@ -137,6 +152,7 @@ const Page = () => {
         handleUpdateItem={handleUpdateItem}
         open={editMode}
         toggleModal={toggleModal}
+        categories={categories}
       />
     </div>
   );

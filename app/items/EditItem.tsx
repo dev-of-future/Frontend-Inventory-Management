@@ -11,6 +11,7 @@ type EditItemProps = {
   handleUpdateItem: (updatedItem: IItem) => void;
   open: boolean;
   toggleModal: () => void;
+  categories: ICategory[];
 };
 
 const initialState: IItem = {
@@ -21,27 +22,10 @@ const initialState: IItem = {
   quantity: 0,
 };
 
-const EditItem = ({ item = initialState, handleUpdateItem, open, toggleModal }: EditItemProps) => {
+const EditItem = ({ item = initialState, handleUpdateItem, open, toggleModal, categories = [] }: EditItemProps) => {
   const [updatedItem, setUpdatedItem] = useState<IItem>(item);
   const [errors, setErrors] = useState<FormErrors>({});
   const [isFormValid, setIsFormValid] = useState(false);
-  const [categories, setCategories] = useState<ICategory[]>([]);
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await CategoryService.getAllCategories();
-        setCategories(response.data);
-      } catch (err: any) {
-        let errMsg = 'Unable to load categories'
-        if (err.response) {
-          errMsg = err.response.data?.message;
-        }
-        console.error(errMsg)
-      }
-    }
-    fetchCategories()
-  }, [])
 
   useEffect(() => {
     setUpdatedItem(item)

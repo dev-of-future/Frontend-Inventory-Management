@@ -6,7 +6,6 @@ import Link from 'next/link'
 import { useUserContext } from '../context/user';
 import AuthService from '../services/auth.service';
 
-
 const Header = () => {
   const pathname = usePathname();
   const userContext = useUserContext() || { user: undefined, setUser: () => { } };
@@ -25,24 +24,26 @@ const Header = () => {
 
   const nav = () => {
     return (
+
       <>
         {user && <>
-          <li>
+          {AuthService.isAdmin() && <li>
             <Link
               className={`text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75 ${pathname === '/suppliers' ? 'active' : ''}`}
               href="/suppliers"
             >
               Suppliers
             </Link>
-          </li>
-          <li>
+          </li>}
+
+          {AuthService.isAdmin() && <li>
             <Link
               className={`text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75 ${pathname === '/categories' ? 'active' : ''}`}
               href="/categories"
             >
               Categories
             </Link>
-          </li>
+          </li>}
           <li>
             <Link
               className={`text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75 ${pathname === '/items' ? 'active' : ''}`}
@@ -67,17 +68,15 @@ const Header = () => {
               Purchase Orders
             </Link>
           </li>
-          <li>
+          {AuthService.isAdmin() && <li>
             <Link
               className={`text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75 ${pathname === '/users' ? 'active' : ''}`}
               href="/users"
             >
               Users
             </Link>
-          </li>
-
-        </>
-        }
+          </li>}
+        </>}
       </>
     )
   }
@@ -130,7 +129,7 @@ const Header = () => {
                   <label tabIndex={0} className="m-1">
                     <div className="avatar online placeholder">
                       <div className="bg-neutral-focus text-neutral-content rounded-full w-12">
-                        <span className="text-xl uppercase">{user.username[0]}</span>
+                        <span className="text-xl uppercase">{user.firstName[0]}</span>
                       </div>
                     </div>
                   </label>

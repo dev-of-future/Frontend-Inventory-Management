@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Select from 'react-tailwindcss-select';
+import ICategory from '../types/category.type';
 
 const initialState = {
   name: '',
@@ -11,7 +12,7 @@ const initialState = {
   maxPrice: ''
 }
 
-const SearchField = ({ filterParams, setFilterParams, categoryList }: any) => {
+const SearchField = ({ filterParams, setFilterParams, categories }: any) => {
   const [searchState, setSearchState] = useState(filterParams);
 
   useEffect(() => {
@@ -154,7 +155,7 @@ const SearchField = ({ filterParams, setFilterParams, categoryList }: any) => {
             placeholder='Select a Category Name...'
             value={searchState?.categoryName ? { value: searchState.categoryName, label: searchState.categoryName } : null}
             onChange={handleSelectChange}
-            options={categoryList.map((categoryName: string) => ({ value: categoryName, label: categoryName }))}
+            options={categories.map((category: ICategory) => ({ value: category.name, label: category.name }))}
           />
         </div>
       </div>

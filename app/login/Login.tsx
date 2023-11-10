@@ -55,10 +55,7 @@ export default function Login() {
         clearInput()
         router.push('/');
       } catch (error: any) {
-        let errMsg = 'Unexpected error'
-        if (error.response) {
-          errMsg = error.response.data?.message;
-        }
+        const errMsg = error.response?.data?.message ? error.response.data.message : 'Unable to Login';
         setErrors({ ...errors, server: errMsg });
       }
     }

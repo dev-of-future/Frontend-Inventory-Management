@@ -32,7 +32,7 @@ const EditCategory = ({ category = initialState, handleUpdateCategory, open, tog
       } catch (err: any) {
         let errMsg = 'Unable to load categories'
         if (err.response) {
-          errMsg = err.response.data?.message;
+          errMsg = err.response.data?.message || errMsg;
         }
         console.error(errMsg)
       }
