@@ -41,6 +41,7 @@ const Page = () => {
           errMsg = err.response.data?.message || errMsg;
         }
         console.error(errMsg)
+        setError(errMsg)
       }
     }
     fetchCategories()
@@ -59,6 +60,7 @@ const Page = () => {
           errMsg = err.response.data?.message || errMsg;
         }
         console.error(errMsg)
+        setError(errMsg)
       } finally {
         setLoading(false)
       }
@@ -76,11 +78,12 @@ const Page = () => {
       displayNotification('Item deleted successfully');
       setError('')
     } catch (err: any) {
-      let errMsg;
+      let errMsg = 'Unable to delete item';
       if (err.response) {
-        errMsg = err.response.data?.message;
+        errMsg = err.response.data?.message || errMsg;
       }
-      console.error(errMsg || 'Unable to delete item')
+      console.error(errMsg)
+      setError(errMsg)
     }
   };
 
