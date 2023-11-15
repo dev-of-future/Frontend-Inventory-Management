@@ -19,8 +19,8 @@ This is the frontend component of an Inventory Management web application built 
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). The Backend API code can be found on [here](https://github.com/refinedblessing/inventory-management)
 
-App is hosted on Vercel [here](https://inventory-management-frontend-liart.vercel.app/) 👀 or Github Pages [here](https://refinedblessing.github.io/inventory-management-frontend/) 👀, and currently deployed using github webhooks.
-If you are not seeing any data from the backend, try to logout, hard reload and log back in.
+The app is hosted on Vercel [here](https://inventory-management-frontend-liart.vercel.app/) 👀, and is currently deployed using GitHub webhooks.
+If you are not seeing any data on the homepage, please be patient, initial loading takes a while because the app is hosted on Azure Free Tier.
 
 **PLEASE REMEMBER YOUR USERNAME AND PASSWORD SO YOU CAN LOG IN AND VIEW THE OTHER PAGES**
 
