@@ -15,14 +15,24 @@ This is the frontend component of an Inventory Management web application built 
 - User Signup and Login
 - User Role management & Store assignment
 
+## Demo
+<div>
+    <a href="https://www.loom.com/share/ad8dea3f2aed4a94aa1309d26b03f108">
+      <p>Store Management Application Demo - Watch Video</p>
+    </a>
+    <a href="https://www.loom.com/share/ad8dea3f2aed4a94aa1309d26b03f108">
+      <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/ad8dea3f2aed4a94aa1309d26b03f108-with-play.gif">
+    </a>
+  </div>
+
 ## Getting Started
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). The Backend API code can be found on [here](https://github.com/refinedblessing/inventory-management)
+Presentation with demo [here](https://docs.google.com/presentation/d/1Vc1hM2kyANVdmAZTuNA76hEWBr4ssqfux1Mdr82QCc0/edit?usp=sharing)
 
-The app is hosted on Vercel [here](https://inventory-management-frontend-liart.vercel.app/) 👀, and is currently deployed using GitHub webhooks, A Slide show with a demo will be live [here](https://docs.google.com/presentation/d/1Vc1hM2kyANVdmAZTuNA76hEWBr4ssqfux1Mdr82QCc0/edit?usp=sharing)
-If you are not seeing any data on the homepage, please be patient, initial loading takes a while because the app is hosted on Azure Free Tier.
+The app is hosted on Vercel [here](https://inventory-management-frontend-liart.vercel.app/) 👀.
+The Backend Repository is [here](https://github.com/refinedblessing/inventory-management).
 
-**PLEASE REMEMBER YOUR USERNAME AND PASSWORD SO YOU CAN LOG IN AND VIEW THE OTHER PAGES**
+If you are not seeing any data on the homepage, please be patient, initial loading takes a while.
 
 To get a local copy of the project up and running, follow these steps:
 
