@@ -25,6 +25,16 @@ This is the frontend component of an Inventory Management web application built 
     </a>
   </div>
 
+## Code and Technology Overview
+<div>
+    <a href="https://www.loom.com/share/22b779775b6c408eae0c70fac4c6c138">
+      <p>Code and Technology Overview - Watch Video</p>
+    </a>
+    <a href="https://www.loom.com/share/22b779775b6c408eae0c70fac4c6c138">
+      <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/22b779775b6c408eae0c70fac4c6c138-1700090937509-with-play.gif">
+    </a>
+  </div>
+
 ## Getting Started
 
 Presentation with demo [here](https://docs.google.com/presentation/d/1Vc1hM2kyANVdmAZTuNA76hEWBr4ssqfux1Mdr82QCc0/edit?usp=sharing)
