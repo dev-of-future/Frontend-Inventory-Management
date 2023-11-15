@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is the frontend component of an Inventory Management web application built using Next.js. It provides a user-friendly interface for managing inventory items, categories, suppliers, stores, and more. This is still a _WIP_
+This is the frontend component of an Inventory Management web application built using Next.js. It provides a user-friendly interface for managing inventory items, categories, suppliers, stores, and more.
 
 ## Features
 
@@ -19,7 +19,7 @@ This is the frontend component of an Inventory Management web application built 
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). The Backend API code can be found on [here](https://github.com/refinedblessing/inventory-management)
 
-The app is hosted on Vercel [here](https://inventory-management-frontend-liart.vercel.app/) 👀, and is currently deployed using GitHub webhooks.
+The app is hosted on Vercel [here](https://inventory-management-frontend-liart.vercel.app/) 👀, and is currently deployed using GitHub webhooks, A Slide show with a demo will be live [here](https://docs.google.com/presentation/d/1Vc1hM2kyANVdmAZTuNA76hEWBr4ssqfux1Mdr82QCc0/edit?usp=sharing)
 If you are not seeing any data on the homepage, please be patient, initial loading takes a while because the app is hosted on Azure Free Tier.
 
 **PLEASE REMEMBER YOUR USERNAME AND PASSWORD SO YOU CAN LOG IN AND VIEW THE OTHER PAGES**
