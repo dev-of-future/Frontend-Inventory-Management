@@ -27,11 +27,11 @@ This is the frontend component of an Inventory Management web application built 
 
 ## Code and Technology Overview
 <div>
-    <a href="https://www.loom.com/share/22b779775b6c408eae0c70fac4c6c138">
-      <p>Code and Technology Overview - Watch Video</p>
+    <a href="https://www.loom.com/share/d2b77da5cb7b477f9f34d826289ca80a">
+      <p>Building a Store Management Application: Code and Technology Overview - Watch Video</p>
     </a>
-    <a href="https://www.loom.com/share/22b779775b6c408eae0c70fac4c6c138">
-      <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/22b779775b6c408eae0c70fac4c6c138-1700090937509-with-play.gif">
+    <a href="https://www.loom.com/share/d2b77da5cb7b477f9f34d826289ca80a">
+      <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/d2b77da5cb7b477f9f34d826289ca80a-1700094122903-with-play.gif">
     </a>
   </div>
 
