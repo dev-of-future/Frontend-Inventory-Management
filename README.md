@@ -17,7 +17,7 @@ This is the frontend component of an Inventory Management web application built 
 
 ## Demo
 <div>
-    <a href="https://www.loom.com/share/ad8dea3f2aed4a94aa1309d26b03f108">
+    <a href="https://www.loom.com/share/ad8dea3f2aed4a94aa1309d26b03f108" target="_blank">
       <p>Store Management Application Demo - Watch Video</p>
     </a>
     <a href="https://www.loom.com/share/ad8dea3f2aed4a94aa1309d26b03f108">
@@ -27,7 +27,7 @@ This is the frontend component of an Inventory Management web application built 
 
 ## Code and Technology Overview
 <div>
-    <a href="https://www.loom.com/share/d2b77da5cb7b477f9f34d826289ca80a">
+    <a href="https://www.loom.com/share/d2b77da5cb7b477f9f34d826289ca80a" target="_blank">
       <p>Building a Store Management Application: Code and Technology Overview - Watch Video</p>
     </a>
     <a href="https://www.loom.com/share/d2b77da5cb7b477f9f34d826289ca80a">
