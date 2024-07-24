@@ -15,26 +15,6 @@ This is the frontend component of an Inventory Management web application built 
 - User Signup and Login
 - User Role management & Store assignment
 
-## Demo
-<div>
-    <a href="https://www.loom.com/share/ad8dea3f2aed4a94aa1309d26b03f108" target="_blank">
-      <p>Store Management Application Demo - Watch Video</p>
-    </a>
-    <a href="https://www.loom.com/share/ad8dea3f2aed4a94aa1309d26b03f108">
-      <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/ad8dea3f2aed4a94aa1309d26b03f108-with-play.gif">
-    </a>
-  </div>
-
-## Code and Technology Overview
-<div>
-    <a href="https://www.loom.com/share/d2b77da5cb7b477f9f34d826289ca80a" target="_blank">
-      <p>Building a Store Management Application: Code and Technology Overview - Watch Video</p>
-    </a>
-    <a href="https://www.loom.com/share/d2b77da5cb7b477f9f34d826289ca80a">
-      <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/d2b77da5cb7b477f9f34d826289ca80a-1700094122903-with-play.gif">
-    </a>
-  </div>
-
 ## Getting Started
 
 Presentation with demo [here](https://docs.google.com/presentation/d/1Vc1hM2kyANVdmAZTuNA76hEWBr4ssqfux1Mdr82QCc0/edit?usp=sharing)
